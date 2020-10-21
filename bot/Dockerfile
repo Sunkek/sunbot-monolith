@@ -6,5 +6,6 @@ WORKDIR /usr/src/app
 
 COPY requirements.txt requirements.txt
 
-RUN apt-get install gcc python3-dev musl-dev
+RUN sudo apt update
+RUN sudo apt-get install gcc musl-dev
 RUN pip install -r requirements.txt --upgrade
