@@ -12,6 +12,8 @@ from aiohttp import ClientSession, TCPConnector
 from socket import AF_INET
 from asyncio import TimeoutError
 
+
+
 bot = commands.Bot(
     command_prefix=commands.when_mentioned_or("sb ", "Sb ", "SB "), 
     сase_insensitive=True,
@@ -144,5 +146,18 @@ async def reload(ctx, *, ext):
     except commands.ExtensionNotLoaded:
         pass
     bot.load_extension(cog)
+
+@commands.check(commands.is_owner())
+@bot.command(description=f"`sql <query>` - runs the provided SQL")
+async def sql(ctx, *, query):
+    async with bot.db.acquire() as connection:
+        async with connection.transaction():
+            result = await connection.execute(query)
+    embed = discord.Embed(
+        title="SQL ran",
+        description=result or "No output",
+        color=ctx.author.color
+    )
+    await ctx.send(embed=embed)
 
 bot.run(os.environ.get("DISCORD_TOKEN"))
