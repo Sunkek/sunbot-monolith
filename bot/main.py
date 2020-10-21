@@ -7,6 +7,7 @@ from datetime import datetime
 
 import discord 
 from discord.ext import commands
+from asyncpg import create_pool
 from aiohttp import ClientSession, TCPConnector
 from socket import AF_INET
 from asyncio import TimeoutError
@@ -51,6 +52,16 @@ async def on_ready():
                 ssl=False, 
                 ),
             )
+    # Create the database connection pool
+    if not bot.db:
+        bot.db = await create_pool(
+            loop=bot.loop,
+            database=os.environ.get("SQL_DATABASE"),
+            user=os.environ.get("SQL_USER"), 
+            password=os.environ.get("SQL_PASSWORD"),
+            host=os.environ.get("SQL_HOST"),
+            port=os.environ.get("SQL_PORT"),
+        )
     # Read saved settings from the DB
     if not bot.settings:
         pass
