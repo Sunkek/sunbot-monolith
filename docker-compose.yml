@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+
+  db:
+    image: postgres:alpine
+    volumes:
+      # Mounting a database in the host system so it's
+      # persistent through different containers
+      - ${HOME}/postgres-data/:/var/lib/postgresql/data
+    env_file:
+      - ./db.env
+      
+  bot:
+    image: bot
+    build: bot/.
+    command: python main.py
+    volumes:
+      - ./bot:/usr/src/app
+    env_file:
+      - ./bot.env
+    depends_on:
+      - db
