@@ -6,5 +6,5 @@ WORKDIR /usr/src/app
 
 COPY requirements.txt requirements.txt
 
-RUN apk add gcc python3-dev musl-dev
+RUN apt-get gcc python3-dev musl-dev
 RUN pip install -r requirements.txt --upgrade
