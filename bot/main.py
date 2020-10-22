@@ -64,6 +64,9 @@ async def on_ready():
             host=os.environ.get("SQL_HOST"),
             port=os.environ.get("SQL_PORT"),
         )
+    # Read saved settings from the DB
+    if not bot.settings:
+        pass
     # Load cogs
     if not bot.cogs:
         for cog in cogs:
