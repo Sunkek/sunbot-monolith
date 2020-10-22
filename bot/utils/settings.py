@@ -24,9 +24,13 @@ async def read_settings(connection_pool):
                         ")"
                     )
                 # Fetch the settings
-                result = await connection.fetch(
+                trackers = await connection.fetch(
                     "SELECT * FROM trackers"
                 )
+                print(trackers)
+                result = {i["guild_id"]: {
+                    k: v for k, v in i.items() if k != "guild_id",
+                } for i in trackers}
                 print(result)
     except Exception as e:
         print(e)
