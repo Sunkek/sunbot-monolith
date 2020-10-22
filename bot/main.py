@@ -67,7 +67,7 @@ async def on_ready():
         )
     # Read saved settings from the DB
     if not bot.settings:
-        bot.settings = read_settings(bot.db)
+        bot.settings = await read_settings(bot.db)
     # Load cogs
     if not bot.cogs:
         for cog in cogs:
