@@ -7,21 +7,27 @@ async def read_settings(connection_pool):
     try:
         async with connection_pool.acquire() as connection:
             async with connection.transaction():
-                print(await connection.execute(
-                    "SELECT * FROM information_schema.tables WHERE table_schema = 'public'"
-                ))
-                # Fetch tracker settings
-                try:
-                    result = await connection.fetch(
-                        "SELECT * FROM trackers"
-                    )
-                except UndefinedTableError:
+                # Create tables if they don't exist
+                tables = await connection.fetch(
+                    "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'"
+                )
+                if "guilds" not in tables:
                     await connection.execute(
-                        "CREATE TABLE trackers ("
-                            "guild_id biginteger PRIMARY KEY REFERENCES guilds (guild_id)"
+                        "CREATE TABLE guilds ("
+                            "guild_id biginteger PRIMARY KEY"
                         ")"
                     )
-                    result = {}
+                if "trackers" not in tables:                    
+                    await connection.execute(
+                        "CREATE TABLE trackers ("
+                            "guild_id biginteger PRIMARY KEY REFERENCES guilds (guild_id),"
+                            "track_messages boolean DEFAULT 'false'"
+                        ")"
+                    )
+                # Fetch the settings
+                result = await connection.fetch(
+                    "SELECT * FROM trackers"
+                )
                 print(result)
     except Exception as e:
         print(e)
