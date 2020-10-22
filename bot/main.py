@@ -12,8 +12,7 @@ from aiohttp import ClientSession, TCPConnector
 from socket import AF_INET
 from asyncio import TimeoutError
 
-from .utils import read_settings
-
+from .utils.settings import read_settings
 
 
 bot = commands.Bot(
