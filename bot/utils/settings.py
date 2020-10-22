@@ -12,7 +12,7 @@ async def read_settings(connection_pool):
                 result = await connection.fetch(
                     "SELECT * FROM trackers"
                 )
-            except UndefinedTableError as e:
+            except UndefinedTableError:
                 await connection.execute(
                     """CREATE TABLE trackers (
                         guild_id biginteger PRIMARY KEY REFERENCES guilds (guild_id)
