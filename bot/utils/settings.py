@@ -29,7 +29,7 @@ async def read_settings(connection_pool):
                 )
                 print(trackers)
                 result = {i["guild_id"]: {
-                    k: v for k, v in i.items() if k != "guild_id",
+                    k: v for k, v in i.items() if k != "guild_id"
                 } for i in trackers}
                 print(result)
     except Exception as e:
