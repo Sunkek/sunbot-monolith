@@ -12,6 +12,8 @@ from aiohttp import ClientSession, TCPConnector
 from socket import AF_INET
 from asyncio import TimeoutError
 
+from .utils import read_settings
+
 
 
 bot = commands.Bot(
@@ -66,7 +68,7 @@ async def on_ready():
         )
     # Read saved settings from the DB
     if not bot.settings:
-        pass
+        bot.settings = read_settings(bot.db)
     # Load cogs
     if not bot.cogs:
         for cog in cogs:

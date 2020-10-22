@@ -1,5 +1,3 @@
-
-
 async def read_settings(connection_pool):
     """Read bot settings from the database. 
     Create missing tables if there are any."""
@@ -11,7 +9,7 @@ async def read_settings(connection_pool):
                 result = await connection.fetch(
                     "SELECT * FROM trackers"
                 )
-            except Excpetion as e:
+            except Exception as e:
                 print(e)
                 print(type(e))
             print(result)
