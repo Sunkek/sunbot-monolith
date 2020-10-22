@@ -7,7 +7,9 @@ async def read_settings(connection_pool):
     try:
         async with connection_pool.acquire() as connection:
             async with connection.transaction():
-                print(await connection.execute("\dt"))
+                print(await connection.execute(
+                    "SELECT * FROM information_schema.tables WHERE table_schema = 'public'"
+                ))
                 # Fetch tracker settings
                 try:
                     result = await connection.fetch(
