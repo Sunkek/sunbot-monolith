@@ -14,13 +14,13 @@ async def read_settings(connection_pool):
                 if "guilds" not in tables:
                     await connection.execute(
                         "CREATE TABLE guilds ("
-                            "guild_id biginteger PRIMARY KEY"
+                            "guild_id bigint PRIMARY KEY"
                         ")"
                     )
                 if "trackers" not in tables:                    
                     await connection.execute(
                         "CREATE TABLE trackers ("
-                            "guild_id biginteger PRIMARY KEY REFERENCES guilds (guild_id),"
+                            "guild_id bigint PRIMARY KEY REFERENCES guilds (guild_id),"
                             "track_messages boolean DEFAULT 'false'"
                         ")"
                     )
