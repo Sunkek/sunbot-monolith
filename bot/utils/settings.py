@@ -1,5 +1,3 @@
-from asyncpg.exceptions import UndefinedTableError
-
 async def read_settings(connection_pool):
     """Read bot settings from the database. 
     Create missing tables if there are any."""
@@ -11,7 +9,7 @@ async def read_settings(connection_pool):
                 tables = await connection.fetch(
                     "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'"
                 )
-                print(tables)
+                tables = [i["table_name"] for i in tables]
                 if "guilds" not in tables:
                     await connection.execute(
                         "CREATE TABLE IF NOT EXISTS guilds ("
