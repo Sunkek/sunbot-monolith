@@ -11,6 +11,7 @@ async def read_settings(connection_pool):
                 tables = await connection.fetch(
                     "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'"
                 )
+                print(tables)
                 if "guilds" not in tables:
                     await connection.execute(
                         "CREATE TABLE guilds ("
