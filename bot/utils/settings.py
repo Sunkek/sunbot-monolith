@@ -36,7 +36,7 @@ async def change_guild_setting(bot, guild_id, **kwargs):
         async with connection.transaction():
             args = [(k, v, guild_id) for k,v in kwargs.items()]
             await connection.executemany(
-                "SET $1 = $2 WHERE guild_id = $3;", args
+                "UPDATE guilds SET $1 = $2 WHERE guild_id = $3;", args
             )
             guild = bot.settings.setdefault(guild_id, {})
             for key, value in kwargs.items():  
