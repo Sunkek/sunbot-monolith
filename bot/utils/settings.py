@@ -36,13 +36,12 @@ async def change_guild_setting(bot, guild_id, **kwargs):
     """Change guild settings"""
     async with bot.db.acquire() as connection:
         async with connection.transaction():
+            guild = bot.settings.setdefault(guild_id, {})
             for k, v in kwargs.items():
                 await connection.execute(
                     # TODO Editing the query string is dangerous, check later
                     f"UPDATE guilds SET {k} = $1 WHERE guild_id = $2;", 
                     v, guild_id
                 )
-            guild = bot.settings.setdefault(guild_id, {})
-            for key, value in kwargs.items():  
-                if value == "reset": guild[key] = None
-                else: guild[key] = value
+                if v == "reset": guild[k] = None
+                else: guild[k] = v
