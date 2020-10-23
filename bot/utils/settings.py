@@ -1,4 +1,6 @@
-SELECT_TABLE_NAMES = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'"
+SELECT_TABLE_NAMES = """
+SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+"""
 CREATE_GUILDS_TABLE = """
 CREATE TABLE IF NOT EXISTS guilds (
     guild_id bigint PRIMARY KEY,
@@ -35,6 +37,7 @@ async def change_guild_setting(bot, guild_id, **kwargs):
     async with bot.db.acquire() as connection:
         async with connection.transaction():
             args = [(k, v, guild_id) for k,v in kwargs.items()]
+            print(args)
             await connection.executemany(
                 "UPDATE guilds SET $1 = $2 WHERE guild_id = $3;", args
             )
