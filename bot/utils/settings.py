@@ -1,11 +1,8 @@
 SELECT_TABLE_NAMES = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'"
 CREATE_GUILDS_TABLE = """
 CREATE TABLE IF NOT EXISTS guilds (
-    guild_id bigint PRIMARY KEY
-);"""
-CREATE_TRACKERS_TABLE = """
-CREATE TABLE IF NOT EXISTS trackers (
-    guild_id bigint PRIMARY KEY REFERENCES guilds (guild_id),
+    guild_id bigint PRIMARY KEY,
+
     track_messages boolean DEFAULT 'false'
 );"""
 
@@ -27,10 +24,21 @@ async def read_settings(connection_pool):
             tables = [i["table_name"] for i in tables]
             if "guilds" not in tables:
                 await connection.execute(CREATE_GUILDS_TABLE)
-            if "trackers" not in tables:                    
-                await connection.execute(CREATE_TRACKERS_TABLE)
             # Fetch the settings
-            trackers = await connection.fetch("SELECT * FROM trackers")
-            settings["trackers"] = format_setting(trackers)
+            settings = await connection.fetch("SELECT * FROM guilds")
+            settings = format_setting(settings)
     print(settings)
     return settings
+        
+async def change_guild_setting(bot, guild_id, **kwargs):
+    """Change guild settings"""
+    async with bot.db.acquire() as connection:
+        async with connection.transaction():
+            args = [(k, v, guild_id) for k,v in kwargs.items()]
+            await connection.executemany(
+                "SET ? = ? WHERE guild_id = ?;", args
+            )
+            guild = bot.settings.setdefault(guild_id, {})
+            for key, value in kwargs.items():  
+                if value == "reset": guild[key] = None
+                else: guild[key] = value
