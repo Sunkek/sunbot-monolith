@@ -18,7 +18,7 @@ class SetTrackers(commands.Cog):
         description="Sets message tracking on or off.",
     )
     async def settrackmessages(self, ctx):
-        value = not self.bot.settings["trackers"]\
+        value = not self.bot.settings\
             .get(ctx.guild.id, {}).get("track_messages", False)
         await settings.change_guild_setting(
             self.bot, 
