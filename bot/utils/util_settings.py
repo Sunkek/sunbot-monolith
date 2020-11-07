@@ -1,4 +1,4 @@
-from utils import int_convertable
+from utils.utils import int_convertable
 
 SELECT_TABLE_NAMES = """
 SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
