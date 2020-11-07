@@ -14,14 +14,9 @@ class TrackMessages(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         # I don't want to save info about DMs and webhooks
-        print("Message")
-        print(message.guild)
-        print(message.guild.get_member(message.author.id))
-        print(message.author.bot)
         try:
             if message.guild and message.guild.get_member(message.author.id) and \
                 not message.author.bot:
-                print("Adding message")
                 
                 if self.bot.settings.get(message.guild.id, {})\
                     .get("track_messages", False):

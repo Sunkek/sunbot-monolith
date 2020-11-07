@@ -1,11 +1,11 @@
 UPDATE_MESSAGES = """
 UPDATE messages 
-SET postcount = postcount + $, attachments = attachments + $, words = words + $
-WHERE guild_id = $ AND channel_id = $ AND user_id = $ AND period = $;
+SET postcount = postcount + $1, attachments = attachments + $2, words = words + $3
+WHERE guild_id = $4 AND channel_id = $5 AND user_id = $6 AND period = $7;
 """
 INSERT_MESSAGES = """
 INSERT INTO messages 
-VALUES ($, $, $, $, $, $, $,);
+VALUES ($1, $2, $3, $4, $5, $6, $7,);
 """
 async def add_message(bot, **kwargs):
     async with bot.db.acquire() as connection:
