@@ -21,7 +21,7 @@ class Settings(commands.Cog):
     async def showsettings(self, ctx):
 
         settings = self.bot.settings.get(ctx.guild.id, {})
-        activity = settings.format_settings(
+        activity = util_settings.format_settings(
             settings, ctx, include=["activity_"], ignore=[]
         )
         ranks = util_settings.format_settings(

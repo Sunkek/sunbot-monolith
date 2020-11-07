@@ -12,7 +12,7 @@ from aiohttp import ClientSession, TCPConnector
 from socket import AF_INET
 from asyncio import TimeoutError
 
-from utils.settings import read_settings
+from utils.util_settings import read_settings
 
 bot = commands.Bot(
     command_prefix=commands.when_mentioned_or("sb ", "Sb ", "SB "), 

@@ -20,7 +20,7 @@ class SetTrackers(commands.Cog):
     async def settrackmessages(self, ctx):
         value = not self.bot.settings\
             .get(ctx.guild.id, {}).get("track_messages", False)
-        await settings.change_guild_setting(
+        await util_settings.change_guild_setting(
             self.bot, 
             guild_id=ctx.guild.id,
             track_messages=value,

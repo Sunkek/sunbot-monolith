@@ -20,7 +20,7 @@ class TrackMessages(commands.Cog):
             if self.bot.settings.get(message.guild.id, {})\
                 .get("track_messages", False):
 
-                await trackers.add_message(
+                await util_trackers.add_message(
                     self.bot, 
                     guild_id=message.guild.id,
                     channel_id=message.channel.id,
