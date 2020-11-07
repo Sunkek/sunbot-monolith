@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS reactions (
     giver_id bigint,
     receiver_id bigint,
     emoji varchar(100),
+    count smallint,
     period date,
     PRIMARY KEY (guild_id, channel_id, giver_id, receiver_id, emoji, period)
 );
