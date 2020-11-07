@@ -5,7 +5,7 @@ WHERE guild_id = $4 AND channel_id = $5 AND user_id = $6 AND period = $7;
 """
 INSERT_MESSAGES = """
 INSERT INTO messages 
-VALUES ($1, $2, $3, $4, $5, $6, $7,);
+VALUES ($1, $2, $3, $4, $5, $6, $7);
 """
 async def add_message(bot, **kwargs):
     async with bot.db.acquire() as connection:
