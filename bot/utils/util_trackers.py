@@ -16,7 +16,6 @@ async def add_message(bot, **kwargs):
                 kwargs["guild_id"], kwargs["channel_id"], kwargs["user_id"], 
                 kwargs["period"], 
             )
-            print(res)
             if " 0" in res:
                 res = await connection.execute(
                     INSERT_MESSAGES,
@@ -24,4 +23,3 @@ async def add_message(bot, **kwargs):
                     kwargs["postcount"], kwargs["attachments"], kwargs["words"], 
                     kwargs["period"],
                 )
-                print(res)

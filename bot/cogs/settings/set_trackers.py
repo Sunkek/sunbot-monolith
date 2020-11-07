@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from typing import Optional
 
-from utils import settings
+from utils import util_settings
 
 class SetTrackers(commands.Cog):
     def __init__(self, bot):

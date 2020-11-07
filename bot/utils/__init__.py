@@ -1,3 +1,3 @@
 """Utility functions"""
 
-from . import settings, trackers
+from . import settings, trackers, utils
