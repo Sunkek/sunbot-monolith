@@ -14,22 +14,26 @@ class TrackMessages(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         # I don't want to save info about DMs and webhooks
-        if message.guild and message.guild.get_member(message.author.id) and \
-            not message.author.bot:
-            
-            if self.bot.settings.get(message.guild.id, {})\
-                .get("track_messages", False):
+        try:
+            if message.guild and message.guild.get_member(message.author.id) and \
+                not message.author.bot:
+                
+                if self.bot.settings.get(message.guild.id, {})\
+                    .get("track_messages", False):
 
-                await trackers.add_message(
-                    self.bot, 
-                    guild_id=message.guild.id,
-                    channel_id=message.channel.id,
-                    user_id=message.author.id,
-                    postcount=1,
-                    attachments=len(message.attachments),
-                    words=len(message.content.split()),
-                    period=datetime.now().strftime("%Y-%m-%d")
-                )
+                    await trackers.add_message(
+                        self.bot, 
+                        guild_id=message.guild.id,
+                        channel_id=message.channel.id,
+                        user_id=message.author.id,
+                        postcount=1,
+                        attachments=len(message.attachments),
+                        words=len(message.content.split()),
+                        period=datetime.now().strftime("%Y-%m-%d")
+                    )
+        except Exception as e:
+            print(e)
+            print(type(e))
         
 
 def setup(bot):
