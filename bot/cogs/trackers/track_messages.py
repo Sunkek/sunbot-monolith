@@ -3,7 +3,7 @@ activity statistics tracking. Mostly made for APoC."""
 
 import discord
 from discord.ext import commands
-from datetime import datetime
+from datetime import date
 
 from utils import trackers
 
@@ -29,7 +29,7 @@ class TrackMessages(commands.Cog):
                         postcount=1,
                         attachments=len(message.attachments),
                         words=len(message.content.split()),
-                        period=datetime.date.today()
+                        period=date.today()
                     )
         except Exception as e:
             print(e)
