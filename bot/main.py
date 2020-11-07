@@ -18,6 +18,7 @@ from utils.settings import read_settings
 bot = commands.Bot(
     command_prefix=commands.when_mentioned_or("sb ", "Sb ", "SB "), 
     сase_insensitive=True,
+    chunk_guilds_at_startup=True  # Slows launch, especially for lots of guilds
 )
 # Remove the default help command because there will be a custom one
 bot.remove_command("help")
