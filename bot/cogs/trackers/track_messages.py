@@ -29,7 +29,7 @@ class TrackMessages(commands.Cog):
                         postcount=1,
                         attachments=len(message.attachments),
                         words=len(message.content.split()),
-                        period=datetime.now().strftime("%Y-%m-%d")
+                        period=datetime.date.today()
                     )
         except Exception as e:
             print(e)
