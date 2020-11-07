@@ -26,6 +26,20 @@ class SetTrackers(commands.Cog):
             track_messages=value,
         )
         
+    @commands.command(
+        name="settrackreactions", 
+        aliases=["str"],
+        description="Sets reaction tracking on or off.",
+    )
+    async def settrackreactions(self, ctx):
+        value = not self.bot.settings\
+            .get(ctx.guild.id, {}).get("track_reactions", False)
+        await util_settings.change_guild_setting(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            track_reactions=value,
+        )
+        
 
 def setup(bot):
     bot.add_cog(SetTrackers(bot))

@@ -7,7 +7,8 @@ CREATE_GUILDS_TABLE = """
 CREATE TABLE IF NOT EXISTS guilds (
     guild_id bigint PRIMARY KEY,
 
-    track_messages boolean DEFAULT 'false'
+    track_messages boolean DEFAULT 'false',
+    track_reactions boolean DEFAULT 'false'
 );
 """
 CREATE_MESSAGES_TABLE = """
@@ -20,6 +21,17 @@ CREATE TABLE IF NOT EXISTS messages (
     words integer,
     period date,
     PRIMARY KEY (guild_id, channel_id, user_id, period)
+);
+"""
+CREATE_REACTIONS_TABLE = """
+CREATE TABLE IF NOT EXISTS reactions (
+    guild_id bigint,
+    channel_id bigint,
+    giver_id bigint,
+    receiver_id bigint,
+    emoji varchar(100),
+    period date,
+    PRIMARY KEY (guild_id, channel_id, giver_id, receiver_id, emoji, period)
 );
 """
 
@@ -43,10 +55,11 @@ async def read_settings(connection_pool):
                 await connection.execute(CREATE_GUILDS_TABLE)
             if "messages" not in tables:
                 await connection.execute(CREATE_MESSAGES_TABLE)
+            if "reactions" not in tables:
+                await connection.execute(CREATE_REACTIONS_TABLE)
             # Fetch the settings
             settings = await connection.fetch("SELECT * FROM guilds")
             settings = format_setting(settings)
-    print(settings)
     return settings
         
 async def change_guild_setting(bot, guild_id, **kwargs):
