@@ -6,7 +6,20 @@ CREATE TABLE IF NOT EXISTS guilds (
     guild_id bigint PRIMARY KEY,
 
     track_messages boolean DEFAULT 'false'
-);"""
+);
+"""
+CREATE_MESSAGES_TABLE = """
+CREATE TABLE IF NOT EXISTS messages (
+    guild_id bigint,
+    channel_id bigint,
+    user_id bigint,
+    postcount integer,
+    attachments smallint,
+    words integer,
+    period date,
+    PRIMARY KEY (guild_id, channel_id, user_id, period)
+);
+"""
 
 def format_setting(records):
     """Change a list of records into a dict of settings per guild id"""
@@ -26,6 +39,8 @@ async def read_settings(connection_pool):
             tables = [i["table_name"] for i in tables]
             if "guilds" not in tables:
                 await connection.execute(CREATE_GUILDS_TABLE)
+            if "messages" not in tables:
+                await connection.execute(CREATE_MESSAGES_TABLE)
             # Fetch the settings
             settings = await connection.fetch("SELECT * FROM guilds")
             settings = format_setting(settings)
