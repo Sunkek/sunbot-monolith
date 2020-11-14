@@ -40,7 +40,7 @@ INSERT INTO games
 VALUES ($1, $2, $3, $4);
 """
 
-from asyncpg.exceptions import ForeignKeyViolationError
+from asyncpg.exceptions import ForeignKeyViolationError, UniqueViolationError
 
 async def create_missing_user(bot, user_id):
     async with bot.db.acquire() as connection:
@@ -90,10 +90,12 @@ async def add_reaction(bot, **kwargs):
     except ForeignKeyViolationError:
         try:
             await create_missing_user(bot, kwargs["giver_id"])
+        except UniqueViolationError:
+            pass
+        try:
             await create_missing_user(bot, kwargs["receiver_id"])
-        except Exception as e:
-            print(e)
-            print(type(e))
+        except UniqueViolationError:
+            pass
         await add_reaction(bot, **kwargs)
 
 
