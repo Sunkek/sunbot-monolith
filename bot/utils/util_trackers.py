@@ -66,6 +66,7 @@ async def add_message(bot, **kwargs):
                         kwargs["period"],
                     )
     except ForeignKeyViolationError:
+        # Create user if it doesn't exist
         await create_missing_user(bot, kwargs["user_id"])
         await add_message(bot, **kwargs)
 
@@ -83,11 +84,12 @@ async def add_reaction(bot, **kwargs):
                 if " 0" in res:
                     res = await connection.execute(
                         INSERT_REACTIONS,
-                        kwargs["guild_id"], kwargs["channel_id"], kwargs["giver_id"],
-                        kwargs["receiver_id"], kwargs["emoji"], kwargs["count"], 
-                        kwargs["period"],
+                        kwargs["guild_id"], kwargs["channel_id"], 
+                        kwargs["giver_id"], kwargs["receiver_id"], 
+                        kwargs["emoji"], kwargs["count"], kwargs["period"],
                     )
     except ForeignKeyViolationError:
+        # Create users if they don't exist
         try:
             await create_missing_user(bot, kwargs["giver_id"])
         except UniqueViolationError:
@@ -100,31 +102,43 @@ async def add_reaction(bot, **kwargs):
 
 
 async def add_voice(bot, **kwargs):
-    async with bot.db.acquire() as connection:
-        async with connection.transaction():
-            res = await connection.execute(
-                UPDATE_VOICE, 
-                kwargs["count"], kwargs["guild_id"], kwargs["channel_id"], 
-                kwargs["user_id"], kwargs["members"], kwargs["period"], 
-            )
-            if " 0" in res:
+    try:
+        async with bot.db.acquire() as connection:
+            async with connection.transaction():
                 res = await connection.execute(
-                    INSERT_VOICE,
-                    kwargs["guild_id"], kwargs["channel_id"], kwargs["user_id"], 
-                    kwargs["members"], kwargs["count"], kwargs["period"],
+                    UPDATE_VOICE, 
+                    kwargs["count"], kwargs["guild_id"], kwargs["channel_id"], 
+                    kwargs["user_id"], kwargs["members"], kwargs["period"], 
                 )
+                if " 0" in res:
+                    res = await connection.execute(
+                        INSERT_VOICE,
+                        kwargs["guild_id"], kwargs["channel_id"], 
+                        kwargs["user_id"], kwargs["members"], kwargs["count"], 
+                        kwargs["period"],
+                    )
+    except ForeignKeyViolationError:
+        # Create user if it doesn't exist
+        await create_missing_user(bot, kwargs["user_id"])
+        await add_message(bot, **kwargs)
+    
 
 async def add_game(bot, **kwargs):
-    async with bot.db.acquire() as connection:
-        async with connection.transaction():
-            res = await connection.execute(
-                UPDATE_GAMES, 
-                kwargs["duration"], kwargs["user_id"], 
-                kwargs["game"], kwargs["period"], 
-            )
-            if " 0" in res:
+    try:
+        async with bot.db.acquire() as connection:
+            async with connection.transaction():
                 res = await connection.execute(
-                    INSERT_GAMES,
-                    kwargs["user_id"], kwargs["game"], 
-                    kwargs["duration"], kwargs["period"], 
+                    UPDATE_GAMES, 
+                    kwargs["duration"], kwargs["user_id"], 
+                    kwargs["game"], kwargs["period"], 
                 )
+                if " 0" in res:
+                    res = await connection.execute(
+                        INSERT_GAMES,
+                        kwargs["user_id"], kwargs["game"], 
+                        kwargs["duration"], kwargs["period"], 
+                    )
+    except ForeignKeyViolationError:
+        # Create user if it doesn't exist
+        await create_missing_user(bot, kwargs["user_id"])
+        await add_message(bot, **kwargs)
