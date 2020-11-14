@@ -1,6 +1,6 @@
 CREATE_USER = """
 INSERT INTO users
-VALUES ($1,)
+VALUES ($1)
 """
 UPDATE_MESSAGES = """
 UPDATE messages 
