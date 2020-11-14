@@ -38,7 +38,6 @@ class TrackReactions(commands.Cog):
                     # Just turn it into string
                     emoji = str(payload.emoji).split(":")
                     emoji = f"{emoji[0]}:_:{emoji[2]}"
-
                 await util_trackers.add_reaction(
                     self.bot, 
                     guild_id=guild.id,
@@ -57,7 +56,11 @@ class TrackReactions(commands.Cog):
 
     @commands.Cog.listener() 
     async def on_raw_reaction_remove(self, payload):
-        await self.save_reaction(payload, -1)
+        pass
+        # If you remove an older reaction, it will count in the current period.
+        # I'll comment this out for now - just to know why I don't do this in 
+        # future.
+        # await self.save_reaction(payload, -1)
         
 
 def setup(bot):
