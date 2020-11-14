@@ -1,3 +1,7 @@
+CREATE_USER = """
+INSERT INTO users
+VALUES ($1,)
+"""
 UPDATE_MESSAGES = """
 UPDATE messages 
 SET postcount = postcount + $1, attachments = attachments + $2, words = words + $3
@@ -36,22 +40,38 @@ INSERT INTO games
 VALUES ($1, $2, $3, $4);
 """
 
-async def add_message(bot, **kwargs):
+from asyncpg.exceptions import ForeignKeyViolationError
+
+async def create_missing_user(bot, user_id):
     async with bot.db.acquire() as connection:
         async with connection.transaction():
-            res = await connection.execute(
-                UPDATE_MESSAGES, 
-                kwargs["postcount"], kwargs["attachments"], kwargs["words"], 
-                kwargs["guild_id"], kwargs["channel_id"], kwargs["user_id"], 
-                kwargs["period"], 
-            )
-            if " 0" in res:
+            await connection.execute(CREATE_USER, user_id)
+
+
+async def add_message(bot, **kwargs):
+    try:
+        async with bot.db.acquire() as connection:
+            async with connection.transaction():
                 res = await connection.execute(
-                    INSERT_MESSAGES,
-                    kwargs["guild_id"], kwargs["channel_id"], kwargs["user_id"],
+                    UPDATE_MESSAGES, 
                     kwargs["postcount"], kwargs["attachments"], kwargs["words"], 
-                    kwargs["period"],
+                    kwargs["guild_id"], kwargs["channel_id"], kwargs["user_id"], 
+                    kwargs["period"], 
                 )
+                if " 0" in res:
+                    await connection.execute(
+                        INSERT_MESSAGES,
+                        kwargs["guild_id"], kwargs["channel_id"], 
+                        kwargs["user_id"], kwargs["postcount"], 
+                        kwargs["attachments"], kwargs["words"], 
+                        kwargs["period"],
+                    )
+    except ForeignKeyViolationError as e:
+        print(e)
+        print(e.__dict__)
+        await create_missing_user(bot, kwargs["user_id"])
+        await add_message(bot, **kwargs)
+
 
 async def add_reaction(bot, **kwargs):
     async with bot.db.acquire() as connection:
