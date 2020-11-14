@@ -27,6 +27,7 @@ My discord bot. Rewritten. Again.
     - Set verification
     - Set ranks
     - Set special roles
+    - Set warnings
 2. Trackers - saving data to the database
     - ✅ Message tracking
     - ✅ Reaction tracking
@@ -70,5 +71,21 @@ My discord bot. Rewritten. Again.
     - Automaticlly promote and demote members according to the vote outcome
 9. Special roles - personal titles
     - Let them create and change special roles if they meet the requirements
+10. Mod functions - easier than Discord interface
+    - Mute
+    - Kick
+    - Ban
+11. Embedder - create and edit embed messages
+    - New embed
+    - Edit embed
+    - Copy & paste embed
+12. Russian roulette - feeling risky? 
+    - Mute roulette
+    - Kick roulette
+    - Ban roulette
+13. Warnings - easier automated moderation
+    - Give warning
+    - Automatically remove expired warnings
+    - Take action according to the amount of active warnings
     
 To be continued.
