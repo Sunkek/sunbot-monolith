@@ -8,7 +8,9 @@ CREATE TABLE IF NOT EXISTS guilds (
     guild_id bigint PRIMARY KEY,
 
     track_messages boolean DEFAULT 'false',
-    track_reactions boolean DEFAULT 'false'
+    track_reactions boolean DEFAULT 'false',
+    track_voice boolean DEFAULT 'false',
+    track_games boolean DEFAULT 'false'
 );
 """
 CREATE_MESSAGES_TABLE = """

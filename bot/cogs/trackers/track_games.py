@@ -39,7 +39,7 @@ class TrackGames(commands.Cog):
                         hasattr(activity, "application_id")
                     )):
                         after_game = activity
-                        break
+                         reak
                 print(before_game)
                 print(after_game)
                 # If started playing

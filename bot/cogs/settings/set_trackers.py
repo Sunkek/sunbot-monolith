@@ -39,6 +39,34 @@ class SetTrackers(commands.Cog):
             guild_id=ctx.guild.id,
             track_reactions=value,
         )
+
+    @commands.command(
+        name="settrackvoice", 
+        aliases=["stv"],
+        description="Sets voice tracking on or off.",
+    )
+    async def settrackvoice(self, ctx):
+        value = not self.bot.settings\
+            .get(ctx.guild.id, {}).get("track_voice", False)
+        await util_settings.change_guild_setting(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            track_voice=value,
+        )
+
+    @commands.command(
+        name="settrackgames", 
+        aliases=["stg"],
+        description="Sets games tracking on or off.",
+    )
+    async def settrackgames(self, ctx):
+        value = not self.bot.settings\
+            .get(ctx.guild.id, {}).get("track_games", False)
+        await util_settings.change_guild_setting(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            track_games=value,
+        )
         
 
 def setup(bot):
