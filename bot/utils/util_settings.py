@@ -13,11 +13,19 @@ CREATE TABLE IF NOT EXISTS guilds (
     track_games boolean DEFAULT 'false'
 );
 """
+CREATE_USERS_TABLE = """
+CREATE TABLE IF NOT EXISTS users (
+    user_id bigint PRIMARY KEY,
+    birthday date,
+    steam varchar(2000),
+    country varchar(50)
+);
+"""
 CREATE_MESSAGES_TABLE = """
 CREATE TABLE IF NOT EXISTS messages (
     guild_id bigint,
     channel_id bigint,
-    user_id bigint,
+    user_id bigint REFERENCES users(user_id),
     postcount integer,
     attachments smallint,
     words integer,
@@ -29,8 +37,8 @@ CREATE_REACTIONS_TABLE = """
 CREATE TABLE IF NOT EXISTS reactions (
     guild_id bigint,
     channel_id bigint,
-    giver_id bigint,
-    receiver_id bigint,
+    giver_id bigint REFERENCES users(user_id),
+    receiver_id bigint REFERENCES users(user_id),
     emoji varchar(100),
     count smallint,
     period date,
@@ -41,7 +49,7 @@ CREATE_VOICE_TABLE = """
 CREATE TABLE IF NOT EXISTS voice (
     guild_id bigint,
     channel_id bigint,
-    user_id bigint,
+    user_id bigint REFERENCES users(user_id),
     members smallint,
     count smallint,
     period date,
@@ -50,7 +58,7 @@ CREATE TABLE IF NOT EXISTS voice (
 """
 CREATE_GAMES_TABLE = """
 CREATE TABLE IF NOT EXISTS games (
-    user_id bigint,
+    user_id bigint REFERENCES users(user_id),
     game varchar(100),
     duration integer,
     period date,
@@ -76,6 +84,8 @@ async def read_settings(connection_pool):
             tables = [i["table_name"] for i in tables]
             if "guilds" not in tables:
                 await connection.execute(CREATE_GUILDS_TABLE)
+            if "users" not in tables:
+                await connection.execute(CREATE_USERS_TABLE)
             if "messages" not in tables:
                 await connection.execute(CREATE_MESSAGES_TABLE)
             if "reactions" not in tables:
