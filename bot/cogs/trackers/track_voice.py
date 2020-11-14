@@ -3,7 +3,9 @@ activity statistics tracking."""
 
 import discord
 from discord.ext import commands, tasks
-from datetime import datetime
+from datetime import date
+
+from utils import util_trackers
 
 
 class TrackVoice(commands.Cog):
@@ -19,8 +21,16 @@ class TrackVoice(commands.Cog):
         for guild in self.bot.guilds:
             if self.bot.settings.get(guild.id, {}).get("track_voice"):
                 for channel in guild.voice_channels:
-                    if channel.members:
-                        pass
+                    for member in channel.members:
+                        await util_trackers.add_voice(
+                            self.bot, 
+                            guild_id=guild.id,
+                            channel_id=channel.id,
+                            user_id=member.id,
+                            members=len(channel.members),
+                            count=1,
+                            period=date.today()
+                        )
 
 def setup(bot):
     bot.add_cog(TrackVoice(bot))

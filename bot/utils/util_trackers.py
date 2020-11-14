@@ -17,6 +17,15 @@ INSERT_REACTIONS = """
 INSERT INTO reactions 
 VALUES ($1, $2, $3, $4, $5, $6, $7);
 """
+UPDATE_VOICE = """
+UPDATE voice 
+SET count = count + $1
+WHERE guild_id = $2 AND channel_id = $3 AND user_id = $4 AND members = $5 AND period = $6;
+"""
+INSERT_VOICE = """
+INSERT INTO voice 
+VALUES ($1, $2, $3, $4, $5, $6);
+"""
 
 async def add_message(bot, **kwargs):
     async with bot.db.acquire() as connection:
@@ -50,4 +59,19 @@ async def add_reaction(bot, **kwargs):
                     kwargs["guild_id"], kwargs["channel_id"], kwargs["giver_id"],
                     kwargs["receiver_id"], kwargs["emoji"], kwargs["count"], 
                     kwargs["period"],
+                )
+
+async def add_voice(bot, **kwargs):
+    async with bot.db.acquire() as connection:
+        async with connection.transaction():
+            res = await connection.execute(
+                UPDATE_VOICE, 
+                kwargs["count"], kwargs["guild_id"], kwargs["channel_id"], 
+                kwargs["user_id"], kwargs["members"], kwargs["period"], 
+            )
+            if " 0" in res:
+                res = await connection.execute(
+                    INSERT_VOICE,
+                    kwargs["guild_id"], kwargs["channel_id"], kwargs["user_id"], 
+                    kwargs["members"], kwargs["count"], kwargs["period"],
                 )

@@ -35,6 +35,17 @@ CREATE TABLE IF NOT EXISTS reactions (
     PRIMARY KEY (guild_id, channel_id, giver_id, receiver_id, emoji, period)
 );
 """
+CREATE_VOICE_TABLE = """
+CREATE TABLE IF NOT EXISTS voice (
+    guild_id bigint,
+    channel_id bigint,
+    user_id bigint,
+    members smallint,
+    count smallint,
+    period date,
+    PRIMARY KEY (guild_id, channel_id, user_id, period)
+);
+"""
 
 def format_setting(records):
     """Change a list of records into a dict of settings per guild id"""
@@ -58,6 +69,8 @@ async def read_settings(connection_pool):
                 await connection.execute(CREATE_MESSAGES_TABLE)
             if "reactions" not in tables:
                 await connection.execute(CREATE_REACTIONS_TABLE)
+            if "voice" not in tables:
+                await connection.execute(CREATE_VOICE_TABLE)
             # Fetch the settings
             settings = await connection.fetch("SELECT * FROM guilds")
             settings = format_setting(settings)
