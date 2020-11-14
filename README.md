@@ -29,10 +29,10 @@ My discord bot. Rewritten. Again.
     - Set special roles
     - Set warnings
 2. Trackers - saving data to the database
-    - ✅ Message tracking
-    - ✅ Reaction tracking
-    - ✅ Voice tracking
-    - ✅ Games tracing
+    - ✔️ Message tracking
+    - ✔️ Reaction tracking
+    - ✔️ Voice tracking
+    - ✔️ Games tracing
     - Emoji tracking
     - N-word tracking
     - Activity tracking
