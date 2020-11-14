@@ -26,6 +26,15 @@ INSERT_VOICE = """
 INSERT INTO voice 
 VALUES ($1, $2, $3, $4, $5, $6);
 """
+UPDATE_GAMES = """
+UPDATE games 
+SET duration = duration + $1
+WHERE user_id = $2 AND game = $3 AND period = $4;
+"""
+INSERT_GAMES = """
+INSERT INTO games 
+VALUES ($1, $2, $3, $4);
+"""
 
 async def add_message(bot, **kwargs):
     async with bot.db.acquire() as connection:
@@ -74,4 +83,19 @@ async def add_voice(bot, **kwargs):
                     INSERT_VOICE,
                     kwargs["guild_id"], kwargs["channel_id"], kwargs["user_id"], 
                     kwargs["members"], kwargs["count"], kwargs["period"],
+                )
+
+async def add_game(bot, **kwargs):
+    async with bot.db.acquire() as connection:
+        async with connection.transaction():
+            res = await connection.execute(
+                UPDATE_GAMES, 
+                kwargs["duration"], kwargs["user_id"], 
+                kwargs["game"], kwargs["period"], 
+            )
+            if " 0" in res:
+                res = await connection.execute(
+                    INSERT_GAMES,
+                    kwargs["user_id"], kwargs["game"], 
+                    kwargs["duration"], kwargs["period"], 
                 )
