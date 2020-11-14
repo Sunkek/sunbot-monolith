@@ -49,14 +49,14 @@ class TrackGames(commands.Cog):
                             after_game.name, 
                             datetime.utcnow()
                         )
-                print(self.sessions)
+                    print(self.sessions)
                 # If done playing
                 elif not after_game and before_game:
                     game = self.sessions.pop(after.id, (None,))
                     if before_game.name == game[0]:
                         played = int((datetime.utcnow()-game[1]).total_seconds())
                         if played > 0:
-                            print(game, duration)
+                            print(game, played)
                             await util_trackers.add_game(
                                 self.bot, 
                                 user_id=before.id,
