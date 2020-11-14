@@ -47,7 +47,6 @@ async def create_missing_user(bot, user_id):
         async with connection.transaction():
             await connection.execute(CREATE_USER, user_id)
 
-
 async def add_message(bot, **kwargs):
     try:
         async with bot.db.acquire() as connection:
@@ -66,29 +65,37 @@ async def add_message(bot, **kwargs):
                         kwargs["attachments"], kwargs["words"], 
                         kwargs["period"],
                     )
-    except ForeignKeyViolationError as e:
-        print(e)
-        print(e.__dict__)
+    except ForeignKeyViolationError:
         await create_missing_user(bot, kwargs["user_id"])
         await add_message(bot, **kwargs)
 
 
 async def add_reaction(bot, **kwargs):
-    async with bot.db.acquire() as connection:
-        async with connection.transaction():
-            res = await connection.execute(
-                UPDATE_REACTIONS, 
-                kwargs["count"], kwargs["guild_id"], kwargs["channel_id"], 
-                kwargs["giver_id"], kwargs["receiver_id"], kwargs["emoji"], 
-                kwargs["period"], 
-            )
-            if " 0" in res:
+    try:
+        async with bot.db.acquire() as connection:
+            async with connection.transaction():
                 res = await connection.execute(
-                    INSERT_REACTIONS,
-                    kwargs["guild_id"], kwargs["channel_id"], kwargs["giver_id"],
-                    kwargs["receiver_id"], kwargs["emoji"], kwargs["count"], 
-                    kwargs["period"],
+                    UPDATE_REACTIONS, 
+                    kwargs["count"], kwargs["guild_id"], kwargs["channel_id"], 
+                    kwargs["giver_id"], kwargs["receiver_id"], kwargs["emoji"], 
+                    kwargs["period"], 
                 )
+                if " 0" in res:
+                    res = await connection.execute(
+                        INSERT_REACTIONS,
+                        kwargs["guild_id"], kwargs["channel_id"], kwargs["giver_id"],
+                        kwargs["receiver_id"], kwargs["emoji"], kwargs["count"], 
+                        kwargs["period"],
+                    )
+    except ForeignKeyViolationError:
+        try:
+            await create_missing_user(bot, kwargs["giver_id"])
+            await create_missing_user(bot, kwargs["receiver_id"])
+        except Exception as e:
+            print(e)
+            print(type(e))
+        await add_reaction(bot, **kwargs)
+
 
 async def add_voice(bot, **kwargs):
     async with bot.db.acquire() as connection:
