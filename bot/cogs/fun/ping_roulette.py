@@ -84,11 +84,10 @@ class PingRoulette(commands.Cog):
         )
         e = discord.Embed(
             title="Ping Roulette Charges",
-            description=f"{target.mention} has **{charges or 0}** ping roulette charges."
+            description=f"{target.mention} has **{charges or 0}** ping roulette charges.",
             color=ctx.author.color,
         )
         await ctx.send(embed=e)
 
 def setup(bot):
     bot.add_cog(PingRoulette(bot))
-    
