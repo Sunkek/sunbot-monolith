@@ -62,10 +62,10 @@ class PingRoulette(commands.Cog):
             title="Ping Roulette Opt-Out",
             color=ctx.author.color,
         )
-        ok = await util_fun.spend_pr_charge(
+        charges = await util_fun.fetch_charges(
             self.bot, ctx.author.id, ctx.guild.id
         )
-        if ok:
+        if charges > 0:
             await util_fun.opt_out_of_pr(self.bot, ctx.author.id, ctx.guild.id)
             e.description = f"{ctx.author.mention} won't be targeted in the ping roulette on this server."
         else:

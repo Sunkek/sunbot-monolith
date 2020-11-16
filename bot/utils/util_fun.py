@@ -19,7 +19,7 @@ SELECT charges FROM ping_roulette
 WHERE user_id = $1 AND guild_id = $2
 """
 OPT_OUT = """
-UPDATE ping_roulette SET plays = 'f'
+UPDATE ping_roulette SET plays = 'f', charges = 0
 WHERE user_id = $1 AND guild_id = $2;
 """
 
