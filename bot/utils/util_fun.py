@@ -4,7 +4,7 @@ WHERE user_id = $1 AND guild_id = $2;
 """
 FETCH_PR_PLAYERS = """
 SELECT user_id FROM ping_roulette
-WHERE plays = true
+WHERE plays = false
 """
 GIVE_CHARGE = """
 UPDATE ping_roulette SET charges = charges + 1, won = won + 1
@@ -13,6 +13,10 @@ WHERE user_id = $1 AND guild_id = $2;
 CREATE_CHARGE = """
 INSERT INTO ping_roulette 
 VALUES($1, $2, 1, 1, true)
+"""
+FETCH_CHARGES = """
+SELECT charges FROM ping_roulette
+WHERE user_id = $1 AND guild_id = $2
 """
 
 from asyncpg.exceptions import ForeignKeyViolationError
@@ -45,4 +49,9 @@ async def give_pr_charge(bot, user_id, guild_id):
         await util_trackers.create_missing_user(bot, user_id)
         await give_pr_charge(bot, user_id, guild_id)
                     
-
+async def fetch_charges(bot, user_id, guild_id):
+    """Return the PR charges of the user in the guild"""
+    async with bot.db.acquire() as connection:
+        async with connection.transaction():
+            res = await connection.fetch(FETCH_CHARGES, user_id, guild_id)
+            return res
