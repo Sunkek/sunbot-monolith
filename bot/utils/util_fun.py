@@ -39,7 +39,7 @@ async def opted_out_of_pr(bot, guild_id):
     async with bot.db.acquire() as connection:
         async with connection.transaction():
             res = await connection.fetch(FETCH_PR_PLAYERS)
-            return res
+            return [i["user_id"] for i in res]
 
 async def give_pr_charge(bot, user_id, guild_id):
     """Give a PR charge to the user"""
