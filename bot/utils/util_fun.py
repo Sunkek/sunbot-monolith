@@ -18,6 +18,10 @@ FETCH_CHARGES = """
 SELECT charges FROM ping_roulette
 WHERE user_id = $1 AND guild_id = $2
 """
+OPT_OUT = """
+UPDATE ping_roulette SET plays = 'f'
+WHERE user_id = $1 AND guild_id = $2;
+"""
 
 from asyncpg.exceptions import ForeignKeyViolationError
 
@@ -55,3 +59,9 @@ async def fetch_charges(bot, user_id, guild_id):
         async with connection.transaction():
             res = await connection.fetchval(FETCH_CHARGES, user_id, guild_id)
             return res
+
+async def opt_out_of_pr(bot, user_id, guild_id):
+    """Mark the user as unpingable"""
+    async with bot.db.acquire() as connection:
+        async with connection.transaction():
+            await connection.execute(OPT_OUT, user_id, guild_id)
