@@ -82,6 +82,7 @@ class PingRoulette(commands.Cog):
         charges = await util_fun.fetch_charges(
             self.bot, target.id, ctx.guild.id
         )
+        print(charges)
         e = discord.Embed(
             title="Ping Roulette Charges",
             description=f"{target.mention} has **{charges or 0}** ping roulette charges.",
