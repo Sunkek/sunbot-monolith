@@ -54,7 +54,7 @@ async def fetch_charges(bot, user_id, guild_id):
     try:
         async with bot.db.acquire() as connection:
             async with connection.transaction():
-                res = await connection.fetch(FETCH_CHARGES, user_id, guild_id)
+                res = await connection.fetchval(FETCH_CHARGES, user_id, guild_id)
                 return res
     except Exception as e:
         print(e)
