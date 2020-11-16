@@ -52,7 +52,6 @@ class TrackGames(commands.Cog):
                 if before_game.name == game[0]:
                     played = int((datetime.utcnow()-game[1]).total_seconds())
                     if played > 0:
-                        print(game, played)
                         await util_trackers.add_game(
                             self.bot, 
                             user_id=before.id,
