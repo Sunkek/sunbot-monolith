@@ -78,17 +78,21 @@ class PingRoulette(commands.Cog):
         description="Shows how many ping roulette charges you have."
     )
     async def pingroulette_charges(self, ctx, target: discord.Member=None):
-        target = target or ctx.author
-        charges = await util_fun.fetch_charges(
-            self.bot, target.id, ctx.guild.id
-        )
-        print(charges)
-        e = discord.Embed(
-            title="Ping Roulette Charges",
-            description=f"{target.mention} has **{charges or 0}** ping roulette charges.",
-            color=ctx.author.color,
-        )
-        await ctx.send(embed=e)
+        try:
+            target = target or ctx.author
+            charges = await util_fun.fetch_charges(
+                self.bot, target.id, ctx.guild.id
+            )
+            print(charges)
+            e = discord.Embed(
+                title="Ping Roulette Charges",
+                description=f"{target.mention} has **{charges or 0}** ping roulette charges.",
+                color=ctx.author.color,
+            )
+            await ctx.send(embed=e)
+        except Exception as e:
+            print(e)
+            print(type(e))
 
 def setup(bot):
     bot.add_cog(PingRoulette(bot))
