@@ -11,9 +11,9 @@ My discord bot. Rewritten. Again.
 
 ## Stack
 
-- Python, obviously. The `discord.py` library is just awesome.
+- Python, obviously. The discord.py library is just awesome.
 - For database I use PostgreSQL. 
-- To address the database I use asyncpg for it's outstanding speed and just to practice my SQL.
+- To address the database I use asyncpg for its outstanding speed.
 - The bot and the database are used as Docker containers for easier deployment.
 
 ## Features & TODO
