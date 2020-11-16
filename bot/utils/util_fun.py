@@ -4,7 +4,7 @@ WHERE user_id = $1 AND guild_id = $2;
 """
 FETCH_PR_PLAYERS = """
 SELECT user_id FROM ping_roulette
-WHERE plays = false
+WHERE plays = false AND guild_id = $1
 """
 GIVE_CHARGE = """
 UPDATE ping_roulette SET charges = charges + 1, won = won + 1
@@ -22,6 +22,10 @@ OPT_OUT = """
 UPDATE ping_roulette SET plays = 'f', charges = 0
 WHERE user_id = $1 AND guild_id = $2;
 """
+FETCH_ACTIVE_PLAYERS = """
+SELECT user_id FROM ping_roulette
+WHERE charges > 0 AND plays = 't' AND guild_id = $1
+"""
 
 from asyncpg.exceptions import ForeignKeyViolationError
 
@@ -38,7 +42,7 @@ async def opted_out_of_pr(bot, guild_id):
     """Fetch a list of members that don't play PR"""
     async with bot.db.acquire() as connection:
         async with connection.transaction():
-            res = await connection.fetch(FETCH_PR_PLAYERS)
+            res = await connection.fetch(FETCH_PR_PLAYERS, guild_id)
             return [i["user_id"] for i in res]
 
 async def give_pr_charge(bot, user_id, guild_id):
@@ -65,3 +69,10 @@ async def opt_out_of_pr(bot, user_id, guild_id):
     async with bot.db.acquire() as connection:
         async with connection.transaction():
             await connection.execute(OPT_OUT, user_id, guild_id)
+
+async def fetch_active_members(bot, guild_id):
+    """Return a list of members with active ping roulette charges."""
+    async with bot.db.acquire() as connection:
+        async with connection.transaction():
+            res = await connection.fetch(FETCH_ACTIVE_PLAYERS, guild_id)
+            return [i["user_id"] for i in res]

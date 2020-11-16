@@ -90,5 +90,21 @@ class PingRoulette(commands.Cog):
         )
         await ctx.send(embed=e)
 
+    @pingroulette.command(
+        name="list",
+        aliases=["l"],
+        description="Shows the members with at least one ping roulette charge."
+    )
+    async def pingroulette_list(self, ctx):
+        members = await util_fun.fetch_active_members(self.bot, ctx.guild.id)
+        members = [ctx.guild.get_member(i).display_name for i in members]
+        members = "\n".join(members)
+        e = discord.Embed(
+            title="Ping Roulette Active Members",
+            description=f"These members have at least one active ping roulette charge:\n\n{members}",
+            color=ctx.author.color,
+        )
+        await ctx.send(embed=e)
+
 def setup(bot):
     bot.add_cog(PingRoulette(bot))
