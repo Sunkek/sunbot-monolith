@@ -28,6 +28,7 @@ My discord bot. Rewritten. Again.
     - Set ranks
     - Set special roles
     - Set warnings
+    - Set ping roulette
 2. Trackers - saving data to the database
     - ✔️ Message tracking
     - ✔️ Reaction tracking
@@ -87,5 +88,10 @@ My discord bot. Rewritten. Again.
     - Give warning
     - Automatically remove expired warnings
     - Take action according to the amount of active warnings
+14. Ping roulette - pings 3 random members. Those members can ping 3 more random members! Or opt-out of the ping-roulette, forever.
+    - Ping roulette
+    - Opt-out
+    - Members with roulette charges
+    
     
 To be continued.
