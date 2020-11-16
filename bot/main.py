@@ -13,6 +13,7 @@ from socket import AF_INET
 from asyncio import TimeoutError
 
 from utils.util_settings import read_settings
+from utils.utils import format_seconds
 
 bot = commands.Bot(
     command_prefix=commands.when_mentioned_or("sb ", "Sb ", "SB "), 
@@ -124,12 +125,8 @@ async def on_command_error(ctx, error):
         )
     elif isinstance(error, commands.BadArgument):
         embed.description = "Something is wrong with the arguments."
-        if ctx.command.description:
-            embed.add_field(
-                name="Command help", 
-                value=ctx.command.description,
-                inline=False
-            )
+    elif isinstance(error, commands.CommandOnCooldown):
+        embed.description = f"The command is on cooldown! Wait for {format_seconds(retry_after)}"
     else:
         embed.description = "Something went wrong."
         embed.add_field(

@@ -13,7 +13,7 @@ class PingRoulette(commands.Cog):
     @commands.group(
         name="pingroulette", 
         aliases=["pr"],
-        description="Spends your ping roulette charge, pings 3 random members and gives them a ping roulette charge.\n\nOptions:\n`pingroulette spin` - spend your charge.\n`pingroulette out` - opt-out of pingroulette.\n`pingroulette charges` - check your charges.\n`pingroulette list` - see who has unspent charges.",
+        description="Spends your ping roulette charge, pings 3 random members and gives them a ping roulette charge.\n\nOptions:\n`pingroulette spin` - spend your charge.\n`pingroulette out` - opt-out of pingroulette.\n`pingroulette charges` - check your charges.",
         invoke_without_command=True,
     )
     async def pingroulette(self, ctx):
