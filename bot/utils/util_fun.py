@@ -14,6 +14,13 @@ CREATE_CHARGE = """
 INSERT INTO ping_roulette 
 VALUES($1, $2, 1, 1, true)
 """
+# TODO Import from util_settings
+CREATE_USER = """
+INSERT INTO users
+VALUES ($1)
+"""
+
+from asyncpg.exceptions import ForeignKeyViolationError
 
 async def spend_pr_charge(bot, user_id, guild_id):
     """Spend user's ping roulette charge"""
@@ -35,4 +42,10 @@ async def give_pr_charge(bot, user_id, guild_id):
         async with connection.transaction():
             res = await connection.execute(GIVE_CHARGE, user_id, guild_id)
             if " 0" in res:
-                await connection.execute(CREATE_CHARGE, user_id, guild_id)
+                try:
+                    await connection.execute(CREATE_CHARGE, user_id, guild_id)
+                except ForeignKeyViolationError:
+                    await connection.execute(CREATE_USER, user_id)
+                    await give_pr_charge(bot, user_id, guild_id)
+                    
+
