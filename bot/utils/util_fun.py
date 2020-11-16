@@ -14,13 +14,10 @@ CREATE_CHARGE = """
 INSERT INTO ping_roulette 
 VALUES($1, $2, 1, 1, true)
 """
-# TODO Import from util_settings
-CREATE_USER = """
-INSERT INTO users
-VALUES ($1)
-"""
 
 from asyncpg.exceptions import ForeignKeyViolationError
+
+from utils import util_trackers
 
 async def spend_pr_charge(bot, user_id, guild_id):
     """Spend user's ping roulette charge"""
@@ -29,7 +26,7 @@ async def spend_pr_charge(bot, user_id, guild_id):
             res = await connection.execute(SPEND_CHARGE, user_id, guild_id)
             return not " 0" in res
 
-async def oped_out_of_pr(bot, guild_id):
+async def opted_out_of_pr(bot, guild_id):
     """Fetch a list of members that don't play PR"""
     async with bot.db.acquire() as connection:
         async with connection.transaction():
@@ -45,7 +42,7 @@ async def give_pr_charge(bot, user_id, guild_id):
                 if " 0" in res:
                     await connection.execute(CREATE_CHARGE, user_id, guild_id)
     except ForeignKeyViolationError:
-        await connection.execute(CREATE_USER, user_id)
+        await util_trackers.create_missing_user(bot, user_id)
         await give_pr_charge(bot, user_id, guild_id)
                     
 

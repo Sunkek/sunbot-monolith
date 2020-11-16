@@ -33,7 +33,7 @@ class PingRoulette(commands.Cog):
             self.bot, ctx.author.id, ctx.guild.id
         )
         if ok or ctx.author.guild_permissions.administrator:
-            opted_out = await util_fun.oped_out_of_pr(self.bot, ctx.guild.id)
+            opted_out = await util_fun.opted_out_of_pr(self.bot, ctx.guild.id)
             print(opted_out)
             members = [i for i in ctx.guild.members if not i.bot and i.id not in opted_out]
             members = sample(members, 3)
