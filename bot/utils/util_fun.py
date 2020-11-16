@@ -51,7 +51,10 @@ async def give_pr_charge(bot, user_id, guild_id):
                     
 async def fetch_charges(bot, user_id, guild_id):
     """Return the PR charges of the user in the guild"""
-    async with bot.db.acquire() as connection:
-        async with connection.transaction():
-            res = await connection.fetch(FETCH_CHARGES, user_id, guild_id)
-            return res
+    try:
+        async with bot.db.acquire() as connection:
+            async with connection.transaction():
+                res = await connection.fetch(FETCH_CHARGES, user_id, guild_id)
+                return res
+    except Exception as e:
+        print(e)
