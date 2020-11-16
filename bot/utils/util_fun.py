@@ -38,14 +38,14 @@ async def oped_out_of_pr(bot, guild_id):
 
 async def give_pr_charge(bot, user_id, guild_id):
     """Give a PR charge to the user"""
-    async with bot.db.acquire() as connection:
-        async with connection.transaction():
-            res = await connection.execute(GIVE_CHARGE, user_id, guild_id)
-            if " 0" in res:
-                try:
+    try:
+        async with bot.db.acquire() as connection:
+            async with connection.transaction():
+                res = await connection.execute(GIVE_CHARGE, user_id, guild_id)
+                if " 0" in res:
                     await connection.execute(CREATE_CHARGE, user_id, guild_id)
-                except ForeignKeyViolationError:
-                    await connection.execute(CREATE_USER, user_id)
-                    await give_pr_charge(bot, user_id, guild_id)
+    except ForeignKeyViolationError:
+        await connection.execute(CREATE_USER, user_id)
+        await give_pr_charge(bot, user_id, guild_id)
                     
 
