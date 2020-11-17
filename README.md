@@ -53,6 +53,7 @@ My discord bot. Rewritten. Again.
     - Top oldest
     - Top youngest
     - Top active members
+    - Top ping roulette winners
 4. Binder - collect some info about the members
     - Bind birthday
     - Bind steam
@@ -95,7 +96,7 @@ My discord bot. Rewritten. Again.
 777. Minor features:
     - Pagination in topcharts and wherever applicable
     - Filters in topcharts and wherever applicable
-    - Short command description in help
+    - ✔️ Short command descriptions in help
     - Help by command alias
         
     
