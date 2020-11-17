@@ -13,7 +13,7 @@ class PingRoulette(commands.Cog):
     @commands.group(
         name="pingroulette", 
         aliases=["pr"],
-        brief="Pings 3 random members",
+        brief="Root command",
         help="The root ping roulette command. Use with subcommands! It takes your ping roulette charge, pings 3 random members and gives them all a ping roulette charge.",
         invoke_without_command=True,
     )
