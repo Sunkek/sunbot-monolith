@@ -16,7 +16,8 @@ class Settings(commands.Cog):
     @commands.command(
         name="showsettings", 
         aliases=['settings', 'checksettings', 'ss'],
-        description="Shows current settings for this server.",
+        brief="Shows current settings for this server",
+        help="Shows current settings for this server"
     )
     async def showsettings(self, ctx):
 

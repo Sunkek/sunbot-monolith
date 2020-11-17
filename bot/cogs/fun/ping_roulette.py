@@ -13,7 +13,8 @@ class PingRoulette(commands.Cog):
     @commands.group(
         name="pingroulette", 
         aliases=["pr"],
-        description="Spends your ping roulette charge, pings 3 random members and gives them a ping roulette charge.\n\nOptions:\n`pingroulette spin` - spend your charge.\n`pingroulette out` - opt-out of pingroulette.\n`pingroulette charges` - check your charges.",
+        brief="Pings 3 random members",
+        help="The root ping roulette command. Use with subcommands! It takes your ping roulette charge, pings 3 random members and gives them all a ping roulette charge.",
         invoke_without_command=True,
     )
     async def pingroulette(self, ctx):
@@ -27,7 +28,8 @@ class PingRoulette(commands.Cog):
     @pingroulette.command(
         name="spin",
         aliases=["s"],
-        description="Spend your ping roulete charge to ping 3 random members."
+        brief="Pings 3 random members",
+        help="Spend your ping roulette charge to ping 3 random members."
     )
     async def pingroulette_spin(self, ctx):
         ok = await util_fun.spend_pr_charge(
@@ -56,7 +58,8 @@ class PingRoulette(commands.Cog):
     @pingroulette.command(
         name="out",
         aliases=["o"],
-        description="Opt-out of the ping roulette. Only works if you have at least one PR charge."
+        brief="Opt-out of the ping roulette",
+        help="Opt-out of the ping roulette. Only works if you have at least one PR charge."
     )
     async def pingroulette_out(self, ctx):
         e = discord.Embed(
@@ -76,7 +79,8 @@ class PingRoulette(commands.Cog):
     @pingroulette.command(
         name="charges",
         aliases=["c"],
-        description="Shows how many ping roulette charges you have."
+        brief="Shows your ping roulette charges",
+        help="Shows how many ping roulette charges you have."
     )
     async def pingroulette_charges(self, ctx, target: discord.Member=None):
         target = target or ctx.author
@@ -93,7 +97,8 @@ class PingRoulette(commands.Cog):
     @pingroulette.command(
         name="list",
         aliases=["l"],
-        description="Shows the members with at least one ping roulette charge."
+        brief="Lists members with ping roulette charges",
+        help="Shows the members with at least one ping roulette charge."
     )
     async def pingroulette_list(self, ctx):
         members = await util_fun.fetch_active_members(self.bot, ctx.guild.id)

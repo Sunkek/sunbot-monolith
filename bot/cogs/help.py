@@ -6,9 +6,10 @@ class Help(commands.Cog):
         self.bot = bot
 
     @commands.command(
-        name='help', 
-        description="Shows all bot cogs. If you ask help for specific cog, it shows commands for that cog. If you ask for specific command, it shows the command's description and other available info.",
-        aliases=['h']
+        name="help", 
+        brief="The help command",
+        help="Shows all bot cogs. If you ask help for specific cog, it shows commands for that cog. If you ask for specific command, it shows the command's description and other available info.",
+        aliases=["h"]
     )
     async def help(self, ctx, *, target=None):
         # General help
@@ -39,7 +40,8 @@ class Help(commands.Cog):
                 # Only show the command if author can use it
                 try:
                     await command.can_run(ctx)
-                    command_set.add(f'`{command.qualified_name}`')
+                    brief = f" - {command.brief}" if command.brief else ""
+                    command_set.add(f'`{command.qualified_name}`{brief}')
                 except commands.CommandError:
                     pass
             if command_set:
@@ -63,7 +65,7 @@ class Help(commands.Cog):
             if command.description:
                 e.add_field(
                     name="Description", 
-                    value=command.description, 
+                    value=command.help or command.brief, 
                     inline=False
                 )   
             # If the command has subcommands, list them

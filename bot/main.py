@@ -110,10 +110,16 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
         embed.description = "There is no such command."
         return await ctx.send(embed=embed)
-    if ctx.command.description:
+    if ctx.command.help:
         embed.add_field(
             name="Command help", 
-            value=ctx.command.description,
+            value=ctx.command.help,
+            inline=False
+        )
+    elif ctx.command.brief:
+        embed.add_field(
+            name="Command help", 
+            value=ctx.command.brief,
             inline=False
         )
     if isinstance(error, TimeoutError):
@@ -138,7 +144,7 @@ async def on_command_error(ctx, error):
     await ctx.send(embed=embed)
 
 @commands.check(commands.is_owner())
-@bot.command(description=f"`reload <cog name>` - reloads the specified cog")
+@bot.command(brief=f"Reloads the specified cog")
 async def reload(ctx, *, ext):
     cog = f"cogs.{ext}"
     try:
@@ -148,7 +154,7 @@ async def reload(ctx, *, ext):
     bot.load_extension(cog)
 
 @commands.check(commands.is_owner())
-@bot.command(description=f"`sql <query>` - runs the provided SQL")
+@bot.command(brief=f"Runs the provided SQL query")
 async def sql(ctx, *, query):
     async with bot.db.acquire() as connection:
         async with connection.transaction():

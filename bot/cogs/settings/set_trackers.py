@@ -15,7 +15,8 @@ class SetTrackers(commands.Cog):
     @commands.command(
         name="settrackmessages", 
         aliases=["stm"],
-        description="Sets message tracking on or off.",
+        brief="Sets message tracking on or off",
+        help="Switches message tracking on or off. It will save info about who posted and how much"
     )
     async def settrackmessages(self, ctx):
         value = not self.bot.settings\
@@ -29,7 +30,8 @@ class SetTrackers(commands.Cog):
     @commands.command(
         name="settrackreactions", 
         aliases=["str"],
-        description="Sets reaction tracking on or off.",
+        brief="Sets reaction tracking on or off",
+        help="Switches reaction tracking on or off. It will save who reacted, with what emoji and to whose message"
     )
     async def settrackreactions(self, ctx):
         value = not self.bot.settings\
@@ -43,7 +45,8 @@ class SetTrackers(commands.Cog):
     @commands.command(
         name="settrackvoice", 
         aliases=["stv"],
-        description="Sets voice tracking on or off.",
+        brief="Sets voice tracking on or off",
+        help="Switches voice tracking on or off. It will save who talked in voice with how many other members"
     )
     async def settrackvoice(self, ctx):
         value = not self.bot.settings\
@@ -57,7 +60,8 @@ class SetTrackers(commands.Cog):
     @commands.command(
         name="settrackgames", 
         aliases=["stg"],
-        description="Sets games tracking on or off.",
+        brief="Sets games tracking on or off",
+        help="Switches games tracking on or off. It will save who played what"
     )
     async def settrackgames(self, ctx):
         value = not self.bot.settings\

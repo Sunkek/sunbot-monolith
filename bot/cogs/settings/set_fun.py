@@ -15,7 +15,8 @@ class SetFun(commands.Cog):
     @commands.command(
         name="setpingroulettechannel", 
         aliases=["sprc"],
-        description="Sets the channel for ping roulette messages. If no channel set, the roulette will ping people in the same channel the command was used.",
+        brief="Sets ping roulette message channel",
+        help="Sets the channel for ping roulette messages. If no channel set, the roulette will ping people in the same channel the command was used.",
     )
     async def setpingroulettechannel(
         self, ctx, channel: discord.TextChannel=None
