@@ -62,7 +62,7 @@ class Help(commands.Cog):
                 description=f'`{command.qualified_name} {" ".join(args)}`',
                 color=ctx.author.color,
             )
-            if command.description:
+            if command.help or command.brief:
                 e.add_field(
                     name="Description", 
                     value=command.help or command.brief, 
