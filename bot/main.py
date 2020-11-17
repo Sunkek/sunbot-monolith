@@ -126,7 +126,9 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.BadArgument):
         embed.description = "Something is wrong with the arguments."
     elif isinstance(error, commands.CommandOnCooldown):
-        embed.description = f"The command is on cooldown! Wait for {format_seconds(retry_after)}"
+        embed.description = f"The command is on cooldown! Wait for {format_seconds(error.retry_after)}"
+        print(error.cooldown)
+        print(error.cooldown.__dict__)
     else:
         embed.description = "Something went wrong."
         embed.add_field(
