@@ -51,6 +51,14 @@ class PingRoulette(commands.Cog):
 
             for member in members:
                 await util_fun.give_pr_charge(self.bot, member.id, ctx.guild.id)
+        else:
+            e = discord.Embed(
+                title="Ping Roulette",
+                description="You need at least one ping roulette charge to spin it!",
+                color=ctx.author.color,
+            )
+            await channel.send(embed=e)
+
 
     @pingroulette.command(
         name="out",
