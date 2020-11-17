@@ -53,6 +53,7 @@ My discord bot. Rewritten. Again.
     - Top oldest
     - Top youngest
     - Top active members
+    - Top ping roulette winners
 4. Binder - collect some info about the members
     - Bind birthday
     - Bind steam
@@ -92,11 +93,11 @@ My discord bot. Rewritten. Again.
     - ✔️ Ping roulette
     - ✔️ Opt-out
     - ✔️ Members with roulette charges
-777. Minor features:
-    - Pagination in topcharts and wherever applicable
-    - Filters in topcharts and wherever applicable
-    - Short command description in help
-    - Help by command alias
+777. Minor features
+        - Pagination in topcharts and wherever applicable
+        - Filters in topcharts and wherever applicable
+        - ✔️ Short command descriptions in help
+        - Help by command alias
         
     
 To be continued.
