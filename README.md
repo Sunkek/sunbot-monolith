@@ -94,10 +94,10 @@ My discord bot. Rewritten. Again.
     - ✔️ Opt-out
     - ✔️ Members with roulette charges
 777. Minor features
-    - Pagination in topcharts and wherever applicable
-    - Filters in topcharts and wherever applicable
-    - ✔️ Short command descriptions in help
-    - Help by command alias
+        - Pagination in topcharts and wherever applicable
+        - Filters in topcharts and wherever applicable
+        - ✔️ Short command descriptions in help
+        - Help by command alias
         
     
 To be continued.
