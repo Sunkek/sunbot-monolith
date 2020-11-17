@@ -94,9 +94,9 @@ My discord bot. Rewritten. Again.
     - ✔️ Opt-out
     - ✔️ Members with roulette charges
 15. Activity system - those who speak should be rewarded
-        - Give activity points for messages, voice, reactions
-        - Give activity points for mod actions?
-        - Reward top active members with convertable SB tokens
+    - Give activity points for messages, voice, reactions
+    - Give activity points for mod actions?
+    - Reward top active members with convertable SB tokens
 777. Minor features
         - Pagination in topcharts and wherever applicable
         - Filters in topcharts and wherever applicable
