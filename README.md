@@ -36,7 +36,6 @@ My discord bot. Rewritten. Again.
     - ✔️ Games tracing
     - Emoji tracking
     - N-word tracking
-    - Activity tracking
 3. Topcharts - displaying saved data
     - Top postcounts
     - Top attachmetns
@@ -94,6 +93,10 @@ My discord bot. Rewritten. Again.
     - ✔️ Ping roulette
     - ✔️ Opt-out
     - ✔️ Members with roulette charges
+15. Activity system - those who speak should be rewarded
+        - Give activity points for messages, voice, reactions
+        - Give activity points for mod actions?
+        - Reward top active members with convertable SB tokens
 777. Minor features
         - Pagination in topcharts and wherever applicable
         - Filters in topcharts and wherever applicable
