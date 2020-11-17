@@ -14,15 +14,12 @@ class PingRoulette(commands.Cog):
         name="pingroulette", 
         aliases=["pr"],
         brief="Root command",
-        help="The root ping roulette command. Use with subcommands! It takes your ping roulette charge, pings 3 random members and gives them all a ping roulette charge.",
+        help="The root ping roulette command. Use with subcommands!\n\nThis is a luck game. Server admins start the game ",
         invoke_without_command=True,
     )
     async def pingroulette(self, ctx):
         if not ctx.invoked_subcommand:
-            pass
-            # Add help command for it to work
-            # await ctx.invoke(self.bot.get_command("help"), target="pingroulette")
-            "ctx.author.guild_permissions.administrator"
+            await ctx.invoke(self.bot.get_command("help"), target="pingroulette")
     
     @commands.cooldown(1, 60*10, type=commands.BucketType.guild)
     @pingroulette.command(
