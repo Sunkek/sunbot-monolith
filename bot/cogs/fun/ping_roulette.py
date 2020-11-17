@@ -58,6 +58,7 @@ class PingRoulette(commands.Cog):
                 color=ctx.author.color,
             )
             await ctx.channel.send(embed=e)
+            pingroulette_spin.reset_cooldown(ctx)
 
 
     @pingroulette.command(
