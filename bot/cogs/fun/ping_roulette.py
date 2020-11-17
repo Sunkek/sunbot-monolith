@@ -23,7 +23,7 @@ class PingRoulette(commands.Cog):
             # await ctx.invoke(self.bot.get_command("help"), target="pingroulette")
             "ctx.author.guild_permissions.administrator"
     
-    @commands.cooldown(1, 60*60, type=commands.BucketType.guild)
+    @commands.cooldown(1, 60*10, type=commands.BucketType.guild)
     @pingroulette.command(
         name="spin",
         aliases=["s"],
