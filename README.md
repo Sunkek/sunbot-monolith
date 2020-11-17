@@ -28,7 +28,7 @@ My discord bot. Rewritten. Again.
     - Set ranks
     - Set special roles
     - Set warnings
-    - ✔️ Set ping roulette channel
+    - Set ping roulette
 2. Trackers - saving data to the database
     - ✔️ Message tracking
     - ✔️ Reaction tracking
@@ -93,6 +93,8 @@ My discord bot. Rewritten. Again.
     - ✔️ Ping roulette
     - ✔️ Opt-out
     - ✔️ Members with roulette charges
+    - Auto-roll every N days
+    
 15. Activity system - those who speak should be rewarded
     - Give activity points for messages, voice, reactions
     - Give activity points for mod actions?
