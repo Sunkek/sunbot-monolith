@@ -93,7 +93,7 @@ My discord bot. Rewritten. Again.
     - ✔️ Ping roulette
     - ✔️ Opt-out
     - ✔️ Members with roulette charges
-777. Minor features:
+777. Minor features
     - Pagination in topcharts and wherever applicable
     - Filters in topcharts and wherever applicable
     - ✔️ Short command descriptions in help
