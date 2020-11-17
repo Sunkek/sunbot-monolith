@@ -98,7 +98,11 @@ class Oracle(commands.Cog):
         self.pokemons = pokemons["results"]
 
     @commands.cooldown(rate=1, per=10, type=commands.BucketType.member)
-    @commands.command(aliases=["8", "8ball", "o"]) 
+    @commands.command(
+        brief="Answers your question",
+        help="Ask the bot *almost* any question, and it will try its best to reply!"
+        aliases=["8", "8ball", "o"]
+    ) 
     async def oracle(self, ctx, *, question=None):
         embed = discord.Embed(title="🔮 Oracle 🔮", color=ctx.author.color)
         # Refreshing random seed
