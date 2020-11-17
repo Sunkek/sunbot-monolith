@@ -58,8 +58,9 @@ My discord bot. Rewritten. Again.
     - Bind birthday
     - Bind steam
     - Bind country
-5. Oracle - ask your questions
-    - Just use the previously created one
+5. ✔️ Oracle - ask your questions
+    - ✔️ Just use the previously created one
+    - Add more replies
 6. Ad reminder - reminds you to bump your server
     - Just use the previously created one
 7. Verification system - new members must prove that they're human
