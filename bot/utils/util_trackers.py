@@ -68,7 +68,7 @@ async def add_message(bot, **kwargs):
     except ForeignKeyViolationError:
         # Create user if it doesn't exist
         await create_missing_user(bot, kwargs["user_id"])
-        await add_message(bot, kwargs)
+        await add_message(bot, **kwargs)
 
 
 async def add_reaction(bot, **kwargs):
@@ -98,7 +98,7 @@ async def add_reaction(bot, **kwargs):
             await create_missing_user(bot, kwargs["receiver_id"])
         except UniqueViolationError:
             pass
-        await add_reaction(bot, kwargs)
+        await add_reaction(bot, **kwargs)
 
 
 async def add_voice(bot, **kwargs):
@@ -120,7 +120,7 @@ async def add_voice(bot, **kwargs):
     except ForeignKeyViolationError:
         # Create user if it doesn't exist
         await create_missing_user(bot, kwargs["user_id"])
-        await add_message(bot, kwargs)
+        await add_voice(bot, **kwargs)
     
 
 async def add_game(bot, **kwargs):
@@ -141,4 +141,4 @@ async def add_game(bot, **kwargs):
     except ForeignKeyViolationError:
         # Create user if it doesn't exist
         await create_missing_user(bot, kwargs["user_id"])
-        await add_message(bot, kwargs)
+        await add_game(bot, **kwargs)
