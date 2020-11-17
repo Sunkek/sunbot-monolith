@@ -57,7 +57,7 @@ class PingRoulette(commands.Cog):
                 description="You need at least one ping roulette charge to spin it!",
                 color=ctx.author.color,
             )
-            await channel.send(embed=e)
+            await ctx.channel.send(embed=e)
 
 
     @pingroulette.command(
