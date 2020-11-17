@@ -75,7 +75,7 @@ class Help(commands.Cog):
                     # Only show the subcommand if author can use it
                     try:
                         await subcommand.can_run(ctx)
-                        brief = f" - {subcommand.brief}" if command.brief else ""
+                        brief = f" - {subcommand.brief}" if subcommand.brief else ""
                         command_set.add(f'`{subcommand.qualified_name}`{brief}')
                     except commands.CommandError:
                         pass
