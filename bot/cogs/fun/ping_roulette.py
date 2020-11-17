@@ -14,7 +14,7 @@ class PingRoulette(commands.Cog):
         name="pingroulette", 
         aliases=["pr"],
         brief="Root command",
-        help="The root ping roulette command. Use with subcommands!\n\nThis is a luck game. Server admins start the game ",
+        help="The root ping roulette command. Use with subcommands!\n\nThis is a luck game. Server admins start the game by using `pingroulette spin`, which gives 3 random members ping roulette charges. They then can opt-out of the game or use their charge to spin the roulette again.",
         invoke_without_command=True,
     )
     async def pingroulette(self, ctx):
