@@ -50,10 +50,10 @@ class SetActivity(commands.Cog):
         name="setactivitymultiplierperword", 
         aliases=["sampw"],
         brief="Sets multiplier per word",
-        help="Each message activity points will be multiplied for this value as many times as there are words in the message. Min `1`, max `2`",
+        help="Each message activity points will be multiplied for this value as many times as there are words in the message. Min `1`, max `1.5`",
     )
     async def setactivitymultiplierperword(self, ctx, multiplier: float=1):
-        if multiplier > 5 or multiplier < 1:
+        if multiplier > 1.5 or multiplier < 1:
             raise commands.BadArgument
         await util_settings.change_guild_setting(
             self.bot, 
@@ -125,10 +125,10 @@ class SetActivity(commands.Cog):
         name="setactivitymultiplierpervoicemember", 
         aliases=["sampvm"],
         brief="Sets multiplier per member in voice",
-        help="Each voice activity points will be multiplied for this value as many times as there are members in the chat. Min `1`, max `2`",
+        help="Each voice activity points will be multiplied for this value as many times as there are members in the chat. Min `1`, max `1.5`",
     )
     async def setactivitymultiplierpervoicemember(self, ctx, multiplier: float=1):
-        if multiplier > 2 or multiplier < 1:
+        if multiplier > 1.5 or multiplier < 1:
             raise commands.BadArgument
         await util_settings.change_guild_setting(
             self.bot, 
@@ -186,6 +186,7 @@ class SetActivity(commands.Cog):
             setting="activity_channels_x2",
             targets=targets,
         )
+        
 
 def setup(bot):
     bot.add_cog(SetActivity(bot))

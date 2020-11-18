@@ -20,7 +20,9 @@ CREATE TABLE IF NOT EXISTS guilds (
     activity_per_reaction smallint,
     activity_per_voice_minute smallint,
     activity_multi_per_voice_member double precision,
-
+    activity_channels_x0 bigint[],
+    activity_channels_x05 bigint[],
+    activity_channels_x2 bigint[],
     
     rank_mute_role_id bigint,
     rank_basic_member_role_id bigint,
