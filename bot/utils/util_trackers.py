@@ -149,18 +149,18 @@ async def add_activity(bot, guild_id, channel_id, user_id, period, **kwargs):
     async with bot.db.acquire() as connection:
         async with connection.transaction():
             # Check activity cooldown
-            cooldown = self.bot.settings.get(guild_id, {})\
+            cooldown = bot.settings.get(guild_id, {})\
                 .get("activity_cooldown", 0) 
             ok = datetime.now() > bot.last_active.get(guild_id, {})\
                 .get(user_id, datetime(2000, 1, 1)) + timedelta(seconds=cooldown)
             if not ok:
                 return
             # Fetch channel multiplier
-            channels_x0 = self.bot.settings.get(guild_id, {})\
+            channels_x0 = bot.settings.get(guild_id, {})\
                 .get("activity_channels_x0", []) 
-            channels_x05 = self.bot.settings.get(guild_id, {})\
+            channels_x05 = bot.settings.get(guild_id, {})\
                 .get("activity_channels_x05", []) 
-            channels_x2 = self.bot.settings.get(guild_id, {})\
+            channels_x2 = bot.settings.get(guild_id, {})\
                 .get("activity_channels_x2", []) 
             multi = 1
             if channel_id in channels_x0:
