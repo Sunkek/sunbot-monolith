@@ -28,7 +28,7 @@ My discord bot. Rewritten. Again.
     - Set ranks
     - Set special roles
     - Set warnings
-    - ✔️ Set ping roulette channel
+    - Set ping roulette
 2. Trackers - saving data to the database
     - ✔️ Message tracking
     - ✔️ Reaction tracking
@@ -36,7 +36,6 @@ My discord bot. Rewritten. Again.
     - ✔️ Games tracing
     - Emoji tracking
     - N-word tracking
-    - Activity tracking
 3. Topcharts - displaying saved data
     - Top postcounts
     - Top attachmetns
@@ -58,8 +57,9 @@ My discord bot. Rewritten. Again.
     - Bind birthday
     - Bind steam
     - Bind country
-5. Oracle - ask your questions
-    - Just use the previously created one
+5. ✔️ Oracle - ask your questions
+    - ✔️ Just use the previously created one
+    - Add more replies
 6. Ad reminder - reminds you to bump your server
     - Just use the previously created one
 7. Verification system - new members must prove that they're human
@@ -93,6 +93,12 @@ My discord bot. Rewritten. Again.
     - ✔️ Ping roulette
     - ✔️ Opt-out
     - ✔️ Members with roulette charges
+    - Auto-roll every N days
+    
+15. Activity system - those who speak should be rewarded
+    - Give activity points for messages, voice, reactions
+    - Give activity points for mod actions?
+    - Reward top active members with convertable SB tokens
 777. Minor features
         - Pagination in topcharts and wherever applicable
         - Filters in topcharts and wherever applicable
