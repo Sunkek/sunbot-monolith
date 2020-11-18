@@ -59,7 +59,9 @@ class Settings(commands.Cog):
             if welcome: embed.add_field(name="Welcome/Leave", value=welcome)
         else:
             desc = util_settings.format_settings(
-                settings, ctx, include=[search], ignore=[]
+                settings, ctx, 
+                include=[search.lower().replace(" ", "_")], 
+                ignore=[]
             )
             embed = discord.Embed(
                 title=f"Current `{search}` settings for {ctx.guild.name}",
