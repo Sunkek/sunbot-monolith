@@ -4,6 +4,7 @@ import discord
 from discord.ext import commands
 from discord.ext.commands import Greedy
 from typing import Union
+from collections import defaultdict
 
 from utils import util_settings
 
@@ -11,6 +12,7 @@ from utils import util_settings
 class SetActivity(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.bot.last_active = defaultdict(dict)
 
     def cog_check(self, ctx):
         """This cog is for server admins only"""

@@ -30,7 +30,7 @@ class TrackMessages(commands.Cog):
                     words=len(message.content.split()),
                     period=date.today()
                 )   
-
+            
             # Add activity points, if set
             min_words = self.bot.settings.get(message.guild.id, {})\
                 .get("activity_min_message_words", 0) 
@@ -48,10 +48,12 @@ class TrackMessages(commands.Cog):
             if from_text or from_attachments:
                 await util_trackers.add_activity(
                     self.bot, 
+                    guild_id=message.guild.id,
                     channel_id=message.channel.id,
+                    user_id=message.author.id,
+                    period=date.today(),
                     from_text=from_text,
                     from_attachments=from_attachments,
-                    period=date.today()
                 )   
 
 def setup(bot):

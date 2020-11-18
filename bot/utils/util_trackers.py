@@ -39,6 +39,7 @@ INSERT_GAMES = """
 INSERT INTO games 
 VALUES ($1, $2, $3, $4);
 """
+from datetime import datetime, timedelta
 
 from asyncpg.exceptions import ForeignKeyViolationError, UniqueViolationError
 
@@ -143,5 +144,45 @@ async def add_game(bot, **kwargs):
         await create_missing_user(bot, kwargs["user_id"])
         await add_game(bot, **kwargs)
 
-async def add_activity(bot, **kwargs):
+async def add_activity(bot, guild_id, channel_id, user_id, period, **kwargs):
     print(kwargs)
+    async with bot.db.acquire() as connection:
+        async with connection.transaction():
+            # Check activity cooldown
+            cooldown = self.bot.settings.get(guild_id, {})\
+                .get("activity_cooldown", 0) 
+            ok = datetime.now() > bot.last_active.get(guild_id, {})\
+                .get(user_id, datetime(2000, 1, 1)) + timedelta(seconds=cooldown)
+            if not ok:
+                return
+            # Fetch channel multiplier
+            channels_x0 = self.bot.settings.get(guild_id, {})\
+                .get("activity_channels_x0", []) 
+            channels_x05 = self.bot.settings.get(guild_id, {})\
+                .get("activity_channels_x05", []) 
+            channels_x2 = self.bot.settings.get(guild_id, {})\
+                .get("activity_channels_x2", []) 
+            multi = 1
+            if channel_id in channels_x0:
+                return
+            elif channel_id in channels_x05:
+                multi = 0.5
+            elif channel_id in channels_x2:
+                multi = 2
+
+            for k, v in kwargs.items():
+                res = await connection.execute(
+                    # TODO Editing the query string is dangerous, check later
+                    (f"UPDATE activity SET {k} = $1 "
+                    "WHERE guild_id = $2 AND user_id = $3 AND period = $4;"), 
+                    multi*v, guild_id, user_id, period
+                )
+                if " 0" in res:
+                    await connection.execute(
+                    # TODO Editing the query string is dangerous, check later
+                    (f"INSERT INTO activity(guild_id, user_id, period, {k}) "
+                    "VALUES ($1, $2, $3, $4);"), 
+                    guild_id, user_id, period, multi*v
+                )
+            # For cooldown
+            bot.last_active[guild_id][user_id] = datetime.now()
