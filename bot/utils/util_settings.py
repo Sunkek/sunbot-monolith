@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS guilds (
     rank_basic_member_role_id bigint,
     rank_basic_member_role_auto boolean DEFAULT 'false'
     rank_active_member_role_id bigint,
-    rank_active_member_required_days smallint
-    rank_active_member_required_activity
+    rank_active_member_required_days smallint,
+    rank_active_member_required_activity smallint
 );
 """
 CREATE_USERS_TABLE = """

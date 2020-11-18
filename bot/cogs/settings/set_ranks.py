@@ -59,6 +59,7 @@ class SetRanks(commands.Cog):
     @commands.group(
         name="setactivememberrole", 
         aliases=["samr",],
+        invoke_without_command=True,
         brief="Sets up the active member role",
         help="Sets up the active member role. This role is assigned to those who have enough activity points and were on the server long enough.",
     )
