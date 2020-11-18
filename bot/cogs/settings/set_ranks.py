@@ -31,6 +31,7 @@ class SetRanks(commands.Cog):
     @commands.group(
         name="setbasicmemberrole", 
         aliases=["sbmr",],
+        invoke_without_command=True,
         brief="Sets up the basic member role",
         help="Sets up the basic member role. To give this role to all joining members, type `setbasicmemberrole auto`",
     )
