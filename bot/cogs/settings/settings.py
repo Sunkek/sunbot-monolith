@@ -47,7 +47,7 @@ class Settings(commands.Cog):
                 ],
             )
             embed = discord.Embed(
-                title=f"Current{} settings for {ctx.guild.name}",
+                title=f"Current settings for {ctx.guild.name}",
                 color=ctx.author.color,
                 description=desc or "No custom settings yet!"
             )
