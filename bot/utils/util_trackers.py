@@ -151,11 +151,8 @@ async def add_activity(bot, guild_id, channel_id, user_id, period, **kwargs):
             # Check activity cooldown
             cooldown = bot.settings.get(guild_id, {})\
                 .get("activity_cooldown", 0) 
-            print(cooldown)
             ok = datetime.now() > bot.last_active.get(guild_id, {})\
                 .get(user_id, datetime(2000, 1, 1)) + timedelta(seconds=cooldown)
-            print(datetime.now())
-            print(bot.last_active.get(guild_id, {}).get(user_id, datetime(2000, 1, 1)))
             if not ok:
                 return
             # Fetch channel multiplier
@@ -177,7 +174,7 @@ async def add_activity(bot, guild_id, channel_id, user_id, period, **kwargs):
                 if v:
                     res = await connection.execute(
                         # TODO Editing the query string is dangerous, check later
-                        (f"UPDATE activity SET {k} = $1 "
+                        (f"UPDATE activity SET {k} = {k} + $1 "
                         "WHERE guild_id = $2 AND user_id = $3 AND period = $4;"), 
                         multi*v, guild_id, user_id, period
                     )
