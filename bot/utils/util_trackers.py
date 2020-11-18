@@ -142,3 +142,6 @@ async def add_game(bot, **kwargs):
         # Create user if it doesn't exist
         await create_missing_user(bot, kwargs["user_id"])
         await add_game(bot, **kwargs)
+
+async def add_activity(bot, **kwargs):
+    print(kwargs)
