@@ -10,7 +10,14 @@ CREATE TABLE IF NOT EXISTS guilds (
     track_messages boolean DEFAULT 'false',
     track_reactions boolean DEFAULT 'false',
     track_voice boolean DEFAULT 'false',
-    track_games boolean DEFAULT 'false'
+    track_games boolean DEFAULT 'false',
+    
+    rank_mute_role_id bigint,
+    rank_basic_member_role_id bigint,
+    rank_basic_member_role_auto boolean DEFAULT 'false'
+    rank_active_member_role_id bigint,
+    rank_active_member_required_days smallint
+    rank_active_member_required_activity
 );
 """
 CREATE_USERS_TABLE = """
@@ -23,7 +30,7 @@ CREATE TABLE IF NOT EXISTS users (
 """
 CREATE_MESSAGES_TABLE = """
 CREATE TABLE IF NOT EXISTS messages (
-    guild_id bigint,
+    guild_id bigint REFERENCES guilds(guild_id),
     channel_id bigint,
     user_id bigint REFERENCES users(user_id),
     postcount integer,
@@ -35,7 +42,7 @@ CREATE TABLE IF NOT EXISTS messages (
 """
 CREATE_REACTIONS_TABLE = """
 CREATE TABLE IF NOT EXISTS reactions (
-    guild_id bigint,
+    guild_id bigint REFERENCES guilds(guild_id),
     channel_id bigint,
     giver_id bigint REFERENCES users(user_id),
     receiver_id bigint REFERENCES users(user_id),
@@ -47,7 +54,7 @@ CREATE TABLE IF NOT EXISTS reactions (
 """
 CREATE_VOICE_TABLE = """
 CREATE TABLE IF NOT EXISTS voice (
-    guild_id bigint,
+    guild_id bigint REFERENCES guilds(guild_id),
     channel_id bigint,
     user_id bigint REFERENCES users(user_id),
     members smallint,
@@ -68,7 +75,7 @@ CREATE TABLE IF NOT EXISTS games (
 CREATE_PING_ROULETTE_TABLE = """
 CREATE TABLE IF NOT EXISTS ping_roulette (
     user_id bigint REFERENCES users(user_id),
-    guild_id bigint,
+    guild_id bigint REFERENCES guilds(guild_id),
     charges smallint,
     won smallint,
     plays bool DEFAULT true,
