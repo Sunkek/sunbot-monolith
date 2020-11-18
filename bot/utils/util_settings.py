@@ -11,6 +11,16 @@ CREATE TABLE IF NOT EXISTS guilds (
     track_reactions boolean DEFAULT 'false',
     track_voice boolean DEFAULT 'false',
     track_games boolean DEFAULT 'false',
+
+    activity_per_message smallint,
+    activity_min_message_words smallint,
+    activity_multi_per_word double precision,
+    activity_per_attachment smallint,
+    activity_cooldown smallint,
+    activity_per_reaction smallint,
+    activity_per_voice_minute smallint,
+    activity_multi_per_voice_member double precision,
+
     
     rank_mute_role_id bigint,
     rank_basic_member_role_id bigint,
@@ -137,7 +147,16 @@ async def change_guild_setting(bot, guild_id, **kwargs):
                 )
                 if v == "reset": guild[k] = None
                 else: guild[k] = v
-    
+
+async def change_guild_setting_list(bot, guild_id, setting, targets):
+    settings = bot.settings.get(guild_id, dict())
+    was_set = settings.get(setting, list()) or list()
+    new_elements = set(targets).difference(was_set)
+    new_setting = {
+        setting: list(set(was_set).difference(targets).union(new_elements))
+    }
+    await change_guild_setting(bot, guild_id, **new_setting)
+
 def format_settings_key(string):
     result = string.lower().replace("activity_", "").replace("track_", "")
     result = result.replace("ad_reminder_", "").replace("verification_", "")

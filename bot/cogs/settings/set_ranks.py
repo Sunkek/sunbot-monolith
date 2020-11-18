@@ -49,6 +49,16 @@ class SetRanks(commands.Cog):
         help="Switches auto-assigning this role to all joining members on or off.",
     )
     async def setbasicmemberrole_auto(self, ctx):
+        # Check if the basic member sole is set
+        basic_member = self.bot.settings\
+            .get(ctx.guild.id, {}).get("rank_basic_member_role_id")
+        if not basic_member:
+            e = discord.Embed(
+                title="No basic member role set!",
+                description="Set the basic member role first!",
+                color=ctx.author.color,
+            )
+            return await ctx.send(embed=e)
         value = not self.bot.settings\
             .get(ctx.guild.id, {}).get("rank_basic_member_role_auto", False)
         await util_settings.change_guild_setting(
