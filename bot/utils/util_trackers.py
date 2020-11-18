@@ -145,7 +145,6 @@ async def add_game(bot, **kwargs):
         await add_game(bot, **kwargs)
 
 async def add_activity(bot, guild_id, channel_id, user_id, period, **kwargs):
-    print(kwargs)
     async with bot.db.acquire() as connection:
         async with connection.transaction():
             # Check activity cooldown
