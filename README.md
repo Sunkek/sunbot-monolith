@@ -105,7 +105,7 @@ My discord bot. Rewritten. Again.
         - Filters in topcharts and wherever applicable
         - ✔️ Short command descriptions in help
         - Help by command alias
-        - Filter for show settings command
+        - ✔️ Filter for show settings command
         
     
 To be continued.
