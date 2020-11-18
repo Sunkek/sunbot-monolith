@@ -20,7 +20,7 @@ My discord bot. Rewritten. Again.
 
 1. Settings - admins should be able to turn som,e options on and off and tune them
     - Set trackers
-    - Set activity
+    - ✔️ Set activity
     - Set emoji emotions
     - Set birthday feed
     - Set welcome and leave message
@@ -94,7 +94,6 @@ My discord bot. Rewritten. Again.
     - ✔️ Opt-out
     - ✔️ Members with roulette charges
     - Auto-roll every N days
-    
 15. Activity system - those who speak should be rewarded
     - Give activity points for messages, voice, reactions
     - Give activity points for mod actions?
@@ -104,6 +103,7 @@ My discord bot. Rewritten. Again.
         - Filters in topcharts and wherever applicable
         - ✔️ Short command descriptions in help
         - Help by command alias
+        - Filter for show settings command
         
     
 To be continued.
