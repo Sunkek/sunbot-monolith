@@ -95,7 +95,9 @@ My discord bot. Rewritten. Again.
     - ✔️ Members with roulette charges
     - Auto-roll every N days
 15. Activity system - those who speak should be rewarded
-    - Give activity points for messages, voice, reactions
+    - ✔️ Give activity points for messages...
+    - Voice...
+    - And reactions
     - Give activity points for mod actions?
     - Reward top active members with convertable SB tokens
 777. Minor features
