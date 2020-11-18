@@ -19,7 +19,7 @@ class Settings(commands.Cog):
         brief="Shows current settings for this server",
         help="Shows current settings for this server"
     )
-    async def showsettings(self, ctx, search: str=""):
+    async def showsettings(self, ctx, *, search: str=""):
         settings = self.bot.settings.get(ctx.guild.id, {})
         if not search:
             activity = util_settings.format_settings(
