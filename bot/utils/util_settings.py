@@ -89,10 +89,10 @@ CREATE TABLE IF NOT EXISTS activity (
     user_id bigint REFERENCES users(user_id),
     guild_id bigint REFERENCES guilds(guild_id),
     period date,
-    from_text bigint,
-    from_attachments bigint,
-    from_reactions bigint,
-    from_voice bigint,
+    from_text bigint DEFAULT 0,
+    from_attachments bigint DEFAULT 0,
+    from_reactions bigint DEFAULT 0,
+    from_voice bigint DEFAULT 0,
     PRIMARY KEY (user_id, guild_id, period)
 );
 """
