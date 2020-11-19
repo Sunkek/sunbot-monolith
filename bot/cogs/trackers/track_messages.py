@@ -35,7 +35,7 @@ class TrackMessages(commands.Cog):
             min_words = self.bot.settings.get(message.guild.id, {})\
                 .get("activity_min_message_words", 0) 
             words = len(message.content.split())
-            if words < min_words:
+            if words < min_words or not message.attachments:
                 return
             per_word = self.bot.settings.get(message.guild.id, {})\
                 .get("activity_multi_per_word", 1) 
