@@ -12,7 +12,6 @@ from utils import util_trackers
 class TrackReactions(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.ignore_emoji = ["⏮️", "⏪", "⏩", "⏭️"]
     
     async def save_reaction(self, payload, count):
         # I don't want to save info about DMs with the bot
@@ -21,12 +20,9 @@ class TrackReactions(commands.Cog):
                 guild = self.bot.get_guild(payload.guild_id)
                 channel = guild.get_channel(payload.channel_id)
                 message = await channel.fetch_message(payload.message_id)
-                # Not the topchart scrollers please
-                if message.embeds and str(payload.emoji) in self.ignore_emoji:
-                    return
                 giver = guild.get_member(payload.user_id)
                 receiver = message.author
-                if giver.bot or giver == receiver: 
+                if giver.bot or receiver.bot or giver == receiver: 
                     return
                 if str(payload.emoji) in UNICODE_EMOJI or str(payload.emoji) == "☑️":  # "☑️" isn't in UNICODE_EMOJI?
                     # Stripping skintones and other modifiers
@@ -48,6 +44,18 @@ class TrackReactions(commands.Cog):
                     count=count,
                     period=date.today()
                 )
+                # Add activity points, if set
+                per_reaction = self.bot.settings.get(guild.id, {})\
+                    .get("activity_per_reaction", 0) 
+                if per_reaction:
+                    await util_trackers.add_activity(
+                        self.bot, 
+                        guild_id=guild.id,
+                        channel_id=channel.id,
+                        user_id=giver.id,
+                        period=date.today(),
+                        from_reactions=per_reaction,
+                    )   
 
         
     @commands.Cog.listener() 
