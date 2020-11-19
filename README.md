@@ -97,6 +97,7 @@ My discord bot. Rewritten. Again.
 15. Activity system - those who speak should be rewarded
     - ✔️ Give activity points for messages...
     - ✔️ Voice...
+    - Ignore voice AFK channel
     - ✔️ And reactions
     - Give activity points for mod actions?
     - Reward top active members with convertable SB tokens
