@@ -29,7 +29,15 @@ CREATE TABLE IF NOT EXISTS guilds (
     rank_basic_member_role_auto boolean DEFAULT 'false'
     rank_active_member_role_id bigint,
     rank_active_member_required_days smallint,
-    rank_active_member_required_activity smallint
+    rank_active_member_required_activity smallint,
+
+    ad_reminder_channel_id bigint,
+    ad_reminder_role_id bigint,
+    ad_reminder_disboard boolean DEFAULT 'false',
+    ad_reminder_disforge boolean DEFAULT 'false',
+    ad_reminder_discordme boolean DEFAULT 'false',
+    ad_reminder_discordservers boolean DEFAULT 'false',
+    ad_reminder_topgg boolean DEFAULT 'false'
 );
 """
 CREATE_USERS_TABLE = """
