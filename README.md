@@ -96,8 +96,9 @@ My discord bot. Rewritten. Again.
     - Auto-roll every N days
 15. Activity system - those who speak should be rewarded
     - ✔️ Give activity points for messages...
-    - Voice...
-    - And reactions
+    - ✔️ Voice...
+    - Ignore voice AFK channel
+    - ✔️ And reactions
     - Give activity points for mod actions?
     - Reward top active members with convertable SB tokens
 777. Minor features
