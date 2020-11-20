@@ -15,6 +15,7 @@ class SetAdReminder(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.ad_reminder.start()
+        self.d_bumped = dict()
 
     def cog_unload(self):
         self.ad_reminder.cancel()
@@ -22,6 +23,36 @@ class SetAdReminder(commands.Cog):
     def cog_check(self, ctx):
         """This cog is for server admins only"""
         return ctx.author.guild_permissions.administrator
+
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        if message.author.id == 302050872383242240:
+            if "Bump done" in message.embeds[0].description:
+                if self.bot.settings.get(message.guild.id, {})\
+                    .get("ad_reminder_disboard", False):
+
+                    self.d_bumped[message.guild.id] = datetime.now()
+                    sleep(60*60*2)
+                    embed = discord.Embed(
+                        title="Advertising Reminder",
+                        color=message.guild.me.color
+                    )
+                    embed.add_field(
+                        name='Disboard',
+                        value=f'`every 2 hours`\nBump at [WEBSITE](https://disboard.org/server/{message.guild.id}) \nor with <@302050872383242240>:\n`!d bump`'
+                    )
+                    channel = self.bot.settings.get(
+                        message.guild.id, {}
+                    ).get("ad_reminder_channel_id")
+                    channel = message.guild.get_channel(channel)
+                    role = self.bot.settings.get(
+                        message.guild.id, {}
+                    ).get("ad_reminder_role_id")
+                    role = message.guild.get_role(role)
+                    await channel.send(
+                        content=role.mention if role else None, embed=embed
+                    )
+
 
     @tasks.loop(hours=1.0)
     async def ad_reminder(self):
@@ -35,10 +66,13 @@ class SetAdReminder(commands.Cog):
                 )
                 # Disboard - every 2 hours
                 if settings["ad_reminder_disboard"] and datetime.now().hour % 2 == 0:
-                    embed.add_field(
-                        name='Disboard',
-                        value=f'`every 2 hours`\nBump at [WEBSITE](https://disboard.org/server/{guild.id}) \nor with <@302050872383242240>:\n`!d bump`'
-                    )
+                    if datetime.now() > self.d_bumped.get(
+                        guild.id,  datetime(2000, 1, 1)
+                    ) + timedelta(hours=2):
+                        embed.add_field(
+                            name='Disboard',
+                            value=f'`every 2 hours`\nBump at [WEBSITE](https://disboard.org/server/{guild.id}) \nor with <@302050872383242240>:\n`!d bump`'
+                        )
                 # Disforge - every 3 hours
                 if settings["ad_reminder_disforge"] and datetime.now().hour % 3 == 0:
                     embed.add_field(
