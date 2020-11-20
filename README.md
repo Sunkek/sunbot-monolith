@@ -62,7 +62,7 @@ My discord bot. Rewritten. Again.
     - Add more replies
 6. ✔️ Ad reminder - reminds you to bump your server
     - ✔️ Just use the previously created one
-    - Remind after 2h since last !d bump
+    - ✔️ Remind after 2h since last !d bump
 7. Verification system - new members must prove that they're human
     - Send verified message
     - Purge unverified members daily, send message about it
