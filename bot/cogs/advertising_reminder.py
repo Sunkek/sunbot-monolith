@@ -31,11 +31,8 @@ class SetAdReminder(commands.Cog):
                 if self.bot.settings.get(message.guild.id, {})\
                     .get("ad_reminder_disboard", False):
 
-                    print("Disboard triggered!")
                     self.d_bumped[message.guild.id] = datetime.now()
-                    print(self.d_bumped[message.guild.id])
-                    sleep(60*60*2)
-                    print("Disboard sleep done!")
+                    await sleep(60*60*2)
                     embed = discord.Embed(
                         title="Advertising Reminder",
                         color=message.guild.me.color
@@ -113,10 +110,7 @@ class SetAdReminder(commands.Cog):
         await self.bot.wait_until_ready()
         await sleep(5) # To make sure bot reads settings
         now = datetime.now()
-        print(now)
         next_hour = now.replace(minute=0, second=0, microsecond=0) + timedelta(hours=1)
-        print(next_hour)
-        print((next_hour - now).total_seconds())
         await sleep((next_hour - now).total_seconds())
 
 def setup(bot):
