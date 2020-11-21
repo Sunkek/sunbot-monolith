@@ -50,7 +50,7 @@ class SetAdReminder(commands.Cog):
                     ).get("ad_reminder_role_id")
                     role = message.guild.get_role(role)
                     await channel.send(
-                        content=None if role else None, embed=embed  # Return role mention later
+                        content=role.mention if role else None, embed=embed
                     )
 
 
