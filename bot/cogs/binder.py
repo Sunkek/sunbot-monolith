@@ -33,6 +33,7 @@ class Binder(commands.Cog):
             if datetime.now() - birthday > timedelta(days=365*100):
                 raise commands.BadArgument
             birthday = birthday.strftime("%Y-%m-%d")
+            print(birthday)
         await util_users.change_user_info(self.bot, ctx.author.id, birthday=birthday)
 
     @bind.command(
@@ -66,7 +67,6 @@ class Binder(commands.Cog):
                     raw_user = await resp.text()
                     soup = BeautifulSoup(raw_user, 'lxml-xml')
                     steam_id = soup.find('steamID64').string
-            #steam = f"https://steamcommunity.com/profiles/{steam_id}"
         await util_users.change_user_info(self.bot, ctx.author.id, steam=steam_id)
                 
 
