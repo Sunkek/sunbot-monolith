@@ -26,20 +26,20 @@ class Binder(commands.Cog):
         brief="Adds your birthday date",
         help="Adds the birthday date to your entry in the database. It will be used in the birthday feed, if one is set up for a server you're in.", 
         name="birthday",
+        aliases=["bd", "b",]
     )
     async def bind_birthday(self, ctx, birthday=None):
         if birthday:
             birthday = datetime.strptime(birthday, "%d/%m/%Y")
             if datetime.now() - birthday > timedelta(days=365*100):
                 raise commands.BadArgument
-            birthday = birthday.strftime("%Y-%m-%d")
-            print(birthday)
         await util_users.change_user_info(self.bot, ctx.author.id, birthday=birthday)
 
     @bind.command(
         brief="Add your country",
         help="Adds the country to your entry in the database. Use the official name or 2 or 3 letter code", 
-        name="country"
+        name="country",
+        aliases=["c",],
     )
     async def bind_country(self, ctx, *, country="reset"):
         # Check the country name
@@ -54,7 +54,8 @@ class Binder(commands.Cog):
     @bind.command(
         brief="Add your steam",
         help="Adds the steam profile to your entry in the database. Use the link to your profile.", 
-        name="steam"
+        name="steam",
+        aliases=["s",],
     )
     async def bind_steam(self, ctx, *, steam="reset"):
         # Bring the link to universal format
