@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS voice (
     members smallint,
     count smallint,
     period date,
-    PRIMARY KEY (guild_id, channel_id, user_id, period)
+    PRIMARY KEY (guild_id, channel_id, user_id, members, period)
 );
 """
 CREATE_GAMES_TABLE = """
