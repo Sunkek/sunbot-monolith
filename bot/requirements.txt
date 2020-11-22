@@ -3,3 +3,4 @@ asyncpg
 emoji
 pycountry
 beautifulsoup4
+lxml
