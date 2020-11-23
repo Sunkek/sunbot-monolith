@@ -51,14 +51,16 @@ class Settings(commands.Cog):
                 color=ctx.author.color,
                 description=desc or "No custom settings yet!"
             )
-            if activity: embed.add_field(name="Activity", value=activity)
-            if ranks: embed.add_field(name="Ranks", value=ranks)
-            if trackers: embed.add_field(name="Trackers", value=trackers)
-            if ad_reminder: embed.add_field(name="Ad Reminder", value=ad_reminder)
-            if verification: embed.add_field(name="Verification", value=verification)
-            if welcome: embed.add_field(name="Welcome/Leave", value=welcome)
             # Sort by field value length for better looks
-            embed.fields = sorted(embed.fields, key=lambda i: i.value)
+            fields = []
+            fields.append(("Activity", activity))
+            fields.append(("Ranks", ranks))
+            fields.append(("Trackers", trackers))
+            fields.append(("Ad Reminder", ad_reminder))
+            fields = [i for i in fields if i[1]]
+            fields = sorted(fields, key=lambda i: i[1])
+            for i in fields:
+                embed.add_field(name=i[0], value=i[1])
         else:
             desc = util_settings.format_settings(
                 settings, ctx, 
