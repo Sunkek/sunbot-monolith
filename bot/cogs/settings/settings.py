@@ -58,7 +58,7 @@ class Settings(commands.Cog):
             fields.append(("Trackers", trackers))
             fields.append(("Ad Reminder", ad_reminder))
             fields = [i for i in fields if i[1]]
-            fields = sorted(fields, key=lambda i: i[1])
+            fields = sorted(fields, key=lambda i: len(i[1]), reverse=True)
             for i in fields:
                 embed.add_field(name=i[0], value=i[1])
         else:
