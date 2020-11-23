@@ -113,6 +113,144 @@ class SetRanks(commands.Cog):
             rank_active_member_required_activity=activity,
         )
         
+    @commands.group(
+        name="setjuniormodrole", 
+        aliases=["sjmr",],
+        invoke_without_command=True,
+        brief="Sets up the junior moderator role",
+        help="Sets up the junior moderator role. This role is assigned through the votes to those who have enough activity points and were on the server long enough.",
+    )
+    async def setjuniormodrole(self, ctx, role: discord.Role=None):
+        await util_settings.change_guild_setting(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            rank_junior_mod_role_id=role.id if role else None,
+        )
+
+    @setjuniormodrole.command(
+        name="days", 
+        aliases=["d",],
+        brief="Sets up how many days on server is required",
+        help="Sets up the amount of days a member must be on your server to have the junior oderator role. Max 2 000",
+    )
+    async def setjuniormodrole_days(self, ctx, days: int=0):
+        if days > 2000 or days < 0:
+            raise commands.BadArgument
+        # Build and send the JSON to the server part of the bot
+        await util_settings.change_guild_setting(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            rank_junior_mod_required_days=days or None,
+        )
+        
+    @setjuniormodrole.command(
+        name="activity", 
+        aliases=["a",],
+        brief="Sets up how much activity is required",
+        help="Sets up the amount of average activity per day a member must get in the set required days or previous month to have the junior oderator role. Max 30 000",
+    )
+    async def setjuniormodrole_activity(self, ctx, activity: int=0):
+        if activity > 30000 or activity < 0:
+            raise commands.BadArgument
+        # Build and send the JSON to the server part of the bot
+        await util_settings.change_guild_setting(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            rank_junior_mod_required_activity=activity,
+        )
+        
+    @commands.group(
+        name="setseniormodrole", 
+        aliases=["sjmr",],
+        invoke_without_command=True,
+        brief="Sets up the senior moderator role",
+        help="Sets up the senior moderator role. This role is assigned through the votes to those who have enough activity points and were on the server long enough.",
+    )
+    async def setseniormodrole(self, ctx, role: discord.Role=None):
+        await util_settings.change_guild_setting(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            rank_senior_mod_role_id=role.id if role else None,
+        )
+
+    @setseniormodrole.command(
+        name="days", 
+        aliases=["d",],
+        brief="Sets up how many days on server is required",
+        help="Sets up the amount of days a member must be on your server to have the senior oderator role. Max 2 000",
+    )
+    async def setseniormodrole_days(self, ctx, days: int=0):
+        if days > 2000 or days < 0:
+            raise commands.BadArgument
+        # Build and send the JSON to the server part of the bot
+        await util_settings.change_guild_setting(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            rank_senior_mod_required_days=days or None,
+        )
+        
+    @setseniormodrole.command(
+        name="activity", 
+        aliases=["a",],
+        brief="Sets up how much activity is required",
+        help="Sets up the amount of average activity per day a member must get in the set required days or previous month to have the senior oderator role. Max 30 000",
+    )
+    async def setseniormodrole_activity(self, ctx, activity: int=0):
+        if activity > 30000 or activity < 0:
+            raise commands.BadArgument
+        # Build and send the JSON to the server part of the bot
+        await util_settings.change_guild_setting(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            rank_senior_mod_required_activity=activity,
+        )
+        
+    @commands.group(
+        name="setadminrole", 
+        aliases=["sjmr",],
+        invoke_without_command=True,
+        brief="Sets up the senior moderator role",
+        help="Sets up the senior moderator role. This role is assigned through the votes to those who have enough activity points and were on the server long enough.",
+    )
+    async def setadminrole(self, ctx, role: discord.Role=None):
+        await util_settings.change_guild_setting(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            rank_admin_role_id=role.id if role else None,
+        )
+
+    @setadminrole.command(
+        name="days", 
+        aliases=["d",],
+        brief="Sets up how many days on server is required",
+        help="Sets up the amount of days a member must be on your server to have the senior oderator role. Max 2 000",
+    )
+    async def setadminrole_days(self, ctx, days: int=0):
+        if days > 2000 or days < 0:
+            raise commands.BadArgument
+        # Build and send the JSON to the server part of the bot
+        await util_settings.change_guild_setting(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            rank_admin_required_days=days or None,
+        )
+        
+    @setadminrole.command(
+        name="activity", 
+        aliases=["a",],
+        brief="Sets up how much activity is required",
+        help="Sets up the amount of average activity per day a member must get in the set required days or previous month to have the senior oderator role. Max 30 000",
+    )
+    async def setadminrole_activity(self, ctx, activity: int=0):
+        if activity > 30000 or activity < 0:
+            raise commands.BadArgument
+        # Build and send the JSON to the server part of the bot
+        await util_settings.change_guild_setting(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            rank_admin_required_activity=activity,
+        )
+
 
 def setup(bot):
     bot.add_cog(SetRanks(bot))
