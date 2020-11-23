@@ -53,10 +53,11 @@ My discord bot. Rewritten. Again.
     - Top youngest
     - Top active members
     - Top ping roulette winners
-4. Binder - collect some info about the members
-    - Bind birthday
-    - Bind steam
-    - Bind country
+4. ✔️ Binder - collect some info about the members
+    - ✔️ Bind birthday
+    - ✔️ Bind steam
+    - ✔️ Bind country
+    - More binds
 5. ✔️ Oracle - ask your questions
     - ✔️ Just use the previously created one
     - Add more replies
@@ -78,9 +79,9 @@ My discord bot. Rewritten. Again.
     - Mute
     - Kick
     - Ban
-11. Embedder - create and edit embed messages
-    - New embed
-    - Edit embed
+11. ✔️ Embedder - create and edit embed messages
+    - ✔️ New embed
+    - ✔️ Edit embed
     - Copy & paste embed
 12. Russian roulette - feeling risky? 
     - Mute roulette
