@@ -161,7 +161,7 @@ class SetRanks(commands.Cog):
         
     @commands.group(
         name="setseniormodrole", 
-        aliases=["sjmr",],
+        aliases=["ssmr",],
         invoke_without_command=True,
         brief="Sets up the senior moderator role",
         help="Sets up the senior moderator role. This role is assigned through the votes to those who have enough activity points and were on the server long enough.",
@@ -207,7 +207,7 @@ class SetRanks(commands.Cog):
         
     @commands.group(
         name="setadminrole", 
-        aliases=["sjmr",],
+        aliases=["sar",],
         invoke_without_command=True,
         brief="Sets up the senior moderator role",
         help="Sets up the senior moderator role. This role is assigned through the votes to those who have enough activity points and were on the server long enough.",
