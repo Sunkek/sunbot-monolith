@@ -57,6 +57,8 @@ class Settings(commands.Cog):
             if ad_reminder: embed.add_field(name="Ad Reminder", value=ad_reminder)
             if verification: embed.add_field(name="Verification", value=verification)
             if welcome: embed.add_field(name="Welcome/Leave", value=welcome)
+            # Sort by field value length for better looks
+            embed.fields = sorted(embed.fields, key=lambda i: i.value)
         else:
             desc = util_settings.format_settings(
                 settings, ctx, 
