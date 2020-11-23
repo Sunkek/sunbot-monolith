@@ -107,7 +107,7 @@ class PingRoulette(commands.Cog):
     )
     async def pingroulette_list(self, ctx):
         members = await util_fun.fetch_active_members(self.bot, ctx.guild.id)
-        guild_members = [i.id for i in guild.members]
+        guild_members = [i.id for i in ctx.guild.members]
         members = [
             ctx.guild.get_member(i).display_name for i in members 
             if i in guild_members
