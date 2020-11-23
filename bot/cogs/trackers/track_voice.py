@@ -39,7 +39,7 @@ class TrackVoice(commands.Cog):
                         per_minute = self.bot.settings.get(guild.id, {})\
                             .get("activity_per_voice_minute", 0)
                         per_member = self.bot.settings.get(guild.id, {})\
-                            .get("activity_per_voice_minute", 1)  
+                            .get("activity_multi_per_voice_member", 1)  
                         from_voice = per_minute * per_member ** (len(people) - 2)
                         if from_voice:
                             await util_trackers.add_activity(
