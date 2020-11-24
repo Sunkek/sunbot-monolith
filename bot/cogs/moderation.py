@@ -71,11 +71,10 @@ class Moderation(commands.Cog):
             # Unfinished
             pass
 
-    @commands.check_any(check_perm_kick, check_junior, check_senior, check_admin)
     @commands.command(
         name="kick", 
         brief="Kicks the target member",
-        help="Kicks the target member (by mention or ID). Only usable by mods and/or those with kick permissions. You can also specify the reason",
+        help="Kicks the target member (by mention or ID). Only usable by mods. You can also specify the reason",
     )
     async def kick(self, ctx, member: discord.Member, *, reason=None):
         if can_affect(ctx.guild.id, ctx.author, member):
