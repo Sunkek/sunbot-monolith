@@ -11,17 +11,17 @@ def check_perm_kick(ctx):
 def check_junior(ctx):
     junior = ctx.bot.settings.get(ctx.guild.id, {})\
         .get("rank_junior_mod_role_id")
-    return junior in [i.id for i in ctx.author.id.roles]
+    return junior in [i.id for i in ctx.author.roles]
     
 def check_senior(ctx):
     senior = ctx.bot.settings.get(ctx.guild.id, {})\
         .get("rank_senior_mod_role_id")
-    return senior in [i.id for i in ctx.author.id.roles]
+    return senior in [i.id for i in ctx.author.roles]
 
 def check_admin(ctx):
     admin = ctx.bot.settings.get(ctx.guild.id, {})\
         .get("rank_admin_role_id")
-    return admin in [i.id for i in ctx.author.id.roles]
+    return admin in [i.id for i in ctx.author.roles]
 
 def member_rank(bot, guild_id, member):
     junior = bot.settings.get(guild_id, {})\
