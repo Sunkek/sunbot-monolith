@@ -23,6 +23,23 @@ def check_admin(ctx):
         .get("rank_admin_role_id")
     return admin in [i.id for i in ctx.author.id.roles]
 
+def member_rank(guild_id, member):
+    junior = self.bot.settings.get(guild_id, {})\
+        .get("rank_junior_mod_role_id")
+    senior = self.bot.settings.get(guild_id, {})\
+        .get("rank_senior_mod_role_id")
+    admin = self.bot.settings.get(guild_id, {})\
+        .get("rank_admin_role_id")
+    member_roles = [i.id for i in member.roles]
+    if admin in member_roles: return 3
+    elif senior in member_roles: return 2
+    elif junior in member_roles: return 1
+    else: return 0
+
+def can_affect(guild_id, member1, member2):
+    member1 = member_rank(guild_id, member1)
+    member2 = member_rank(guild_id, member2)
+    return member1 > member2
 
 class Moderation(commands.Cog):
     def __init__(self, bot):
@@ -57,7 +74,10 @@ class Moderation(commands.Cog):
         help="Kicks the target member (by mention or ID). Only usable by mods and/or those with kick permissions. You can also specify the reason",
     )
     async def kick(self, ctx, member: discord.Member, *, reason=None):
-        await member.kick(reason)
+        if can_affect(ctx.guild.id, ctx.author, member):
+            await member.kick(reason)
+        else:
+            raise commands.MissingPermissions("higher rank than the target")
 
 
 def setup(bot):
