@@ -193,12 +193,15 @@ async def change_guild_setting_list(bot, guild_id, setting, targets):
     await change_guild_setting(bot, guild_id, **new_setting)
 
 def format_settings_key(string):
-    result = string.lower().replace("activity_", "").replace("track_", "")
-    result = result.replace("ad_reminder_", "").replace("verification_", "")
-    result = result.replace("rank_", "")
-    result = result.replace("junior", "jr").replace("senior", "sr")
-    result = result.replace("required", "req")
-    result = result.lstrip("_").replace("_id", "").replace("_", " ").capitalize()
+    replace_pairs = [
+        ("activity_", ""), ("track_", ""), ("ad_reminder_", ""), 
+        ("verification_", ""), ("rank_", ""),
+        ("junior", "jr"), ("senior", "sr"), ("required", "req"),
+        ("_id", ""), ("_", " "),
+    ]
+    for before, after in replace_pairs:
+        result = result.replace(before, after)
+    result = result.lstrip(" ").replace.replace.capitalize()
     return f'`{result}`'
     
 def format_settings_value(guild, value):
