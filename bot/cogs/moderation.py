@@ -5,23 +5,19 @@ from discord.ext import commands
 
 from typing import Optional
 
-@commands.check()
 def check_perm_kick(ctx):
     return ctx.author.guild_permissions.kick_members
 
-@commands.check()
 def check_junior(ctx):
     junior = ctx.bot.settings.get(ctx.guild.id, {})\
         .get("rank_junior_mod_role_id")
     return junior in [i.id for i in ctx.author.id.roles]
     
-@commands.check()
 def check_senior(ctx):
     senior = ctx.bot.settings.get(ctx.guild.id, {})\
         .get("rank_senior_mod_role_id")
     return senior in [i.id for i in ctx.author.id.roles]
 
-@commands.check()
 def check_admin(ctx):
     admin = ctx.bot.settings.get(ctx.guild.id, {})\
         .get("rank_admin_role_id")
