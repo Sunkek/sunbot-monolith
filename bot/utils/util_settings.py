@@ -196,6 +196,8 @@ def format_settings_key(string):
     result = string.lower().replace("activity_", "").replace("track_", "")
     result = result.replace("ad_reminder_", "").replace("verification_", "")
     result = result.replace("rank_", "")
+    result = result.replace("junior", "jr").replace("senior", "sr")
+    result = result.replace("required", "req")
     result = result.lstrip("_").replace("_id", "").replace("_", " ").capitalize()
     return f'`{result}`'
     
