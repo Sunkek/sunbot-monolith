@@ -24,6 +24,8 @@ def check_admin(ctx):
     return admin in [i.id for i in ctx.author.roles]
 
 def member_rank(bot, guild_id, member):
+    if not hasattr(member, "roles"):
+        return 0
     junior = bot.settings.get(guild_id, {})\
         .get("rank_junior_mod_role_id")
     senior = bot.settings.get(guild_id, {})\
@@ -109,7 +111,6 @@ class Moderation(commands.Cog):
     async def unban(
         self, ctx, member: discord.User, *, reason=None
     ):
-        member.roles = []
         if can_affect(self.bot, ctx.guild.id, ctx.author, member):
             await ctx.guild.unban(member, reason=reason)
         else:
