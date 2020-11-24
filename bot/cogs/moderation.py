@@ -76,7 +76,7 @@ class Moderation(commands.Cog):
         if can_affect(self.bot, ctx.guild.id, ctx.author, member):
             await member.kick(reason=reason)
         else:
-            raise commands.MissingPermissions("higher rank than the target")
+            raise commands.MissingPermissions(("higher rank than the target",))
 
 
 def setup(bot):
