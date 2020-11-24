@@ -52,14 +52,47 @@ class Moderation(commands.Cog):
             "rank_admin_role_id": 3,
         }
 
-    @commands.has_permissions(kick_members=True)
+    @commands.check_any(
+        commands.check(check_junior),
+        commands.check(check_senior),
+        commands.check(check_admin),
+    )
     @commands.command(
         name="mute", 
         brief="Mutes the target member",
-        help="Mutes the target member (by mention or ID) for specified amount of hours or indefinitely - until someone unmutes them. Only usable by mods and those with kick permissions",
+        help="Mutes the target member (by mention or ID) for specified amount of hours or indefinitely - until someone unmutes them. Only usable by mods. Only works if there's a mute role set for this server!",
     )
     async def mute(self, ctx, member: discord.Member, hours=0):
         if can_affect(self.bot, ctx.guild.id, ctx.author, member):
+            mute_role = self.bot.settings.get(ctx.guild.id, {})\
+                .get("rank_mute_role_id")
+            mute_role = ctx.guild.get_role(mute_role)
+            await member.add_roles(mute_role)
+            if not mute_role:
+                raise commands.RoleNotFound(mute_role)
+            # Unfinished
+            pass
+        else:
+            raise commands.MissingPermissions(("higher rank than the target",))
+
+    @commands.check_any(
+        commands.check(check_junior),
+        commands.check(check_senior),
+        commands.check(check_admin),
+    )
+    @commands.command(
+        name="unmute", 
+        brief="Unmutes the target member",
+        help="Unmutes the target member (by mention or ID). Only usable by mods. Only works if there's a mute role set for this server!",
+    )
+    async def unmute(self, ctx, member: discord.Member):
+        if can_affect(self.bot, ctx.guild.id, ctx.author, member):
+            mute_role = self.bot.settings.get(ctx.guild.id, {})\
+                .get("rank_mute_role_id")
+            mute_role = ctx.guild.get_role(mute_role)
+            await member.remove_roles(mute_role)
+            if not mute_role:
+                raise commands.RoleNotFound(mute_role)
             # Unfinished
             pass
         else:
