@@ -7,6 +7,8 @@ CREATE_GUILDS_TABLE = """
 CREATE TABLE IF NOT EXISTS guilds (
     guild_id bigint PRIMARY KEY,
 
+    birthday_feed_channel_id bigint,
+
     track_messages boolean DEFAULT 'false',
     track_reactions boolean DEFAULT 'false',
     track_voice boolean DEFAULT 'false',

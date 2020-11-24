@@ -57,13 +57,7 @@ class Moderation(commands.Cog):
         help="Mutes the target member (by mention or ID) for specified amount of hours or indefinitely - until someone unmutes them. Only usable by mods and those with kick permissions",
     )
     async def mute(self, ctx, member: discord.Member, hours=0):
-        junior = self.bot.settings.get(ctx.guild.id, {})\
-            .get("rank_junior_mod_role_id")
-        senior = self.bot.settings.get(ctx.guild.id, {})\
-            .get("rank_senior_mod_role_id")
-        admin = self.bot.settings.get(ctx.guild.id, {})\
-            .get("rank_admin_role_id")
-        if admin in [i.id for i in ctx.author.roles]:
+        if can_affect(self.bot, ctx.guild.id, ctx.author, member):
             # Unfinished
             pass
 

@@ -27,6 +27,21 @@ class SetFun(commands.Cog):
             ping_roulette_channel=channel.id if channel else None,
         )
         
+    @commands.command(
+        name="setbirthdayfeedchannel", 
+        aliases=["sbfc", "sbdfc"],
+        brief="Sets birthday feed channel",
+        help="Sets the channel for birthday notification messages",
+    )
+    async def setbirthdayfeedchannel(
+        self, ctx, channel: discord.TextChannel=None
+    ):
+        await util_settings.change_guild_setting(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            birthday_feed_channel_id=channel.id if channel else None,
+        )
+        
 
 def setup(bot):
     bot.add_cog(SetFun(bot))

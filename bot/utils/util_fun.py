@@ -26,6 +26,11 @@ FETCH_ACTIVE_PLAYERS = """
 SELECT user_id FROM ping_roulette
 WHERE charges > 0 AND plays = 't' AND guild_id = $1
 """
+FETCH_BORN_TODAY = """
+SELECT user_id FROM USERS WHERE
+EXTRACT(DAY FROM birthday) = EXTRACT(DAY FROM NOW()) AND
+EXTRACT(MONTH FROM birthday) = EXTRACT(MONTH FROM NOW())
+"""
 
 from asyncpg.exceptions import ForeignKeyViolationError
 
@@ -76,3 +81,10 @@ async def fetch_active_members(bot, guild_id):
         async with connection.transaction():
             res = await connection.fetch(FETCH_ACTIVE_PLAYERS, guild_id)
             return [i["user_id"] for i in res]
+                    
+async def fetch_born_today(bot):
+    """Return the PR charges of the user in the guild"""
+    async with bot.db.acquire() as connection:
+        async with connection.transaction():
+            res = await connection.fetchval(FETCH_BORN_TODAY)
+            return res
