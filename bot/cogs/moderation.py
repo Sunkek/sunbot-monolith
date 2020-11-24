@@ -60,7 +60,14 @@ class Moderation(commands.Cog):
         if can_affect(self.bot, ctx.guild.id, ctx.author, member):
             # Unfinished
             pass
-
+        else:
+            raise commands.MissingPermissions(("higher rank than the target",))
+    
+    @commands.check_any(
+        commands.check(check_junior),
+        commands.check(check_senior),
+        commands.check(check_admin),
+    )
     @commands.command(
         name="kick", 
         brief="Kicks the target member",
@@ -72,6 +79,41 @@ class Moderation(commands.Cog):
         else:
             raise commands.MissingPermissions(("higher rank than the target",))
 
+    @commands.check_any(
+        commands.check(check_senior),
+        commands.check(check_admin),
+    )
+    @commands.command(
+        name="ban", 
+        brief="Bans the target member",
+        help="Bans the target member (by mention or ID). Only usable by mods. You can specify how many days of target member's messages must be purged (up to 7). You can also specify the reason",
+    )
+    async def ban(
+        self, ctx, member: discord.Member, days: Optional[int]=0, *, reason=None
+    ):
+        days = max(0, min(days, 7))
+        if can_affect(self.bot, ctx.guild.id, ctx.author, member):
+            await member.ban(reason=reason, delete_message_days=days)
+        else:
+            raise commands.MissingPermissions(("higher rank than the target",))
+
+    @commands.check_any(
+        commands.check(check_senior),
+        commands.check(check_admin),
+    )
+    @commands.command(
+        name="unban", 
+        brief="Unbans the target user",
+        help="Unbans the target user (by mention or ID). Only usable by mods. You can also specify the reason",
+    )
+    async def unban(
+        self, ctx, member: discord.User, *, reason=None
+    ):
+        member.roles = []
+        if can_affect(self.bot, ctx.guild.id, ctx.author, member):
+            await ctx.guild.unban(member, reason=reason)
+        else:
+            raise commands.MissingPermissions(("higher rank than the target",))
 
 def setup(bot):
     bot.add_cog(Moderation(bot))
