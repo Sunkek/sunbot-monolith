@@ -22,10 +22,10 @@ My discord bot. Rewritten. Again.
     - Set trackers
     - ✔️ Set activity
     - Set emoji emotions
-    - Set birthday feed
+    - ✔️ Set birthday feed
     - Set welcome and leave message
     - Set verification
-    - Set ranks
+    - ✔️ Set ranks
     - Set special roles
     - Set warnings
     - Set ping roulette
@@ -75,10 +75,12 @@ My discord bot. Rewritten. Again.
     - Automaticlly promote and demote members according to the vote outcome
 9. Special roles - personal titles
     - Let them create and change special roles if they meet the requirements
-10. Mod functions - easier than Discord interface
+10. ✔️ Mod functions - easier than Discord interface
     - Mute
-    - Kick
-    - Ban
+    - ✔️ Unmute
+    - ✔️ Kick
+    - ✔️ Ban
+    - ✔️ Unban
 11. ✔️ Embedder - create and edit embed messages
     - ✔️ New embed
     - ✔️ Edit embed
