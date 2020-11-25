@@ -1,4 +1,4 @@
-CREATE_MUTE = """INSERT INTO TABLE muted VALUES ($1, $2, now(), $3);"""
+CREATE_MUTE = """INSERT INTO muted VALUES ($1, $2, now(), $3);"""
 ADD_MUTE = """
 UPDATE muted SET duration = duration + $1 WHERE guild_id = $2 AND user_id = $3;
 """
