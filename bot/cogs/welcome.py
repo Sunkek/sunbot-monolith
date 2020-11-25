@@ -1,3 +1,5 @@
+import json
+
 import discord
 from discord.ext import commands, tasks
 
@@ -22,7 +24,7 @@ class Welcome(commands.Cog):
             channel = member.guild.get_channel(channel)
             text = utils.format_message(text, guild=member.guild, user=member)
             embed = discord.Embed.from_dict(
-                utils.format_message(embed, guild=member.guild, user=member)
+                utils.format_message(json.loads(embed), guild=member.guild, user=member)
             )
             await channel.send(content=text or None, embed=embed or None)
             
@@ -37,7 +39,7 @@ class Welcome(commands.Cog):
         if text or embed:
             text = utils.format_message(text, guild=ctx.guild, user=ctx.author)
             embed = discord.Embed.from_dict(
-                utils.format_message(embed, guild=ctx.guild, user=ctx.author)
+                utils.format_message(json.loads(embed), guild=ctx.guild, user=ctx.author)
             )
             await ctx.send(content=text or None, embed=embed or None)
         else:

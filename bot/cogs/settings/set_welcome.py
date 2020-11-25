@@ -1,4 +1,5 @@
 """Setting util for uncategorizable things"""
+import json
 
 import discord
 from discord.ext import commands
@@ -61,7 +62,7 @@ class SetWelcome(commands.Cog):
         await util_settings.change_guild_setting(
             self.bot, 
             guild_id=ctx.guild.id,
-            welcome_message_embed=embed,
+            welcome_message_embed=json.dumps(embed),
         )
                 
 
