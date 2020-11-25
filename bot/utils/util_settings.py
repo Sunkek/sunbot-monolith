@@ -48,7 +48,11 @@ CREATE TABLE IF NOT EXISTS guilds (
     ad_reminder_disforge boolean DEFAULT 'false',
     ad_reminder_discordme boolean DEFAULT 'false',
     ad_reminder_discordservers boolean DEFAULT 'false',
-    ad_reminder_topgg boolean DEFAULT 'false'
+    ad_reminder_topgg boolean DEFAULT 'false',
+
+    welcome_message_channel_id bigint,
+    welcome_message_text varchar(2000),
+    welcome_message_embed varchar(6000),
 );
 """
 CREATE_USERS_TABLE = """

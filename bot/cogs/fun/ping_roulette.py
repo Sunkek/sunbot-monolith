@@ -59,7 +59,6 @@ class PingRoulette(commands.Cog):
             await ctx.channel.send(embed=e)
             ctx.command.reset_cooldown(ctx)
 
-
     @pingroulette.command(
         name="out",
         aliases=["o"],
