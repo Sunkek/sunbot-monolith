@@ -51,4 +51,4 @@ async def fetch_for_unmute(bot):
             now = datetime.now()
             res = await connection.fetch(FETCH_EXPIRED_MUTES, now)
             await connection.execute(DELETE_EXPIRED_MUTES, now)
-            return [(i.guild_id, i.user_id) for i in res]
+            return [(i["guild_id"], i["user_id"]) for i in res]
