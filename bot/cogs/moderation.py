@@ -1,9 +1,11 @@
 """Embed creator and formatter"""
 
-import discord
-from discord.ext import commands
-
 from typing import Optional
+from datetime import datetime, timedelta
+
+import discord
+from discord.ext import commands, tasks
+import asyncio
 
 from utils import util_moderation
 
@@ -45,6 +47,7 @@ def can_affect(bot, guild_id, member1, member2):
     member2 = member_rank(bot, guild_id, member2)
     return member1 > member2
 
+
 class Moderation(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -53,6 +56,10 @@ class Moderation(commands.Cog):
             "rank_senior_mod_role_id": 2,
             "rank_admin_role_id": 3,
         }
+        self.unmuter.start()
+
+    def cog_unload(self):
+        self.unmuter.cancel()
 
     @commands.check_any(
         commands.check(check_junior),
@@ -95,7 +102,7 @@ class Moderation(commands.Cog):
                 .get("rank_mute_role_id")
             mute_role = ctx.guild.get_role(mute_role)
             await member.remove_roles(mute_role)
-            await util_moderation.unmute_forced(
+            await util_moderation.unmute(
                 self.bot, ctx.guild.id, member.id
             )
         else:
@@ -151,6 +158,28 @@ class Moderation(commands.Cog):
             await ctx.guild.unban(member, reason=reason)
         else:
             raise commands.MissingPermissions(("higher rank than the target",))
+        
+    @tasks.loop(minutes=5.0)
+    async def unmuter(self):
+        members_to_umnute = await fetch_for_unmute(self.bot)
+        # Get the guids, members and mute role objects
+        for guild_id, user_id in members_to_umnute:
+            mute_role_id = self.bot.settings.get(guild_id, {})\
+                .get("rank_mute_role_id")
+            guild = self.bot.get_guild(guild_id)
+            member = guild.get_member(user_id)
+            role = guild.get_role(mute_role_id)
+            # Remove the mute roles
+            await member.remove_roles(role)
+
+    @unmuter.before_loop
+    async def before_unmuter(self):
+        """Sleeping until the full minute"""
+        await self.bot.wait_until_ready()
+        await asyncio.sleep(5) # To make sure bot reads settings
+        now = datetime.now()
+        next_minute = now.replace(second=0, microsecond=0) + timedelta(minutes=1)
+        await asyncio.sleep((next_minute - now).total_seconds())
 
 def setup(bot):
     bot.add_cog(Moderation(bot))
