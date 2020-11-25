@@ -7,6 +7,10 @@ REMOVE_MUTES_IF_ALLOWED = """
 DELETE FROM muted WHERE start + interval '1h' * duration < now()
 """
 
+from asyncpg.exceptions import ForeignKeyViolationError
+
+from utils import util_trackers
+
 async def mute(bot, guild_id, member_id, hours: int):
     """Add the mute entry to the database for persistency"""
     try:
@@ -15,6 +19,9 @@ async def mute(bot, guild_id, member_id, hours: int):
                 await connection.execute(
                     CREATE_MUTE, guild_id, member_id, abs(hours),
                 )
+    except ForeignKeyViolationError:
+        await util_trackers.create_missing_user(bot, member_id)
+        await mute(bot, guild_id, member_id, hours)
     except Exception as e:
         print(e)
         print(type(e))
