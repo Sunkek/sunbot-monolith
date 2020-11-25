@@ -6,7 +6,7 @@ UPDATE muted SET duration = duration + $1 WHERE guild_id = $2 AND user_id = $3;
 """
 REMOVE_MUTE = """DELETE FROM muted WHERE guild_id = $1 AND user_id = $2;"""
 FETCH_EXPIRED_MUTES = """
-SELECT (guild_id, user_id) FROM muted 
+SELECT guild_id, user_id FROM muted 
 WHERE start + interval '1h' * duration < $1
 """
 DELETE_EXPIRED_MUTES = """
