@@ -1,3 +1,5 @@
+import json
+
 MESSAGE_PLACEHOLDERS = (
     "`user.name` - replaced with the target user name, if applicable\n"
     "`user.id` - replaced with the target user ID, if applicable\n"
