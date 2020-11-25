@@ -161,7 +161,7 @@ class Moderation(commands.Cog):
         
     @tasks.loop(minutes=5.0)
     async def unmuter(self):
-        members_to_umnute = await fetch_for_unmute(self.bot)
+        members_to_umnute = await util_moderation.fetch_for_unmute(self.bot)
         # Get the guids, members and mute role objects
         for guild_id, user_id in members_to_umnute:
             mute_role_id = self.bot.settings.get(guild_id, {})\
