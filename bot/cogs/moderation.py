@@ -5,6 +5,8 @@ from discord.ext import commands
 
 from typing import Optional
 
+from utils import util_moderation
+
 def check_perm_kick(ctx):
     return ctx.author.guild_permissions.kick_members
 
@@ -70,8 +72,10 @@ class Moderation(commands.Cog):
             await member.add_roles(mute_role)
             if not mute_role:
                 raise commands.RoleNotFound(mute_role)
-            # Unfinished
-            pass
+            if hours:
+                await util_moderation.mute(
+                    self.bot, ctx.guild.id, member.id, hours
+                )
         else:
             raise commands.MissingPermissions(("higher rank than the target",))
 
@@ -91,10 +95,9 @@ class Moderation(commands.Cog):
                 .get("rank_mute_role_id")
             mute_role = ctx.guild.get_role(mute_role)
             await member.remove_roles(mute_role)
-            if not mute_role:
-                raise commands.RoleNotFound(mute_role)
-            # Unfinished
-            pass
+            await util_moderation.unmute_forced(
+                self.bot, ctx.guild.id, member.id
+            )
         else:
             raise commands.MissingPermissions(("higher rank than the target",))
     

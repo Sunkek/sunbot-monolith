@@ -125,6 +125,15 @@ CREATE TABLE IF NOT EXISTS ping_roulette (
     PRIMARY KEY (user_id, guild_id)
 );
 """
+CREATE_MUTED_TABLE = """
+CREATE TABLE IF NOT EXISTS muted (
+    guild_id bigint REFERENCES guilds(guild_id),
+    user_id bigint REFERENCES users(user_id),
+    start timestamp,
+    duration smallint,
+    PRIMARY KEY (guild_id, user_id)
+);
+"""
 
 def format_setting(records):
     """Change a list of records into a dict of settings per guild id"""
@@ -158,6 +167,8 @@ async def read_settings(connection_pool):
                 await connection.execute(CREATE_ACTIVITY_TABLE)
             if "ping_roulette" not in tables:
                 await connection.execute(CREATE_PING_ROULETTE_TABLE)
+            if "muted" not in tables:
+                await connection.execute(CREATE_MUTED_TABLE)
             # Fetch the settings
             settings = await connection.fetch("SELECT * FROM guilds")
             settings = format_setting(settings)
