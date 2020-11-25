@@ -86,5 +86,5 @@ async def fetch_born_today(bot):
     """Return the PR charges of the user in the guild"""
     async with bot.db.acquire() as connection:
         async with connection.transaction():
-            res = await connection.fetchval(FETCH_BORN_TODAY)
-            return res
+            res = await connection.fetch(FETCH_BORN_TODAY)
+            return [i["user_id"] for i in res]
