@@ -215,9 +215,9 @@ def format_settings_key(string):
         ("_id", ""), ("_", " "),
     ]
     for before, after in replace_pairs:
-        result = result.replace(before, after)
-    result = result.lstrip(" ").replace.replace.capitalize()
-    return f'`{result}`'
+        string = string.replace(before, after)
+    string = string.lstrip(" ").replace.replace.capitalize()
+    return f'`{string}`'
     
 def format_settings_value(guild, value):
     if type(value) == list:
