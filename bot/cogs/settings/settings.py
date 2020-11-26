@@ -57,6 +57,8 @@ class Settings(commands.Cog):
             fields.append(("Ranks", ranks))
             fields.append(("Trackers", trackers))
             fields.append(("Ad Reminder", ad_reminder))
+            fields.append(("Welcome/Leave", welcome))
+            fields.append(("Verification", verification))
             fields = [i for i in fields if i[1]]
             fields = sorted(fields, key=lambda i: len(i[1]), reverse=True)
             for i in fields:
