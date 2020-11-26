@@ -207,7 +207,7 @@ async def change_guild_setting_list(bot, guild_id, setting, targets):
     }
     await change_guild_setting(bot, guild_id, **new_setting)
 
-def format_settings_key(string):
+def format_settings_key(input_string):
     replace_pairs = [
         ("activity_", ""), ("track_", ""), ("ad_reminder_", ""), 
         ("verification_", ""), ("rank_", ""),
@@ -215,9 +215,9 @@ def format_settings_key(string):
         ("_id", ""), ("_", " "),
     ]
     for before, after in replace_pairs:
-        string = string.replace(before, after)
-    string = string.lstrip(" ").replace.replace.capitalize()
-    return f'`{string}`'
+        input_string = input_string.replace(before, after)
+    input_string = input_string.lstrip(" ").capitalize()
+    return f'`{input_string}`'
     
 def format_settings_value(guild, value):
     if type(value) == list:
