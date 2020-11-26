@@ -212,6 +212,7 @@ def format_settings_key(input_string):
         ("activity_", ""), ("track_", ""), ("ad_reminder_", ""), 
         ("verification_", ""), ("rank_", ""),
         ("junior", "jr"), ("senior", "sr"), ("required", "req"),
+        ("message", "msg"), ("channel", "chnl"), ("member", "mbr"), 
         ("_id", ""), ("_", " "),
     ]
     for before, after in replace_pairs:
