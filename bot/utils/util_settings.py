@@ -247,7 +247,8 @@ def format_settings_value(guild, value):
                 result = guild.get_member(int(value))
             if result:
                 result = result.mention
-        elif type(value) == dict or type(value) == list:
+        elif type(value) == dict or type(value) == list or \
+            value.startswith("{") and value.endswith("}"):
             result = "Set"
         elif value == True:
             result = "On"
