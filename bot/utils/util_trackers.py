@@ -93,13 +93,10 @@ async def add_reaction(bot, **kwargs):
         # Create users if they don't exist
         try:
             await create_missing_user(bot, kwargs["giver_id"])
+            await add_reaction(bot, **kwargs)
         except UniqueViolationError:
-            pass
-        try:
             await create_missing_user(bot, kwargs["receiver_id"])
-        except UniqueViolationError:
-            pass
-        await add_reaction(bot, **kwargs)
+            await add_reaction(bot, **kwargs)
 
 
 async def add_voice(bot, **kwargs):
