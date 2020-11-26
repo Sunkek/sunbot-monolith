@@ -258,8 +258,7 @@ def format_settings_value(guild, value):
 
 def format_settings(settings, ctx, include=[], ignore=[]):
     return "\n".join([
-        f"{format_settings_key(key)}: \
-            {format_settings_value(ctx.guild, value)}"
+        f"{format_settings_key(key)}: {format_settings_value(ctx.guild, value)}"
         for key, value in settings.items()
         if value \
             and any([i in key for i in include] if include else [True]) \
