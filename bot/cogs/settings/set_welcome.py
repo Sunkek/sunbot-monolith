@@ -56,9 +56,13 @@ class SetWelcome(commands.Cog):
         channel: Optional[discord.TextChannel]=None, 
         message_id: Optional[int]=0
     ):
-        channel = channel or ctx.channel
-        message = await channel.fetch_message(message_id)
-        embed = message.embeds[0].to_dict() if message.embeds else None
+        if message_id:
+            channel = channel or ctx.channel
+            message = await channel.fetch_message(message_id)
+            embed = message.embeds[0].to_dict() if message.embeds else None
+            embed = json.dumps(embed)
+        else:
+            embed = None
         await util_settings.change_guild_setting(
             self.bot, 
             guild_id=ctx.guild.id,
@@ -89,13 +93,17 @@ class SetWelcome(commands.Cog):
         channel: Optional[discord.TextChannel]=None, 
         message_id: Optional[int]=0
     ):
-        channel = channel or ctx.channel
-        message = await channel.fetch_message(message_id)
-        embed = message.embeds[0].to_dict() if message.embeds else None
+        if message_id:
+            channel = channel or ctx.channel
+            message = await channel.fetch_message(message_id)
+            embed = message.embeds[0].to_dict() if message.embeds else None
+            embed = json.dumps(embed)
+        else:
+            embed = None
         await util_settings.change_guild_setting(
             self.bot, 
             guild_id=ctx.guild.id,
-            leave_message_embed=json.dumps(embed),
+            leave_message_embed=embed,
         )   
 
 def setup(bot):
