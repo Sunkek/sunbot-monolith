@@ -49,7 +49,6 @@ def format_message(text, guild=None, user=None):
     while random_lists:
         for random_list in random_lists:
             result = choice(random_list[4:-1].split("~"))
-            print(result)
             text = text.replace(random_list, result)
         random_lists = p.findall(text)
     if "json" in note:
