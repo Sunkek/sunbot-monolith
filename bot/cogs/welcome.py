@@ -49,15 +49,13 @@ class Welcome(commands.Cog):
         name='displaywelcome',
         aliases = ["dw"]
     )
-    async def displaywelcome(self, ctx, parse=False):
+    async def displaywelcome(self, ctx, parse=""):
         text = self.bot.settings.get(ctx.guild.id, {}).get("welcome_message_text")
         embed = self.bot.settings.get(ctx.guild.id, {}).get("welcome_message_embed")
         if (text or embed) and parse:
-            return await send_welcome_or_leave(ctx.channel, text, embed, ctx.author)
-        if embed:
-            await ctx.send(
-                text, embed=discord.Embed.from_dict(json.loads(embed))
-            )
+            await send_welcome_or_leave(ctx.channel, text, embed, ctx.author)
+        elif embed:
+            await ctx.send(text, embed=discord.Embed.from_dict(json.loads(embed)))
         elif text:
             await ctx.send(text)
         else:
@@ -69,15 +67,13 @@ class Welcome(commands.Cog):
         name='displayleave',
         aliases = ["dl"]
     )
-    async def displayleave(self, ctx, parse=False):
+    async def displayleave(self, ctx, parse=""):
         text = self.bot.settings.get(ctx.guild.id, {}).get("leave_message_text")
         embed = self.bot.settings.get(ctx.guild.id, {}).get("leave_message_embed")
         if (text or embed) and parse:
             return await send_welcome_or_leave(ctx.channel, text, embed, ctx.author)
-        if embed:
-            await ctx.send(
-                text, embed=discord.Embed.from_dict(json.loads(embed))
-            )
+        elif embed:
+            await ctx.send(text, embed=discord.Embed.from_dict(json.loads(embed)))
         elif text:
             await ctx.send(text)
         else:
