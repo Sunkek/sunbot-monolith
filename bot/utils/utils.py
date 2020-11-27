@@ -4,7 +4,7 @@ MESSAGE_PLACEHOLDERS = (
     "`user.name` - replaced with the target user name, if applicable\n"
     "`user.id` - replaced with the target user ID, if applicable\n"
     "`user.mention` - replaced with the target user mention, if applicable\n"
-    "`rnd{a|b|c} - selects a, b or c randomly"`
+    "`rnd{a|b|c}` - selects a, b or c randomly"
 )
 
 def int_convertable(string):
