@@ -38,7 +38,7 @@ class SetWelcome(commands.Cog):
         brief="Sets up the welcome text",
         help=f"Sets up the welcome text message which is sent when a new member joins the server. Available placeholders:\n{utils.MESSAGE_PLACEHOLDERS}",
     )
-    async def setwelcomemessage(self, ctx, text=None):
+    async def setwelcomemessage(self, ctx, *, text=None):
         await util_settings.change_guild_setting(
             self.bot, 
             guild_id=ctx.guild.id,
@@ -71,7 +71,7 @@ class SetWelcome(commands.Cog):
         brief="Sets up the leave text",
         help=f"Sets up the leave text message which is sent when a member leaves the server. Available placeholders:\n{utils.MESSAGE_PLACEHOLDERS}",
     )
-    async def setleavemessage(self, ctx, text=None):
+    async def setleavemessage(self, ctx, *, text=None):
         await util_settings.change_guild_setting(
             self.bot, 
             guild_id=ctx.guild.id,
