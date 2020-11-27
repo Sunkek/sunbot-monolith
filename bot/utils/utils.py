@@ -44,7 +44,7 @@ def format_message(text, guild=None, user=None):
         text = text.replace("user.name", user.name)
         text = text.replace("user.id", str(user.id))
         text = text.replace("user.mention", user.mention)
-    p = re.compile("(rnd\{[^{}]*\})")
+    p = re.compile(r"(rnd\{[^{}]*\})")
     random_lists = p.findall(text)
     while random_lists:
         print(text)
