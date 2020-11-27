@@ -7,9 +7,11 @@ from utils import utils
 
 async def send_welcome_or_leave(channel, text, embed, member):
     text = utils.format_message(text, guild=member.guild, user=member)
+    print(text)
     embed = discord.Embed.from_dict(
         utils.format_message(json.loads(embed), guild=member.guild, user=member)
     )
+    print(embed)
     if embed:
         await channel.send(content=text, embed=embed)
     elif text:
