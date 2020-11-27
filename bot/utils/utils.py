@@ -1,10 +1,12 @@
 import json
+import re
+from random import choice
 
 MESSAGE_PLACEHOLDERS = (
     "`user.name` - replaced with the target user name, if applicable\n"
     "`user.id` - replaced with the target user ID, if applicable\n"
-    "`user.mention` - replaced with the target user mention, if applicable\n"
-    "`rnd{a|b|c}` - selects a, b or c randomly"
+    "`user.mention` - replaced with the target user mention, if applicable"
+    "`rnd{a~b~c}` - selects a, b or c randomly"
 )
 
 def int_convertable(string):
@@ -32,14 +34,25 @@ def format_seconds(seconds):
     return f"{ye}{da}{ho}{mi}{se}"
     
 def format_message(text, guild=None, user=None):
-    note = ""
+    note = []
     if not text:
         return None
     if type(text) in (dict, list):
-        note += "json\n"
+        note += "json"
         text = json.JSONEncoder().encode(text)
     if user:
         text = text.replace("user.name", user.name)
         text = text.replace("user.id", str(user.id))
         text = text.replace("user.mention", user.mention)
+    p = re.compile("(rnd\{[^{}]*\})")
+    random_lists = p.findall(text)
+    while random_lists:
+        print(text)
+        for random_list in random_lists:
+            result = random_list[4:-1].split("~")
+            text.replace(random_list, result)
+        random_lists = p.findall(text)
+    print(text)
+    if "json" in note:
+        text = json.loads(text)
     return text
