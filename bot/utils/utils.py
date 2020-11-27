@@ -46,14 +46,11 @@ def format_message(text, guild=None, user=None):
         text = text.replace("user.mention", user.mention)
     p = re.compile(r"(rnd\{[^{}]*\})")
     random_lists = p.findall(text)
-    print(text)
     while random_lists:
-        print(random_lists)
         for random_list in random_lists:
             result = choice(random_list[4:-1].split("~"))
             print(result)
-            text.replace(random_list, result)
-        print(text)
+            text = text.replace(random_list, result)
         random_lists = p.findall(text)
     if "json" in note:
         text = json.loads(text)
