@@ -250,7 +250,8 @@ def format_settings_value(guild, value):
             if result:
                 result = result.mention
         elif type(value) == dict or type(value) == list or \
-            str(value).startswith("{") and str(value).endswith("}"):
+            str(value).startswith("{") and str(value).endswith("}") or \
+            len(str(value)) > 200:
             result = "Set"
         elif value == True:
             result = "On"
