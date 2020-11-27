@@ -49,11 +49,12 @@ class Welcome(commands.Cog):
     async def displaywelcome(self, ctx):
         text = self.bot.settings.get(ctx.guild.id, {}).get("welcome_message_text")
         embed = self.bot.settings.get(ctx.guild.id, {}).get("welcome_message_embed")
-        if text or embed:
+        if text and embed:
             await ctx.send(
-                text, 
-                embed=discord.Embed.from_dict(json.loads(embed)) if embed
+                text, embed=discord.Embed.from_dict(json.loads(embed))
             )
+        elif text:
+            await ctx.send(text)
         else:
             raise commands.MissingRequiredArgument("No welcome message or channel set!")
     
@@ -65,12 +66,13 @@ class Welcome(commands.Cog):
     async def displayleave(self, ctx):
         text = self.bot.settings.get(ctx.guild.id, {}).get("leave_message_text")
         embed = self.bot.settings.get(ctx.guild.id, {}).get("leave_message_embed")
-        if text or embed:
+        if text and embed:
             await ctx.send(
-                text, 
-                embed=discord.Embed.from_dict(json.loads(embed)) if embed
+                text, embed=discord.Embed.from_dict(json.loads(embed))
             )
+        elif text:
+            await ctx.send(text)
         else:
-            raise commands.MissingRequiredArgument("No welcome message or channel set!")
+            raise commands.MissingRequiredArgument("No leave message or channel set!")
 def setup(bot):
     bot.add_cog(Welcome(bot))
