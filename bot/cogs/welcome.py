@@ -10,10 +10,8 @@ async def send_welcome_or_leave(channel, text, embed, member):
     embed = discord.Embed.from_dict(
         utils.format_message(json.loads(embed), guild=member.guild, user=member)
     )
-    if embed:
+    if embed or text:
         await channel.send(content=text, embed=embed)
-    elif text:
-        await channel.send(text)
 
 class Welcome(commands.Cog):
     def __init__(self, bot):
