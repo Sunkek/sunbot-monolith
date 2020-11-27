@@ -39,7 +39,7 @@ def format_message(text, guild=None, user=None):
         return None
     if type(text) in (dict, list):
         note += "json"
-        text = json.JSONEncoder().encode(text)
+        text = json.dumps(text)
     if user:
         text = text.replace("user.name", user.name)
         text = text.replace("user.id", str(user.id))
