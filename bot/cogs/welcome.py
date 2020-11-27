@@ -56,7 +56,7 @@ class Welcome(commands.Cog):
         elif text:
             await ctx.send(text)
         else:
-            raise commands.MissingRequiredArgument("No welcome message or channel set!")
+            raise commands.UserInputError(message="No welcome message set!")
     
     @commands.command(
         brief="Displays the current leave message", 
@@ -73,6 +73,6 @@ class Welcome(commands.Cog):
         elif text:
             await ctx.send(text)
         else:
-            raise commands.MissingRequiredArgument("No leave message or channel set!")
+            raise commands.UserInputError(message="No leave message set!")
 def setup(bot):
     bot.add_cog(Welcome(bot))
