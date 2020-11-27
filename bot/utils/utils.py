@@ -35,12 +35,15 @@ def format_seconds(seconds):
     
 def format_message(text, guild=None, user=None):
     print(text)
+    print(type(text))
     note = []
     if not text:
         return None
     if type(text) in (dict, list):
         note += "json"
         text = json.dumps(text)
+    print(text)
+    print(type(text))
     if user:
         text = text.replace("user.name", user.name)
         text = text.replace("user.id", str(user.id))
@@ -56,4 +59,5 @@ def format_message(text, guild=None, user=None):
     if "json" in note:
         text = json.loads(text)
     print(text)
+    print(type(text))
     return text
