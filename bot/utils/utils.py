@@ -40,7 +40,7 @@ def format_message(text, guild=None, user=None):
     if not text:
         return None
     if type(text) in (dict, list):
-        note += "json"
+        note.asppend("json")
         text = json.dumps(text)
     print(text)
     print(type(text))
