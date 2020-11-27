@@ -24,8 +24,8 @@ class Welcome(commands.Cog):
     @commands.Cog.listener()
     async def on_member_join(self, member):
         """Sends the initial welcome message"""
-        channel = self.bot.settings.get(member.guild.id, {}).get("welcome_channel_id", 0)
-        text = self.bot.settings.get(member.guild.id, {}).get("welcome_message")
+        channel = self.bot.settings.get(member.guild.id, {}).get("welcome_message_channel_id", 0)
+        text = self.bot.settings.get(member.guild.id, {}).get("welcome_message_text")
         embed = self.bot.settings.get(member.guild.id, {}).get("welcome_message_embed")
         channel = member.guild.get_channel(channel)
         if channel and (text or embed):
@@ -34,7 +34,7 @@ class Welcome(commands.Cog):
     @commands.Cog.listener()
     async def on_member_remove(self, member):
         """Sends the leave message"""
-        channel = self.bot.settings.get(member.guild.id, {}).get("welcome_channel_id", 0)
+        channel = self.bot.settings.get(member.guild.id, {}).get("welcome_message_channel_id", 0)
         text = self.bot.settings.get(member.guild.id, {}).get("leave_message_text")
         embed = self.bot.settings.get(member.guild.id, {}).get("leave_message_embed")
         channel = member.guild.get_channel(channel)
@@ -50,7 +50,7 @@ class Welcome(commands.Cog):
         text = self.bot.settings.get(ctx.guild.id, {}).get("welcome_message_text")
         embed = self.bot.settings.get(ctx.guild.id, {}).get("welcome_message_embed")
         if text or embed:
-            await send_welcome_or_leave(channel, text, embed, member)
+            await send_welcome_or_leave(ctx.channel, text, embed, ctx.author)
         else:
             raise commands.MissingRequiredArgument("No welcome message or channel set!")
     
@@ -63,7 +63,7 @@ class Welcome(commands.Cog):
         text = self.bot.settings.get(ctx.guild.id, {}).get("leave_message_text")
         embed = self.bot.settings.get(ctx.guild.id, {}).get("leave_message_embed")
         if text or embed:
-            await send_welcome_or_leave(channel, text, embed, member)
+            await send_welcome_or_leave(ctx.channel, text, embed, ctx.author)
         else:
             raise commands.MissingRequiredArgument("No welcome message or channel set!")
 def setup(bot):
