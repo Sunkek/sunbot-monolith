@@ -34,6 +34,7 @@ def format_seconds(seconds):
     return f"{ye}{da}{ho}{mi}{se}"
     
 def format_message(text, guild=None, user=None):
+    print(text)
     note = []
     if not text:
         return None
@@ -49,10 +50,10 @@ def format_message(text, guild=None, user=None):
     while random_lists:
         print(text)
         for random_list in random_lists:
-            result = random_list[4:-1].split("~")
+            result = choice(random_list[4:-1].split("~"))
             text.replace(random_list, result)
         random_lists = p.findall(text)
-    print(text)
     if "json" in note:
         text = json.loads(text)
+    print(text)
     return text
