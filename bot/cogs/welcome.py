@@ -49,7 +49,7 @@ class Welcome(commands.Cog):
     async def displaywelcome(self, ctx):
         text = self.bot.settings.get(ctx.guild.id, {}).get("welcome_message_text")
         embed = self.bot.settings.get(ctx.guild.id, {}).get("welcome_message_embed")
-        if text and embed:
+        if embed:
             await ctx.send(
                 text, embed=discord.Embed.from_dict(json.loads(embed))
             )
@@ -66,7 +66,7 @@ class Welcome(commands.Cog):
     async def displayleave(self, ctx):
         text = self.bot.settings.get(ctx.guild.id, {}).get("leave_message_text")
         embed = self.bot.settings.get(ctx.guild.id, {}).get("leave_message_embed")
-        if text and embed:
+        if embed:
             await ctx.send(
                 text, embed=discord.Embed.from_dict(json.loads(embed))
             )
