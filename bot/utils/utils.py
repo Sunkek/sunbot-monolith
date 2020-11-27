@@ -3,7 +3,8 @@ import json
 MESSAGE_PLACEHOLDERS = (
     "`user.name` - replaced with the target user name, if applicable\n"
     "`user.id` - replaced with the target user ID, if applicable\n"
-    "`user.mention` - replaced with the target user mention, if applicable"
+    "`user.mention` - replaced with the target user mention, if applicable\n"
+    "`rnd{a|b|c} - selects a, b or c randomly"`
 )
 
 def int_convertable(string):
@@ -41,6 +42,4 @@ def format_message(text, guild=None, user=None):
         text = text.replace("user.name", user.name)
         text = text.replace("user.id", str(user.id))
         text = text.replace("user.mention", user.mention)
-    if "json" in note:
-        text = json.loads(text)
     return text

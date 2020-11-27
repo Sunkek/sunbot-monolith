@@ -52,7 +52,7 @@ class Welcome(commands.Cog):
         if text or embed:
             await ctx.send(
                 text, 
-                embed=discord.Embed.from_dict(json.loads(embed) if embed else None
+                embed=discord.Embed.from_dict(json.loads(embed)) if embed else None
             )
         else:
             raise commands.MissingRequiredArgument("No welcome message or channel set!")
@@ -68,7 +68,7 @@ class Welcome(commands.Cog):
         if text or embed:
             await ctx.send(
                 text, 
-                embed=discord.Embed.from_dict(json.loads(embed) if embed else None
+                embed=discord.Embed.from_dict(json.loads(embed)) if embed else None
             )
         else:
             raise commands.MissingRequiredArgument("No welcome message or channel set!")
