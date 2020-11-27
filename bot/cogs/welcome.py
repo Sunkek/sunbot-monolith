@@ -50,7 +50,9 @@ class Welcome(commands.Cog):
         text = self.bot.settings.get(ctx.guild.id, {}).get("welcome_message_text")
         embed = self.bot.settings.get(ctx.guild.id, {}).get("welcome_message_embed")
         if text or embed:
-            await send_welcome_or_leave(ctx.channel, text, embed, ctx.author)
+            await ctx.send(
+                text, embed=discord.Embed.from_dict(embed) if embed else None
+            )
         else:
             raise commands.MissingRequiredArgument("No welcome message or channel set!")
     
@@ -63,7 +65,9 @@ class Welcome(commands.Cog):
         text = self.bot.settings.get(ctx.guild.id, {}).get("leave_message_text")
         embed = self.bot.settings.get(ctx.guild.id, {}).get("leave_message_embed")
         if text or embed:
-            await send_welcome_or_leave(ctx.channel, text, embed, ctx.author)
+            await ctx.send(
+                text, embed=discord.Embed.from_dict(embed) if embed else None
+            )
         else:
             raise commands.MissingRequiredArgument("No welcome message or channel set!")
 def setup(bot):
