@@ -27,7 +27,6 @@ async def change_user_info(bot, user_id, **kwargs):
 async def fetch_users_avg_activity(bot, guild_id, days, req_activity):
     async with bot.db.acquire() as connection:
         async with connection.transaction():
-            print(days)
             res = await connection.fetch(
                 FETCH_ELIGIBLE_USERS, guild_id, days, req_activity
             )
