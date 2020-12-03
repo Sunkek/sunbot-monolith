@@ -1,3 +1,11 @@
+FETCH_ELIGIBLE_USERS = """
+SELECT user_id FROM activity
+WHERE guild_id = $1 AND period + interval '$2d' > NOW()
+GROUP BY user_id
+HAVING AVG(from_text+from_attachments+from_reactions+from_voice) > $3
+"""
+
+
 async def change_user_info(bot, user_id, **kwargs):
     """Change user info in the database"""
     async with bot.db.acquire() as connection:
@@ -15,3 +23,11 @@ async def change_user_info(bot, user_id, **kwargs):
                     f"INSERT INTO users(user_id, {k}) VALUES ($1, $2);", 
                     user_id, v
                 )
+
+async def fetch_users_avg_activity(bot, guild_id, days, req_activity):
+    async with bot.db.acquire() as connection:
+        async with connection.transaction():
+            res = await connection.fetch(
+                FETCH_ELIGIBLE_USERS, guild_id, days, req_activity
+            )
+            return [i["user_id"] for i in res]
