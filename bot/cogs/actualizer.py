@@ -44,13 +44,13 @@ class Actualizer(commands.Cog):
             for member in [i for i in guild.members if not i.bot]:
                 # Admin check
                 if admin in member.roles:
-                    return
+                    continue
                 # Senior mod check
                 elif senior_mod in member.roles:
-                    return
+                    continue
                 # Junior mod check
                 elif junior_mod in member.roles:
-                    return
+                    continue
                 # Active member check
                 elif active_member in member.roles:
                     if member.id not in active_member_eligible:
