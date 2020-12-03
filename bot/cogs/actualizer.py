@@ -61,8 +61,6 @@ class Actualizer(commands.Cog):
                     if member.id in active_member_eligible:
                         await member.add_roles(active_member)
 
-
-    '''
     @actualize.before_loop
     async def before_actualize(self):
         """Sleeping until the full hour"""
@@ -71,7 +69,6 @@ class Actualizer(commands.Cog):
         now = datetime.now()
         next_day = now.replace(hour=1, minute=0, second=0, microsecond=0) + timedelta(days=1)
         await sleep((next_day - now).total_seconds())
-    '''
 
 def setup(bot):
     bot.add_cog(Actualizer(bot))
