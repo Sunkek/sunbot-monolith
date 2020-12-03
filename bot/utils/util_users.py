@@ -29,6 +29,6 @@ async def fetch_users_avg_activity(bot, guild_id, days, req_activity):
         async with connection.transaction():
             print(days)
             res = await connection.fetch(
-                FETCH_ELIGIBLE_USERS, guild_id, str(days), req_activity
+                FETCH_ELIGIBLE_USERS, guild_id, days, req_activity
             )
             return [i["user_id"] for i in res]
