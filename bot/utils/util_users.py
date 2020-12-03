@@ -2,7 +2,7 @@ FETCH_ELIGIBLE_USERS = """
 SELECT user_id FROM activity
 WHERE guild_id = $1 AND period + $2 * interval '1 day' > NOW()
 GROUP BY user_id
-HAVING AVG(from_text+from_attachments+from_reactions+from_voice) > $3
+HAVING SUM(from_text+from_attachments+from_reactions+from_voice)/$2 > $3
 """
 
 
