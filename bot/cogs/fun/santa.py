@@ -32,12 +32,12 @@ class SecretSanta(commands.Cog):
                 raise commands.BadArgument
             # Make pairs of givers and receivers
             receivers = givers.copy()
-            while givers == receivers:
+            while any([g == r for g, r in zip(givers, receivers)]):
                 shuffle(receivers)
             # Send DMs to the givers with their receivers
             link = (
                 f"https://discordapp.com/channels/"
-                f"{ctx.guild.id}/{ctx.channel.id}/{message_id}"
+                f"{ctx.guild.id}/{channel.id}/{message_id}"
             )
             for g, r in zip(givers, receivers):
                 desc = (
@@ -59,7 +59,7 @@ class SecretSanta(commands.Cog):
             e = discord.Embed(
                 title="Secret Santa Pairs",
                 color=ctx.author.color,
-                description="DMs sent!\n\n" + desc
+                description=desc
             )
             await ctx.send(embed=e)
         except Exception as e:
