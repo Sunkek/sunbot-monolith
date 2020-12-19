@@ -9,7 +9,7 @@ class SecretSanta(commands.Cog):
         self.bot = bot
 
     @commands.cooldown(rate=1, per=60*60, type=commands.BucketType.guild)
-    @commands.haspermissions("administrator")
+    @commands.has_permissions("administrator")
     @commands.command(
         brief="Assigns secret Santas",
         help="Randomly pairs people who reacted to the target message with 🎅 and sends the givers DMs with their receivers. Also sends a list of pairs to the channel where you typed this command so you could control the event",
