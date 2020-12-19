@@ -48,7 +48,7 @@ class SecretSanta(commands.Cog):
                 e = discord.Embed(
                     title=f"Secret Santa on {ctx.guild.name}",
                     description=desc,
-                    color=discord.color.red(),
+                    color=discord.Colour.red(),
                 )
                 await ctx.author.send(embed=e)  # Change it to DM givers!
             # Send a list of pairs to the command invoke channel
