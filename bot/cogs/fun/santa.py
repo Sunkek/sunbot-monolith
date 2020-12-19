@@ -26,7 +26,7 @@ class SecretSanta(commands.Cog):
             givers = []
             for reaction in message.reactions:
                 if reaction.emoji == "🎅":
-                    givers = reaction.users
+                    givers = await reaction.users().flatten()
                     break
             if len(givers) < 2:
                 raise commands.BadArgument
