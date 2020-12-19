@@ -22,7 +22,7 @@ class SecretSanta(commands.Cog):
     ):
         try:
             # Make a list of participants
-            message = await self.channel.fetch_message(message_id)
+            message = await channel.fetch_message(message_id)
             givers = []
             for reaction in message.reactions:
                 if reaction.emoji == "🎅":
