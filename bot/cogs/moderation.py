@@ -134,10 +134,11 @@ class Moderation(commands.Cog):
         help="Bans the target member (by mention or ID). Only usable by mods. You can specify how many days of target member's messages must be purged (up to 7). You can also specify the reason",
     )
     async def ban(
-        self, ctx, member: discord.Member, days: Optional[int]=0, *, reason=None
+        self, ctx, user: discord.User, days: Optional[int]=0, *, reason=None
     ):
         days = max(0, min(days, 7))
-        if can_affect(self.bot, ctx.guild.id, ctx.author, member):
+        user = ctx.guild.get_member(user.id) or user
+        if can_affect(self.bot, ctx.guild.id, ctx.author, user):
             await member.ban(reason=reason, delete_message_days=days)
         else:
             raise commands.MissingPermissions(("higher rank than the target",))
