@@ -139,7 +139,7 @@ class Moderation(commands.Cog):
         days = max(0, min(days, 7))
         user = ctx.guild.get_member(user.id) or user
         if can_affect(self.bot, ctx.guild.id, ctx.author, user):
-            await member.ban(reason=reason, delete_message_days=days)
+            await ctx.guild.ban(user, reason=reason, delete_message_days=days)
         else:
             raise commands.MissingPermissions(("higher rank than the target",))
 
