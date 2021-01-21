@@ -1,4 +1,4 @@
-fromd atetime import datetime, timedelta
+from datetime import datetime, timedelta
 
 FETCH_ELIGIBLE_USERS = """
 SELECT user_id FROM activity
