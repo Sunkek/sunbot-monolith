@@ -34,7 +34,8 @@ class Votes(commands.Cog):
             junior_mod_vote_day = settings.get("vote_junior_mod_day")
             junior_mod_vote_months = settings.get("vote_junior_mod_months")
             junior_mod_vote_limit = settings.get("vote_junior_mod_limit")
-            if now.day == junior_mod_vote_day and \
+            if junior_mod_vote_day and junior_mod_vote_months and \
+                now.day == junior_mod_vote_day and \
                 now.month in junior_mod_vote_months:
                 print("Junior mod vote start!")
                 junior_mod_days = settings.get("rank_junior_mod_required_days")
@@ -63,7 +64,8 @@ class Votes(commands.Cog):
                 vote_msg = await vote_channel.send(embed=e)
                 await vote_msg.add_reaction("☑️")
                 # DM eligible voters the bulletins
-            elif now.day == junior_mod_vote_day + 5 and \
+            elif junior_mod_vote_day and junior_mod_vote_months and \
+                now.day == junior_mod_vote_day + 5 and \
                 now.month in junior_mod_vote_months:
                 print("Junior mod vote end!")
                 # Count the votes
@@ -72,13 +74,15 @@ class Votes(commands.Cog):
             # SM vote
             senior_mod_vote_day = settings.get("vote_senior_mod_day")
             senior_mod_vote_months = settings.get("vote_senior_mod_months")
-            if now.day == senior_mod_vote_day and \
+            if senior_mod_vote_day and senior_mod_vote_months and \
+                now.day == senior_mod_vote_day and \
                 now.month in senior_mod_vote_months:
                 print("Senior mod vote start!")
                 # Find eligible members    
                 # Post a list of them to the vote channel
                 # DM eligible voters the bulletins
-            elif now.day == senior_mod_vote_day + 5 and \
+            elif senior_mod_vote_day and senior_mod_vote_months and \
+                now.day == senior_mod_vote_day + 5 and \
                 now.month in senior_mod_vote_months:
                 print("Senior mod vote end!")
                 # Count the votes
@@ -87,13 +91,15 @@ class Votes(commands.Cog):
             # A vote
             admin_vote_day = settings.get("vote_admin_day")
             admin_vote_months = settings.get("vote_admin_months")
-            if now.day == admin_vote_day and \
+            if admin_vote_day and admin_vote_months and \
+                now.day == admin_vote_day and \
                 now.month in admin_vote_months:
                 print("Admin vote start!")
                 # Find eligible members    
                 # Post a list of them to the vote channel
                 # DM eligible voters the bulletins
-            elif now.day == admin_vote_day + 5 and \
+            elif admin_vote_day and admin_vote_months and \
+                now.day == admin_vote_day + 5 and \
                 now.month in admin_vote_months:
                 print("Admin vote end!")
                 # Count the votes
