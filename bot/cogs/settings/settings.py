@@ -40,6 +40,9 @@ class Settings(commands.Cog):
             welcome = util_settings.format_settings(
                 settings, ctx, include=["welcome_", "leave_"], ignore=[]
             )
+            votes = util_settings.format_settings(
+                settings, ctx, include=["vote_"], ignore=[]
+            )
             desc = util_settings.format_settings(
                 settings, ctx, include=[], ignore=[
                     "track_", "activity_", "ad_reminder_", "verification_", 
@@ -59,6 +62,7 @@ class Settings(commands.Cog):
             fields.append(("Ad Reminder", ad_reminder))
             fields.append(("Welcome/Leave", welcome))
             fields.append(("Verification", verification))
+            fields.append(("Votes", votes))
             fields = [i for i in fields if i[1]]
             fields = sorted(fields, key=lambda i: len(i[1]), reverse=True)
             for i in fields:
