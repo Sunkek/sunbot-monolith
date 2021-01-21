@@ -53,7 +53,8 @@ class SetVotes(commands.Cog):
         help="Sets up the day of junior mod votes. Pass a number from 1 to 20 (yes, 20). The vote will start on the specified day and end 5 days later.",
     )
     async def setjuniormodvoteday(self, ctx, day: int):
-        if day < 1 or day > 20:
+        # if day < 1 or day > 20:
+        if day < 1 or day > 31:
             raise commands.BadArgument
         await util_settings.change_guild_setting(
             self.bot, 
