@@ -37,8 +37,8 @@ class Actualizer(commands.Cog):
             admin = settings.get("rank_admin_role_id")
             admin = guild.get_role(admin)
             # Fetch the list of members eligible for each rank by their activity
-            active_member_eligible = await util_users.fetch_users_avg_activity(
-                self.bot, guild.id, active_member_days, active_member_activity
+            active_member_eligible = await util_users.fetch_users_by_days_and_activity(
+                self.bot, guild, active_member_days, active_member_activity
             )
             # Iterate over all members to edit their roles
             for member in [i for i in guild.members if not i.bot]:

@@ -38,7 +38,7 @@ class PingRoulette(commands.Cog):
             members = sample(members, 3)
             e = discord.Embed(
                 title="Ping Roulette",
-                description="Congratulations! You have won the ping roulette! It means that now you have one more ping roulette charge. Use the `help pingroulette` command to see your options.",
+                description="Congratulations! You won the ping roulette! It means that now you have one more ping roulette charge. Use the `help pingroulette` command to see your options.",
                 color=ctx.author.color,
             )
             channel = ctx.guild.get_channel(

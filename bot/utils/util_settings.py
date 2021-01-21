@@ -42,12 +42,16 @@ CREATE TABLE IF NOT EXISTS guilds (
     rank_admin_required_days smallint,
     rank_admin_required_activity smallint,
 
+    vote_channel_id bigint,
     vote_junior_mod_months smallint[],
     vote_junior_mod_day smallint,
+    vote_junior_mod_limit smallint,
     vote_senior_mod_months smallint[],
     vote_senior_mod_day smallint,
+    vote_senior_mod_limit smallint,
     vote_admin_months smallint[],
     vote_admin_day smallint,
+    vote_admin_limit smallint,
 
     ad_reminder_channel_id bigint,
     ad_reminder_role_id bigint,

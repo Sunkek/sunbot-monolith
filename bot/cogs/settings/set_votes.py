@@ -17,6 +17,19 @@ class SetVotes(commands.Cog):
         return ctx.author.guild_permissions.administrator
 
     @commands.command(
+        name="setvotechannel", 
+        aliases=["svc"],
+        brief="Set up a channel for votes",
+        help="Sets up the specified channel as vote feed. To reset, provide no channel",
+    )
+    async def setvotechannel(self, ctx, channel: discord.TextChannel=None):
+        await util_settings.change_guild_setting(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            vote_channel_id=channel.id if channel else None,
+        )
+
+    @commands.command(
         name="setjuniormodvotemonths", 
         aliases=["sjmvm",],
         brief="Sets up the months of junior mod votes",
@@ -47,6 +60,21 @@ class SetVotes(commands.Cog):
             guild_id=ctx.guild.id,
             vote_junior_mod_day=day,
         )        
+        
+    @commands.command(
+        name="setjuniormodvotelimit", 
+        aliases=["sjmvl",],
+        brief="Sets up the limit for junior mods",
+        help="Sets up the limit for max amount of vote-picked junior mods. Pass a number from 1 to 50.",
+    )
+    async def setjuniormodvotelimit(self, ctx, limit: int):
+        if limit < 1 or limit > 50:
+            raise commands.BadArgument
+        await util_settings.change_guild_setting(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            vote_junior_mod_limit=limit,
+        )     
 
     @commands.command(
         name="setseniormodvotemonths", 
@@ -79,6 +107,21 @@ class SetVotes(commands.Cog):
             guild_id=ctx.guild.id,
             vote_senior_mod_day=day,
         )      
+
+    @commands.command(
+        name="setseniormodvotelimit", 
+        aliases=["ssmvl",],
+        brief="Sets up the limit for senior mods",
+        help="Sets up the limit for max amount of vote-picked senior mods. Pass a number from 1 to 50.",
+    )
+    async def setseniormodvotelimit(self, ctx, limit: int):
+        if limit < 1 or limit > 50:
+            raise commands.BadArgument
+        await util_settings.change_guild_setting(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            vote_senior_mod_limit=limit,
+        )     
         
     @commands.command(
         name="setadminvotemonths", 
@@ -110,7 +153,22 @@ class SetVotes(commands.Cog):
             self.bot, 
             guild_id=ctx.guild.id,
             vote_admin_day=day,
-        )      
+        )       
+
+    @commands.command(
+        name="setadminvotelimit", 
+        aliases=["savl",],
+        brief="Sets up the limit for admins",
+        help="Sets up the limit for max amount of vote-picked admins. Pass a number from 1 to 50.",
+    )
+    async def setadminsvotelimit(self, ctx, limit: int):
+        if limit < 1 or limit > 50:
+            raise commands.BadArgument
+        await util_settings.change_guild_setting(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            vote_admins_limit=limit,
+        )     
 
 
 def setup(bot):
