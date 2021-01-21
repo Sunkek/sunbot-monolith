@@ -28,6 +28,8 @@ class Votes(commands.Cog):
 
             active_member = guild.get_role(settings.get("rank_active_member_role_id"))
             junior_mod = guild.get_role(settings.get("rank_junior_mod_role_id"))
+            senior_mod = guild.get_role(settings.get("rank_senior_mod_role_id"))
+            admin = guild.get_role(settings.get("rank_admin_role_id"))
             # Determine which votes trigger
 
             # JM vote
@@ -37,13 +39,18 @@ class Votes(commands.Cog):
             if junior_mod_vote_day and junior_mod_vote_months and \
                 now.day == junior_mod_vote_day and \
                 now.month in junior_mod_vote_months:
-                print("Junior mod vote start!")
+                
                 junior_mod_days = settings.get("rank_junior_mod_required_days")
                 junior_mod_activity = settings.get("rank_junior_mod_required_activity")
                 # Find eligible members    
                 members = await util_users.fetch_users_by_days_and_activity(
                     self.bot, guild, junior_mod_days, junior_mod_activity
                 )
+                members = [
+                    m for m in members 
+                    if senior_mod not in m.roles
+                    and admin not in m.roles
+                ]
                 # Post a list of them to the vote channel
                 e = discord.Embed(
                     title=f"Junior mod vote start {now.year}/{now.month}",
@@ -58,7 +65,7 @@ class Votes(commands.Cog):
                         "Make sure to vote for yourself if you want to get promoted.\n"
                         "Only memebers with at least 25% of max upvotes get promoted.\n"
                         f"The max number of {junior_mod.mention} that can be vote-picked is {junior_mod_vote_limit}.\n"
-                        f"Only members with {active_member.mention} role can vote here."
+                        f"Only members with {active_member.mention} or higher role can vote here."
                     )
                 )
                 vote_msg = await vote_channel.send(embed=e)
