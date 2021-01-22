@@ -7,7 +7,7 @@ from re import sub
 import discord
 from discord.ext import tasks, commands
 
-from utils import util_users
+from utils import util_users, util_user_stats, utils
 
 
 class Votes(commands.Cog):
@@ -120,14 +120,22 @@ class Votes(commands.Cog):
                     self.bot, guild, junior_mod_days, junior_mod_activity
                 )
                 members = [
-                    m for m in members 
+                    m.mention for m in members 
                     if senior_mod not in m.roles
                     and admin not in m.roles
                 ]
+                activities = [
+                    await util_user_stats.fetch_average_activity(
+                        self.bot, guild.id, m.id
+                    ) for m in members
+                ]
+                table = utils.format_columns(
+                    activities, members, headers=("ACTIVITY", "MEMBER")
+                )
                 # Post a list of them to the vote channel
                 e = discord.Embed(
                     title=f"Junior mod vote start {now.year}/{now.month}",
-                    description="\n".join(m.mention for m in members),
+                    description=table,
                     color=guild.me.color
                 )
                 e.add_field(

@@ -54,3 +54,25 @@ def format_message(text, guild=None, user=None):
     if "json" in note:
         text = json.loads(text)
     return text
+
+def format_columns(*columns, headers=None, footers=None):
+    """Tabulate columns (lists) into a neatly aligned table"""
+    columns = list(columns)
+    for i in range(len(columns)):
+        if type(columns[i]) != list: columns[i] = list(columns[i])
+        if headers: columns[i] = [headers[i]] + columns[i]
+        if footers: columns[i] += [footers[i]]
+    maxlens = [max(len(str(line)) for line in column) for column in columns]
+    if headers:
+        for i in range(len(headers)):
+            if headers[i] == "EMOTE":
+                maxlens[i] = 5
+                break
+    table = []
+    for row in zip(*columns):
+        line = f'{row[0]:.<{maxlens[0]}}'
+        for num, value in enumerate(row[1:-1], 1):
+            line += f'..{value:.^{maxlens[num]}}'
+        line += f'..{row[-1]:.>{maxlens[-1]}}'
+        table.append(line)
+    return '\n'.join(table)
