@@ -46,7 +46,7 @@ class Settings(commands.Cog):
             desc = util_settings.format_settings(
                 settings, ctx, include=[], ignore=[
                     "track_", "activity_", "ad_reminder_", "verification_", 
-                    "welcome_", "leave_", "rank_"
+                    "welcome_", "leave_", "rank_", "vote_"
                 ],
             )
             embed = discord.Embed(
