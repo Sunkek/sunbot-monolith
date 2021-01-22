@@ -125,14 +125,14 @@ class Votes(commands.Cog):
                     and admin not in m.roles
                 ]
                 activities = [
-                    await util_user_stats.fetch_average_activity(
+                    int(await util_user_stats.fetch_average_activity(
                         self.bot, guild.id, m.id
-                    ) for m in members
+                    )) for m in members
                 ]
                 table = zip(activities, [m.mention for m in members])
                 table = sorted(table, key=lambda t: -t[0])
                 print(table)
-                table = zip(*table)
+                table = list(zip(*table))
                 print(table)
                 table = utils.format_columns(
                     table, 
