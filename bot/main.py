@@ -80,7 +80,9 @@ async def on_ready():
                 print(f"Error on loading {cog}:\n{e}")
             else:
                 print(f"Cog {cog} loaded")
-    await bot.change_presence(activity=discord.Game(name=("sb ")))
+    await bot.change_presence(activity=discord.CustomActivity(
+        name="sb help", emoji="<:sunbot:802138074393870388>")
+    )
     print(f"{bot.user} online")
     print(datetime.now())
 
