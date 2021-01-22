@@ -27,14 +27,17 @@ async def change_user_info(bot, user_id, **kwargs):
                 )
 
 async def fetch_users_by_days_and_activity(bot, guild, days, req_activity):
-    async with bot.db.acquire() as connection:
-        async with connection.transaction():
-            res = await connection.fetch(
-                FETCH_ELIGIBLE_USERS, guild.id, days, req_activity
-            )
-            active_users = [i["user_id"] for i in res]
-    return [
-        m for m in guild.members 
-        if m.joined_at + timedelta(days=days) > datetime.now()
-        and m.id in active_users
-    ]
+    try:
+        async with bot.db.acquire() as connection:
+            async with connection.transaction():
+                res = await connection.fetch(
+                    FETCH_ELIGIBLE_USERS, guild.id, days, req_activity
+                )
+                active_users = [i["user_id"] for i in res]
+        return [
+            m for m in guild.members 
+            if m.joined_at + timedelta(days=days) < datetime.now()
+            and m.id in active_users
+        ]
+    except Exception as e:
+        print(e)
