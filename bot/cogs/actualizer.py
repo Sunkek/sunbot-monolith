@@ -32,6 +32,8 @@ class Actualizer(commands.Cog):
             active_member_activity = settings.get("rank_active_member_required_activity")
             junior_mod = settings.get("rank_junior_mod_role_id")
             junior_mod = guild.get_role(junior_mod)
+            junior_mod_days = settings.get("rank_junior_mod_required_days")
+            junior_mod_activity = settings.get("rank_junior_mod_required_activity")
             senior_mod = settings.get("rank_senior_mod_role_id")
             senior_mod = guild.get_role(senior_mod)
             admin = settings.get("rank_admin_role_id")
@@ -39,6 +41,9 @@ class Actualizer(commands.Cog):
             # Fetch the list of members eligible for each rank by their activity
             active_member_eligible = await util_users.fetch_users_by_days_and_activity(
                 self.bot, guild, active_member_days, active_member_activity
+            )
+            junior_mod_eligible = await util_users.fetch_users_by_days_and_activity(
+                self.bot, guild, junior_mod_days, junior_mod_activity
             )
             # Iterate over all members to edit their roles
             for member in [i for i in guild.members if not i.bot]:
@@ -50,7 +55,9 @@ class Actualizer(commands.Cog):
                     continue
                 # Junior mod check
                 elif junior_mod in member.roles:
-                    continue
+                    if member not in junior_mod_eligible:
+                        await member.remove_roles(junior_mod)
+                        await member.add_roles(active_member)
                 # Active member check
                 elif active_member in member.roles:
                     if member not in active_member_eligible:
