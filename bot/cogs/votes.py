@@ -54,7 +54,7 @@ class Votes(commands.Cog):
         channel = guild.get_channel(payload.channel_id)
         message = await channel.fetch_message(payload.message_id)
         settings = self.bot.settings.get(guild.id)
-        if message.author != guild.me:
+        if message.author != guild.me or voter.bot:
             return
         now = datetime.now()
         junior_mod_vote_day = settings.get("vote_junior_mod_day")
