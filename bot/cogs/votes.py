@@ -128,13 +128,15 @@ class Votes(commands.Cog):
                     and admin not in m.roles
                 ]
                 activities = [
-                    "`" + str(int(await util_user_stats.fetch_average_activity(
+                    int(await util_user_stats.fetch_average_activity(
                         self.bot, guild.id, m.id
-                    ))) for m in members
+                    )) for m in members
                 ]
                 table = zip(activities, [f"`{m.mention}" for m in members])
+                table = list(zip(*sorted(table, key=lambda t: -t[0])))
+                table[0] = [f"`{i}" for i in table[0]]
                 table = utils.format_columns(
-                    list(zip(*sorted(table, key=lambda t: -t[0]))), 
+                    table, 
                     headers=("`ACTIVITY", "MEMBER`")
                 )
                 # Post a list of them to the vote channel
