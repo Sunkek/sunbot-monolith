@@ -55,9 +55,8 @@ def format_message(text, guild=None, user=None):
         text = json.loads(text)
     return text
 
-def format_columns(*columns, headers=None, footers=None):
+def format_columns(columns, headers=None, footers=None):
     """Tabulate columns (lists) into a neatly aligned table"""
-    columns = list(columns)
     for i in range(len(columns)):
         if type(columns[i]) != list: columns[i] = list(columns[i])
         if headers: columns[i] = [headers[i]] + columns[i]

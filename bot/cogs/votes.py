@@ -130,12 +130,8 @@ class Votes(commands.Cog):
                     )) for m in members
                 ]
                 table = zip(activities, [m.mention for m in members])
-                table = sorted(table, key=lambda t: -t[0])
-                print(table)
-                table = list(zip(*table))
-                print(table)
                 table = utils.format_columns(
-                    table, 
+                    list(zip(*sorted(table, key=lambda t: -t[0]))), 
                     headers=("ACTIVITY", "MEMBER")
                 )
                 # Post a list of them to the vote channel
