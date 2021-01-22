@@ -35,6 +35,6 @@ async def fetch_users_by_days_and_activity(bot, guild, days, req_activity):
             active_users = [i["user_id"] for i in res]
     return [
         m for m in guild.members 
-        if m.joined_at + timedelta(days=days) < datetime.now()
+        if m.joined_at + timedelta(days=days) > datetime.now()
         and m.id in active_users
     ]
