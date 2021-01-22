@@ -65,10 +65,13 @@ class Votes(commands.Cog):
         admin_vote_months = settings.get("vote_admin_months")
         voter = guild.get_member(payload.user_id)
         if not any((
+            junior_mod_vote_day and junior_mod_vote_months and \
             junior_mod_vote_day <= now.day <= junior_mod_vote_day + 5 and \
             now.month in junior_mod_vote_months,
+            senior_mod_vote_day and senior_mod_vote_months and \
             senior_mod_vote_day <= now.day <= senior_mod_vote_day + 5 and \
             now.month in senior_mod_vote_months,
+            admin_vote_day and admin_vote_months and \
             admin_vote_day <= now.day <= admin_vote_day + 5 and \
             now.month in admin_vote_months,
         )):
