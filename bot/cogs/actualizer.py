@@ -53,12 +53,12 @@ class Actualizer(commands.Cog):
                     continue
                 # Active member check
                 elif active_member in member.roles:
-                    if member.id not in active_member_eligible:
+                    if member not in active_member_eligible:
                         await member.remove_roles(active_member)
                         await member.add_roles(base_member)
                 # Base member check
                 elif base_member in member.roles:
-                    if member.id in active_member_eligible:
+                    if member in active_member_eligible:
                         await member.add_roles(active_member)
 
     '''@actualize.before_loop
