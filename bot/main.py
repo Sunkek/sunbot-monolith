@@ -81,8 +81,12 @@ async def on_ready():
             else:
                 print(f"Cog {cog} loaded")
     await bot.change_presence(activity=discord.CustomActivity(
-        name="sb help", emoji="<:sunbot:802138074393870388>")
-    )
+        name="sb help", emoji=discord.PartialEmoji(
+            name="sunbot",
+            animated=False,
+            id=802138074393870388,
+        )
+    ))
     print(f"{bot.user} online")
     print(datetime.now())
 
