@@ -120,7 +120,7 @@ class Votes(commands.Cog):
                     self.bot, guild, junior_mod_days, junior_mod_activity
                 )
                 members = [
-                    m.mention for m in members 
+                    m for m in members 
                     if senior_mod not in m.roles
                     and admin not in m.roles
                 ]
@@ -129,8 +129,10 @@ class Votes(commands.Cog):
                         self.bot, guild.id, m.id
                     ) for m in members
                 ]
+                table = zip(activities, [m.mention for m in members])
                 table = utils.format_columns(
-                    activities, members, headers=("ACTIVITY", "MEMBER")
+                    sorted(table, key=lambda t: -t[0]), 
+                    headers=("ACTIVITY", "MEMBER")
                 )
                 # Post a list of them to the vote channel
                 e = discord.Embed(
