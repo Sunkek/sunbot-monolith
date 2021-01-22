@@ -129,7 +129,7 @@ class Votes(commands.Cog):
                         self.bot, guild.id, m.id
                     ) for m in members
                 ]
-                table = zip(activities, [m.mention for m in members])
+                table = list(zip(activities, [m.mention for m in members]))
                 table = utils.format_columns(
                     sorted(table, key=lambda t: -t[0]), 
                     headers=("ACTIVITY", "MEMBER")
