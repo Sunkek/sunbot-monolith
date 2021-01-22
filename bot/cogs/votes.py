@@ -129,7 +129,7 @@ class Votes(commands.Cog):
                 ]
                 activities = [
                     int(await util_user_stats.fetch_average_activity(
-                        self.bot, guild.id, m.id
+                        self.bot, guild.id, m.id, days_back=60
                     )) for m in members
                 ]
                 table = zip(activities, [f"`{m.mention}" for m in members])
@@ -151,7 +151,7 @@ class Votes(commands.Cog):
                         "The vote is anonymous. React to this message with ☑️ to receive your form.\n"
                         "It's possible to get promoted, demoted or keep your current rank.\n"
                         "Make sure to vote for yourself if you want to get promoted.\n"
-                        "Only memebers with at least 25% of max possible upvotes get promoted.\n"
+                        "Only members with at least 25% of max possible upvotes get promoted.\n"
                         f"The max number of {junior_mod.mention} that can be vote-picked is {junior_mod_vote_limit}.\n"
                         f"Only members with {active_member.mention} or higher role can vote here.\n"
                         "The vote results will be published in 5 days."
