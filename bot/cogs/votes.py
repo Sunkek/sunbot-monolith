@@ -74,7 +74,8 @@ class Votes(commands.Cog):
             candidates = []
             for m in raw_candidates:
                 m_id = sub("[^0-9]", "", m)
-                m = guild.get_member(m_id) or await self.bot.fetch_user(m_id)
+                m = guild.get_member(m_id) 
+                if not m: m = await self.bot.fetch_user(m_id)
                 candidates.append(m)
             print([m.display_name for m in candidates])
             # Build new embed(s) and send it(them) to the voter
@@ -93,11 +94,14 @@ class Votes(commands.Cog):
                     color=guild.me.color
                 )
                 embeds.append(embed)
+            print(embeds)
             # Sending embeds and adding reactions to them
             await voter.send(embed=desc_embed)
             for num, embed in enumerate(embeds):
+                print(num)
                 msg = await voter.send(embed=embed)
                 for number in range(num*20, min((num+1)*20, len(candidates))):
+                    print(number)
                     await msg.add_reaction(self.numbers[number])
         except Exception as e:
             print(e)
