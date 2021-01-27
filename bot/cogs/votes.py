@@ -78,7 +78,7 @@ class Votes(commands.Cog):
         print([m.display_name for m in candidates])
         # Build new embed(s) and send it(them) to the voter
         for num, candidate in enumerate(candidates):
-            candidates[num] = f"{self.numbers[num]} {candidate}"
+            candidates[num] = f"{self.numbers[num]} {candidate.display_name} {candidate.mention}"
         desc_embed = discord.Embed(
             title=message.embeds[0].title + " on " + guild.name,
             color=guild.me.color
