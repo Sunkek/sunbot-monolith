@@ -84,7 +84,8 @@ class Votes(commands.Cog):
             senior_mod not in voter.roles:
             await message.remove_reaction('☑️', voter)
         # Fetch the candidate list from the vote start message
-        raw_candidates = message.embeds[0].description.split("\n")
+        raw_candidates = message.embeds[0].description.split("\n")[1:]
+        raw_candidates = [i.split("<")[1] for i in raw_candidates]
         candidates = []
         for m in raw_candidates:
             m_id = sub("[^0-9]", "", m)
