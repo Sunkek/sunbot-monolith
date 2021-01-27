@@ -149,6 +149,7 @@ class Votes(commands.Cog):
                     name="Terms",
                     value=(
                         "The vote is anonymous. React to this message with ☑️ to receive your form.\n"
+                        f"To be eligible, candidates must earn {junior_mod_activity} average daily activity in the last {junior_mod_days} days.\n"
                         "It's possible to get promoted, demoted or keep your current rank.\n"
                         "Make sure to vote for yourself if you want to get promoted.\n"
                         "Only members with at least 25% of max possible upvotes get promoted.\n"
