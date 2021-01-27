@@ -80,14 +80,14 @@ class Votes(commands.Cog):
         for num, candidate in enumerate(candidates):
             candidates[num] = f"<{self.numbers[num]}> {candidate.display_name} {candidate.mention}"
         desc_embed = discord.Embed(
-            title=message.embeds[0].title[:-5] + " on " + guild.name,
+            title=message.embeds[0].title.replace("start ", "") + " on " + guild.name,
             color=guild.me.color
         )
         desc_embed.description = f"React to the messages below with candidate numbers to vote for them.\n\n**Important** - If you're among the candidates, but don't want the promotion - don't upvote yourself. If the embed misses some reactions, rereact to the initial [vote message]({message.jump_url}) on server."
         embeds = []
         for i in range(len(candidates)//20 + int(len(candidates)%20 != 0)):
             embed = discord.Embed(
-                title=message.embeds[0].title[:-5] + " on " + guild.name + " candidates",
+                title=message.embeds[0].title.replace("start ", "") + " on " + guild.name + " candidates",
                 description="\n".join(candidates[i*20:(i+1)*20]),
                 color=guild.me.color
             )
