@@ -74,7 +74,7 @@ class Votes(commands.Cog):
         for m in raw_candidates:
             m_id = sub("[^0-9]", "", m)
             m = guild.get_member(m_id) or await self.bot.fetch_user(m_id)
-            candidates += m
+            candidates.append(m)
         print([m.display_name for m in candidates])
         # Build new embed(s) and send it(them) to the voter
         for num, candidate in enumerate(candidates):
@@ -91,7 +91,7 @@ class Votes(commands.Cog):
                 description="\n".join(candidates[i*20:(i+1)*20]),
                 color=guild.me.color
             )
-            embeds += embed
+            embeds.append(embed)
         # Sending embeds and adding reactions to them
         await voter.send(embed=desc_embed)
         for num, embed in enumerate(embeds):
