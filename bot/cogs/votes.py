@@ -53,6 +53,7 @@ class Votes(commands.Cog):
         guild = self.bot.get_guild(payload.guild_id)
         channel = guild.get_channel(payload.channel_id)
         message = await channel.fetch_message(payload.message_id)
+        voter = guild.get_member(payload.user_id)
         settings = self.bot.settings.get(guild.id)
         if message.author != guild.me or voter.bot:
             return
@@ -63,7 +64,6 @@ class Votes(commands.Cog):
         senior_mod_vote_months = settings.get("vote_senior_mod_months")
         admin_vote_day = settings.get("vote_admin_day")
         admin_vote_months = settings.get("vote_admin_months")
-        voter = guild.get_member(payload.user_id)
         if not any((
             junior_mod_vote_day and junior_mod_vote_months and \
             junior_mod_vote_day <= now.day <= junior_mod_vote_day + 5 and \
