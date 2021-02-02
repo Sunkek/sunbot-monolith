@@ -35,9 +35,8 @@ class Votes(commands.Cog):
         message = await channel.fetch_message(payload.message_id)
         voter = guild.get_member(payload.user_id)
         settings = self.bot.settings.get(guild.id)
-        if message.embeds and \
-            "Junior mod vote start" not in message.embeds[0].title or \
-            message.author != guild.me or voter.bot:
+        if voter.bot or message.embeds and \
+            "vote start" not in message.embeds[0].title:
             return
         now = datetime.now()
         junior_mod_vote_day = settings.get("vote_junior_mod_day")
@@ -46,58 +45,71 @@ class Votes(commands.Cog):
         senior_mod_vote_months = settings.get("vote_senior_mod_months")
         admin_vote_day = settings.get("vote_admin_day")
         admin_vote_months = settings.get("vote_admin_months")
-        if not any((
+        if all ((
+            "Junior" in message.embeds[0].title and \
             junior_mod_vote_day and junior_mod_vote_months and \
             junior_mod_vote_day <= now.day <= junior_mod_vote_day + 5 and \
             now.month in junior_mod_vote_months,
+        )):
+            active_member = guild.get_role(settings.get("rank_active_member_role_id"))
+            junior_mod = guild.get_role(settings.get("rank_junior_mod_role_id"))
+            senior_mod = guild.get_role(settings.get("rank_senior_mod_role_id"))
+            admin = guild.get_role(settings.get("rank_admin_role_id"))
+            if active_member not in voter.roles and \
+                junior_mod not in voter.roles and \
+                senior_mod not in voter.roles and \
+                admin not in voter.roles:
+                await message.remove_reaction('☑️', voter)
+                #return  
+            # Fetch the candidate list from the vote start message
+            raw_candidates = message.embeds[0].description.split("\n")[1:]
+            raw_candidates = [i.split("<")[1] for i in raw_candidates]
+            candidates = []
+            for m in raw_candidates:
+                m_id = sub("[^0-9]", "", m)
+                m = guild.get_member(m_id) 
+                if not m: m = await self.bot.fetch_user(m_id)
+                candidates.append(m)
+            # Build new embed(s) and send it(them) to the voter
+            for num, candidate in enumerate(candidates):
+                candidates[num] = f"<{self.numbers[num]}> {candidate.display_name} {candidate.mention}"
+            desc_embed = discord.Embed(
+                title=message.embeds[0].title.replace("start ", "") + " on " + guild.name,
+                color=guild.me.color
+            )
+            desc_embed.description = f"React to the messages below with candidate numbers to vote for them.\n\n**Important** - If you're among the candidates, but don't want the promotion - don't upvote yourself. If the embed misses some reactions, rereact to the initial [vote message]({message.jump_url}) on server."
+            embeds = []
+            for i in range(len(candidates)//20 + int(len(candidates)%20 != 0)):
+                embed = discord.Embed(
+                    title=message.embeds[0].title.replace("start ", "") + " on " + guild.name + " candidates",
+                    description="\n".join(candidates[i*20:(i+1)*20]),
+                    color=guild.me.color
+                )
+                embeds.append(embed)
+            # Sending embeds and adding reactions to them
+            await voter.send(embed=desc_embed)
+            for num, embed in enumerate(embeds):
+                msg = await voter.send(embed=embed)
+                for number in range(num*20, min((num+1)*20, len(candidates))):
+                    await msg.add_reaction(self.numbers[number])
+        elif all ((
+            "Senior" in message.embeds[0].title and \
             senior_mod_vote_day and senior_mod_vote_months and \
             senior_mod_vote_day <= now.day <= senior_mod_vote_day + 5 and \
             now.month in senior_mod_vote_months,
+        )):
+            pass
+        elif all ((
+            "Admin" in message.embeds[0].title and \
             admin_vote_day and admin_vote_months and \
             admin_vote_day <= now.day <= admin_vote_day + 5 and \
             now.month in admin_vote_months,
         )):
+            pass
+        else:
             await message.remove_reaction('☑️', voter)
             #return
-        active_member = guild.get_role(settings.get("rank_active_member_role_id"))
-        junior_mod = guild.get_role(settings.get("rank_junior_mod_role_id"))
-        senior_mod = guild.get_role(settings.get("rank_senior_mod_role_id"))
-        if active_member not in voter.roles and \
-            junior_mod not in voter.roles and \
-            senior_mod not in voter.roles:
-            await message.remove_reaction('☑️', voter)
-            #return
-        # Fetch the candidate list from the vote start message
-        raw_candidates = message.embeds[0].description.split("\n")[1:]
-        raw_candidates = [i.split("<")[1] for i in raw_candidates]
-        candidates = []
-        for m in raw_candidates:
-            m_id = sub("[^0-9]", "", m)
-            m = guild.get_member(m_id) 
-            if not m: m = await self.bot.fetch_user(m_id)
-            candidates.append(m)
-        # Build new embed(s) and send it(them) to the voter
-        for num, candidate in enumerate(candidates):
-            candidates[num] = f"<{self.numbers[num]}> {candidate.display_name} {candidate.mention}"
-        desc_embed = discord.Embed(
-            title=message.embeds[0].title.replace("start ", "") + " on " + guild.name,
-            color=guild.me.color
-        )
-        desc_embed.description = f"React to the messages below with candidate numbers to vote for them.\n\n**Important** - If you're among the candidates, but don't want the promotion - don't upvote yourself. If the embed misses some reactions, rereact to the initial [vote message]({message.jump_url}) on server."
-        embeds = []
-        for i in range(len(candidates)//20 + int(len(candidates)%20 != 0)):
-            embed = discord.Embed(
-                title=message.embeds[0].title.replace("start ", "") + " on " + guild.name + " candidates",
-                description="\n".join(candidates[i*20:(i+1)*20]),
-                color=guild.me.color
-            )
-            embeds.append(embed)
-        # Sending embeds and adding reactions to them
-        await voter.send(embed=desc_embed)
-        for num, embed in enumerate(embeds):
-            msg = await voter.send(embed=embed)
-            for number in range(num*20, min((num+1)*20, len(candidates))):
-                await msg.add_reaction(self.numbers[number])
+
         
     @tasks.loop(hours=24.0)
     async def votes(self):
@@ -171,8 +183,20 @@ class Votes(commands.Cog):
                 now.day == junior_mod_vote_day + 5 and \
                 now.month in junior_mod_vote_months:
                 print("Junior mod vote end!")
-                # Count the votes
-                # Declare the results and implement them
+                # Fetch the vote start message
+                guild = self.bot.get_guild(guild)
+                vote_channel = guild.get_channel(settings.get("vote_channel_id"))
+                async for m in vote_channel.history(
+                    before=now.replace(day=junior_mod_vote_day) + timedelta(days=10), # change to +1 later
+                    after=now.replace(day=junior_mod_vote_day) - timedelta(days=10), # change to -1 later
+                ):
+                    if m.embeds and "Junior mod vote start" in m.embed.title[0]:
+                        print(m.embeds[0].title)
+                    # Get the list of candidates
+                    # Get the list of voters
+                    # Check each voter and count their votes
+                    # Declare the results and implement them
+                    break
             
             # SM vote
             senior_mod_vote_day = settings.get("vote_senior_mod_day")
