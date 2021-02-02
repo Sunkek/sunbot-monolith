@@ -60,7 +60,7 @@ class Votes(commands.Cog):
                 senior_mod not in voter.roles and \
                 admin not in voter.roles:
                 await message.remove_reaction('☑️', voter)
-                #return  
+                return  
             # Fetch the candidate list from the vote start message
             raw_candidates = message.embeds[0].description.split("\n")[1:]
             raw_candidates = [i.split("<")[1] for i in raw_candidates]
@@ -108,7 +108,6 @@ class Votes(commands.Cog):
             pass
         else:
             await message.remove_reaction('☑️', voter)
-            #return
 
         
     @tasks.loop(hours=24.0)
@@ -193,8 +192,33 @@ class Votes(commands.Cog):
                     if m.embeds and "Junior mod vote start" in m.embed.title[0]:
                         print(m.embeds[0].title)
                     # Get the list of candidates
+                    raw_candidates = m.embeds[0].description.split("\n")[1:]
+                    raw_candidates = [i.split("<")[1] for i in raw_candidates]
+                    candidates = []
+                    for m in raw_candidates:
+                        m_id = sub("[^0-9]", "", m)
+                        m = guild.get_member(m_id) 
+                        if not m: m = await self.bot.fetch_user(m_id)
+                        candidates.append(m)
                     # Get the list of voters
+                    voters = []
+                    for react in m.reactions:
+                        if str(react) == "☑️":
+                            voters = await react.users().flatten()
                     # Check each voter and count their votes
+                    for voter in voters:
+                        print(voter.display_name)
+                        async for m in voter.history(
+                            before=now.replace(day=junior_mod_vote_day) + timedelta(days=10), # change to +6 later
+                            after=now.replace(day=junior_mod_vote_day) - timedelta(days=10), # change to -1 later
+                        ):
+                            if m.embeds and m.author == self.bot.user:
+                                t = m.embeds[0].title
+                                if "Junior mod vote" in t and \
+                                    "candidates" in t and \
+                                    guild.name in t:
+                                    
+                                    print(t)
                     # Declare the results and implement them
                     break
             
