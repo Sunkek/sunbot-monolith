@@ -68,7 +68,7 @@ class Actualizer(commands.Cog):
             )
             junior_mod_eligible = [i[0] for i in junior_mod_eligible]
             # Iterate over all members to edit their roles
-            for member in [i.id for i in guild.members if not i.bot]:
+            for member in [i for i in guild.members if not i.bot]:
                 # Admin check
                 if admin in member.roles:
                     continue
@@ -77,17 +77,17 @@ class Actualizer(commands.Cog):
                     continue
                 # Junior mod check
                 elif junior_mod in member.roles:
-                    if member not in junior_mod_eligible:
+                    if member.id not in junior_mod_eligible:
                         await member.remove_roles(junior_mod)
                         await member.add_roles(active_member)
                 # Active member check
                 elif active_member in member.roles:
-                    if member not in active_member_eligible:
+                    if member.id not in active_member_eligible:
                         await member.remove_roles(active_member)
                         await member.add_roles(base_member)
                 # Base member check
                 elif base_member in member.roles:
-                    if member in active_member_eligible:
+                    if member.id in active_member_eligible:
                         await member.add_roles(active_member)
 
     '''@actualize.before_loop
