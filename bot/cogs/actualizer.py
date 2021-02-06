@@ -62,10 +62,11 @@ class Actualizer(commands.Cog):
             active_member_eligible = await util_users.fetch_users_by_days_and_activity(
                 self.bot, guild, active_member_days, active_member_activity
             )
+            active_member_eligible = [i[0] for i in active_member_eligible]
             junior_mod_eligible = await util_users.fetch_users_by_days_and_activity(
                 self.bot, guild, junior_mod_days, junior_mod_activity
             )
-            print([i.name for i in junior_mod_eligible])
+            junior_mod_eligible = [i[0] for i in junior_mod_eligible]
             # Iterate over all members to edit their roles
             for member in [i for i in guild.members if not i.bot]:
                 # Admin check
