@@ -71,6 +71,7 @@ class Actualizer(commands.Cog):
             junior_mod_eligible = [i[0] for i in junior_mod_eligible]
             # Iterate over all members to edit their roles
             for member in [i for i in guild.members if not i.bot]:
+                print(member.display_name)
                 # Admin check
                 if admin in member.roles:
                     continue
