@@ -16,6 +16,21 @@ class Actualizer(commands.Cog):
 
     def cog_unload(self):
         self.actualize.cancel()
+        
+    @commands.Cog.listener()
+    async def on_member_update(self, before, after):
+        # Give the verified role if they passed the discord verification
+        if before.pending != after.pending:
+            print(after.pending)
+            verification = self.bot.settings.get(
+                after.guild.id, {}
+            ).get("rank_basic_member_role_verification", False)
+            if verification:
+                role = self.bot.settings.get(
+                    after.guild.id, {}
+                ).get("rank_basic_member_role_id")
+                await after.add_roles(role)
+                print("Role added")
 
     @tasks.loop(hours=24.0)
     async def actualize(self):

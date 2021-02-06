@@ -67,6 +67,31 @@ class SetRanks(commands.Cog):
             rank_basic_member_role_auto=value,
         )
 
+    @setbasicmemberrole.command(
+        name="verification", 
+        aliases=["v",],
+        brief="Switches assigning this role passing discord verification",
+        help="Switches assigning this role on member passing discord verification to all joining members on or off.",
+    )
+    async def setbasicmemberrole_verification(self, ctx):
+        # Check if the basic member sole is set
+        basic_member = self.bot.settings\
+            .get(ctx.guild.id, {}).get("rank_basic_member_role_id")
+        if not basic_member:
+            e = discord.Embed(
+                title="No basic member role set!",
+                description="Set the basic member role first!",
+                color=ctx.author.color,
+            )
+            return await ctx.send(embed=e)
+        value = not self.bot.settings\
+            .get(ctx.guild.id, {}).get("rank_basic_member_role_verification", False)
+        await util_settings.change_guild_setting(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            rank_basic_member_role_verification=value,
+        )
+
     @commands.group(
         name="setactivememberrole", 
         aliases=["samr",],
