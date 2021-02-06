@@ -62,7 +62,9 @@ class Actualizer(commands.Cog):
             active_member_eligible = await util_users.fetch_users_by_days_and_activity(
                 self.bot, guild, active_member_days, active_member_activity
             )
+            print(active_member_eligible[:5])
             active_member_eligible = [i[0] for i in active_member_eligible]
+            print(active_member_eligible[:5])
             junior_mod_eligible = await util_users.fetch_users_by_days_and_activity(
                 self.bot, guild, junior_mod_days, junior_mod_activity
             )
