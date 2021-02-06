@@ -6,7 +6,7 @@ from asyncio import sleep
 import discord
 from discord.ext import tasks, commands
 
-from utils import util_users
+from utils import util_users, utils
 
 
 class Actualizer(commands.Cog):
@@ -30,12 +30,12 @@ class Actualizer(commands.Cog):
                 ).get("rank_basic_member_role_id")
                 await after.add_roles(after.guild.get_role(role))
                 # Send the prepared welcome message, if there is any
-                channel = self.bot.settings.get(member.guild.id, {}).get("welcome_message_channel_id", 0)
-                text = self.bot.settings.get(member.guild.id, {}).get("verification_message_text")
-                embed = self.bot.settings.get(member.guild.id, {}).get("verification_message_embed")
-                channel = member.guild.get_channel(channel)
+                channel = self.bot.settings.get(after.guild.id, {}).get("welcome_message_channel_id", 0)
+                text = self.bot.settings.get(after.guild.id, {}).get("verification_message_text")
+                embed = self.bot.settings.get(after.guild.id, {}).get("verification_message_embed")
+                channel = after.guild.get_channel(channel)
                 if channel and (text or embed):
-                    await send_welcome_or_leave(channel, text, embed, member)
+                    await utils.send_welcome_or_leave(channel, text, embed, after)
 
     @tasks.loop(hours=24.0)
     async def actualize(self):
@@ -65,6 +65,7 @@ class Actualizer(commands.Cog):
             junior_mod_eligible = await util_users.fetch_users_by_days_and_activity(
                 self.bot, guild, junior_mod_days, junior_mod_activity
             )
+            print([i.name for i in junior_mod_eligible])
             # Iterate over all members to edit their roles
             for member in [i for i in guild.members if not i.bot]:
                 # Admin check

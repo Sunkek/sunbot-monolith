@@ -75,3 +75,13 @@ def format_columns(columns, headers=None, footers=None):
         line += f'..{row[-1]:.>{maxlens[-1]}}'
         table.append(line)
     return '\n'.join(table)
+    
+async def send_welcome_or_leave(channel, text, embed, member):
+    text = format_message(text, guild=member.guild, user=member)
+    if embed:
+        embed = json.loads(embed)
+        embed = discord.Embed.from_dict(
+            format_message(embed, guild=member.guild, user=member)
+        )
+    if embed or text:
+        await channel.send(content=text, embed=embed)

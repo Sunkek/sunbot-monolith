@@ -5,16 +5,6 @@ from discord.ext import commands, tasks
 
 from utils import utils
 
-async def send_welcome_or_leave(channel, text, embed, member):
-    text = utils.format_message(text, guild=member.guild, user=member)
-    if embed:
-        embed = json.loads(embed)
-        embed = discord.Embed.from_dict(
-            utils.format_message(embed, guild=member.guild, user=member)
-        )
-    if embed or text:
-        await channel.send(content=text, embed=embed)
-
 class Welcome(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -31,7 +21,7 @@ class Welcome(commands.Cog):
         embed = self.bot.settings.get(member.guild.id, {}).get("welcome_message_embed")
         channel = member.guild.get_channel(channel)
         if channel and (text or embed):
-            await send_welcome_or_leave(channel, text, embed, member)
+            await utils.send_welcome_or_leave(channel, text, embed, member)
             
     @commands.Cog.listener()
     async def on_member_remove(self, member):
@@ -41,7 +31,7 @@ class Welcome(commands.Cog):
         embed = self.bot.settings.get(member.guild.id, {}).get("leave_message_embed")
         channel = member.guild.get_channel(channel)
         if channel and (text or embed):
-            await send_welcome_or_leave(channel, text, embed, member)
+            await utils.send_welcome_or_leave(channel, text, embed, member)
             
     @commands.command(
         brief="Displays the current welcome message", 
@@ -53,7 +43,7 @@ class Welcome(commands.Cog):
         text = self.bot.settings.get(ctx.guild.id, {}).get("welcome_message_text")
         embed = self.bot.settings.get(ctx.guild.id, {}).get("welcome_message_embed")
         if (text or embed) and parse:
-            await send_welcome_or_leave(ctx.channel, text, embed, ctx.author)
+            await utils.send_welcome_or_leave(ctx.channel, text, embed, ctx.author)
         elif embed:
             await ctx.send(text, embed=discord.Embed.from_dict(json.loads(embed)))
         elif text:
@@ -71,7 +61,7 @@ class Welcome(commands.Cog):
         text = self.bot.settings.get(ctx.guild.id, {}).get("leave_message_text")
         embed = self.bot.settings.get(ctx.guild.id, {}).get("leave_message_embed")
         if (text or embed) and parse:
-            return await send_welcome_or_leave(ctx.channel, text, embed, ctx.author)
+            return await utils.send_welcome_or_leave(ctx.channel, text, embed, ctx.author)
         elif embed:
             await ctx.send(text, embed=discord.Embed.from_dict(json.loads(embed)))
         elif text:
