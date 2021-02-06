@@ -29,6 +29,13 @@ class Actualizer(commands.Cog):
                     after.guild.id, {}
                 ).get("rank_basic_member_role_id")
                 await after.add_roles(after.guild.get_role(role))
+                # Send the prepared welcome message, if there is any
+                channel = self.bot.settings.get(member.guild.id, {}).get("welcome_message_channel_id", 0)
+                text = self.bot.settings.get(member.guild.id, {}).get("verification_message_text")
+                embed = self.bot.settings.get(member.guild.id, {}).get("verification_message_embed")
+                channel = member.guild.get_channel(channel)
+                if channel and (text or embed):
+                    await send_welcome_or_leave(channel, text, embed, member)
 
     @tasks.loop(hours=24.0)
     async def actualize(self):

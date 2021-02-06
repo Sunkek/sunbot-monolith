@@ -68,6 +68,43 @@ class SetWelcome(commands.Cog):
             guild_id=ctx.guild.id,
             welcome_message_embed=json.dumps(embed),
         )
+        
+    @commands.command(
+        name="setverificationmessage", 
+        aliases=["svm"],
+        brief="Sets up the verification text",
+        help=f"Sets up the verification text message which is sent when a new member verifies on the server. Available placeholders:\n{utils.MESSAGE_PLACEHOLDERS}",
+    )
+    async def setverificationmessage(self, ctx, *, text=None):
+        await util_settings.change_guild_setting(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            verification_message_text=text,
+        )
+        
+    @commands.command(
+        name="setverificationembed", 
+        aliases=["sve"],
+        brief="Sets up the verification embed",
+        help=f"Sets up the verification embed which is sent when a new member verifies on the server. You should build a dummy embed with `Embedder` and then copy it with this command. Available placeholders:\n{utils.MESSAGE_PLACEHOLDERS}",
+    )
+    async def setverificationembed(
+        self, ctx,
+        channel: Optional[discord.TextChannel]=None, 
+        message_id: Optional[int]=0
+    ):
+        if message_id:
+            channel = channel or ctx.channel
+            message = await channel.fetch_message(message_id)
+            embed = message.embeds[0].to_dict() if message.embeds else None
+            embed = json.dumps(embed)
+        else:
+            embed = None
+        await util_settings.change_guild_setting(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            verification_message_embed=json.dumps(embed),
+        )
              
     @commands.command(
         name="setleavemessage", 

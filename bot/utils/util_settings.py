@@ -67,6 +67,8 @@ CREATE TABLE IF NOT EXISTS guilds (
     welcome_message_embed varchar(6000),
     leave_message_text varchar(2000),
     leave_message_embed varchar(6000),
+    verification_message_text varchar(2000),
+    verification_message_embed varchar(6000),
 );
 """
 CREATE_USERS_TABLE = """
